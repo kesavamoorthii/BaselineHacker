@@ -125,136 +125,76 @@
 
     /* ─── Score Ring ─── */
     .score-card-top {
-      background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.2) 0%, transparent 60%);
-      padding: 40px 24px 32px;
+      background: var(--bg-card);
+      padding: 40px 20px 32px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .score-card-top::before {
-      content: '';
+    .score-radial-wrapper {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 0 auto 20px;
+    }
+
+    .score-dots-container {
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-      animation: pulseGlow 4s ease-in-out infinite;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    .score-ring-wrapper {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 16px;
-      z-index: 2;
-      filter: drop-shadow(0 0 30px rgba(202, 15, 136, 0.3));
-    }
-
-    .score-ring-wrapper::before {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      background: conic-gradient(from 0deg, rgba(202, 15, 136, 0.2), rgba(73, 0, 255, 0.2), rgba(202, 15, 136, 0.2));
-      border-radius: 50%;
-      animation: rotateRing 8s linear infinite;
-      z-index: -1;
-    }
-
-    @keyframes rotateRing {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .score-ring-wrapper svg {
       width: 100%;
       height: 100%;
-      transform: rotate(-90deg);
-      filter: drop-shadow(0 0 20px rgba(202, 15, 136, 0.4));
     }
 
-    .score-ring-bg {
-      fill: none;
-      stroke: var(--border-default);
-      stroke-width: 12;
-      opacity: 0.4;
-    }
-
-    .score-ring-fill {
-      fill: none;
-      stroke-width: 12;
-      stroke-linecap: round;
-      stroke-dasharray: 439.82;
-      stroke-dashoffset: 439.82;
-      transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      filter: drop-shadow(0 0 8px rgba(202, 15, 136, 0.6));
-    }
-
-    .score-center {
+    .score-center-circle {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 3;
+      width: 130px;
+      height: 130px;
+      background: var(--bg-black);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
     }
 
     .score-number {
-      font-size: 48px;
-      font-weight: 700;
+      font-size: 56px;
+      font-weight: 600;
       letter-spacing: -2px;
       line-height: 1;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: scoreNumberPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes scoreNumberPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      color: var(--off-white);
     }
 
     .score-of {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-muted);
       font-weight: 500;
-      margin-top: 4px;
-      animation: fadeInOut 3s ease-in-out infinite;
+      margin-top: 6px;
     }
 
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-
-    .score-band-badge {
-      display: inline-block;
-      padding: 8px 24px;
-      border-radius: var(--radius-full);
+    .score-icon-badge {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 32px;
+      background: var(--gradient-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      position: relative;
-      z-index: 2;
-      border: 2px solid;
-      animation: badgePulse 2s ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(202, 15, 136, 0.3);
-    }
-
-    @keyframes badgePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(202, 15, 136, 0.3); }
-      50% { transform: scale(1.08); box-shadow: 0 0 30px rgba(202, 15, 136, 0.5); }
+      color: white;
+      box-shadow: 0 4px 12px rgba(202, 15, 136, 0.4);
+      z-index: 11;
     }
 
     .band-compromised {
@@ -288,23 +228,10 @@
     }
 
     .last-updated {
-      font-size: 13px;
-      color: var(--text-secondary);
+      font-size: 12px;
+      color: var(--text-muted);
       position: relative;
       z-index: 2;
-      font-weight: 500;
-      animation: slideUpIn 0.8s ease-out 0.3s both;
-    }
-
-    @keyframes slideUpIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     /* ─── Why This Score ─── */
@@ -715,7 +642,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin-top: 0;
+      margin-top: 24px;
       padding: 0 24px;
     }
 
@@ -736,7 +663,8 @@
     }
 
     #heroCardContainer {
-      padding: 0 24px 24px;
+      padding: 24px 24px 32px;
+      margin-top: 16px;
     }
 
     .analytics-header {
@@ -1409,21 +1337,12 @@
     <!-- ════════ SECTION A: Core Score Card ════════ -->
     <div class="card animate-in" id="score-card">
       <div class="score-card-top">
-        <div class="score-ring-wrapper">
-          <svg viewBox="0 0 160 160">
-            <defs>
-              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#CA0F88" />
-                <stop offset="50%" stop-color="#5C05A5" />
-                <stop offset="100%" stop-color="#4900FF" />
-              </linearGradient>
-            </defs>
-            <circle class="score-ring-bg" cx="80" cy="80" r="70" />
-            <circle class="score-ring-fill" cx="80" cy="80" r="70" stroke="url(#scoreGrad)" id="scoreRing" />
-          </svg>
-          <div class="score-center">
+        <div class="score-radial-wrapper">
+          <canvas id="scoreDotsCanvas" class="score-dots-container" width="260" height="260"></canvas>
+          <div class="score-center-circle">
             <div class="score-number" id="mainScoreNum">0</div>
-            <div class="score-of">/ 100</div>
+            <div class="score-of">out of 100</div>
+            <div class="score-icon-badge">✦</div>
           </div>
         </div>
         <div id="mainBandBadge" class="score-band-badge band-stable">Stable</div>
@@ -1813,19 +1732,6 @@
        RENDERING
        ═══════════════════════════════════════════ */
 
-    // Score ring
-    const CIRCUMFERENCE = 2 * Math.PI * 70; // ≈ 439.82
-
-    function renderScoreRing(score, animate) {
-      const ring = document.getElementById('scoreRing');
-      const offset = CIRCUMFERENCE * (1 - score / 100);
-      if (animate) {
-        ring.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-      }
-      ring.style.strokeDasharray = CIRCUMFERENCE;
-      ring.style.strokeDashoffset = offset;
-    }
-
     function animateNumber(el, from, to, duration = 800) {
       const start = performance.now();
       const diff = to - from;
@@ -1840,12 +1746,70 @@
       requestAnimationFrame(tick);
     }
 
+    function renderScoreDots(score, animate) {
+      const canvas = document.getElementById('scoreDotsCanvas');
+      const ctx = canvas.getContext('2d');
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const innerRadius = 75;
+      const outerRadius = 125;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rings = 8;
+      const dotsPerRing = [24, 28, 32, 36, 40, 44, 48, 52];
+      const filledPercent = score / 100;
+      function drawDots(progress) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let ring = 0; ring < rings; ring++) {
+          const radius = innerRadius + (outerRadius - innerRadius) * (ring / (rings - 1));
+          const numDots = dotsPerRing[ring];
+          const dotSize = 3 - (ring * 0.2);
+          const baseOpacity = 0.15 + (0.15 * (1 - ring / rings));
+          for (let i = 0; i < numDots; i++) {
+            const angle = (i / numDots) * Math.PI * 2 - Math.PI / 2;
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius;
+            const dotProgress = i / numDots;
+            const isFilled = dotProgress <= filledPercent * progress;
+            if (isFilled) {
+              const gradient = ctx.createRadialGradient(x, y, 0, x, y, dotSize + 2);
+              gradient.addColorStop(0, `rgba(202, 15, 136, ${0.9 - ring * 0.08})`);
+              gradient.addColorStop(0.5, `rgba(92, 5, 165, ${0.7 - ring * 0.06})`);
+              gradient.addColorStop(1, `rgba(73, 0, 255, ${0.5 - ring * 0.04})`);
+              ctx.fillStyle = gradient;
+            } else {
+              ctx.fillStyle = `rgba(241, 243, 246, ${baseOpacity})`;
+            }
+            ctx.beginPath();
+            ctx.arc(x, y, dotSize, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      if (animate) {
+        let startTime = null;
+        const duration = 1200;
+        function animateDots(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          drawDots(eased);
+          if (progress < 1) {
+            requestAnimationFrame(animateDots);
+          }
+        }
+        requestAnimationFrame(animateDots);
+      } else {
+        drawDots(1);
+      }
+    }
+
     function renderMainScore() {
       const score = BASELINE.score;
       const band = getBand(score);
       const numEl = document.getElementById('mainScoreNum');
       animateNumber(numEl, 0, score, 1200);
-      renderScoreRing(score, true);
+      renderScoreDots(score, true);
 
       const badge = document.getElementById('mainBandBadge');
       badge.textContent = band.label;
