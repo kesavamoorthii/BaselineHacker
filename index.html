@@ -128,13 +128,18 @@
       background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.2) 0%, transparent 60%);
       padding: 28px 20px 20px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+
+
 
     .score-ring-wrapper {
       position: relative;
       width: 180px;
       height: 180px;
       margin: 0 auto 12px;
+      z-index: 2;
     }
 
     .score-ring-wrapper svg {
@@ -192,6 +197,8 @@
       letter-spacing: 0.3px;
       text-transform: uppercase;
       margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
     }
 
     .band-compromised {
@@ -227,6 +234,8 @@
     .last-updated {
       font-size: 12px;
       color: var(--text-muted);
+      position: relative;
+      z-index: 2;
     }
 
     /* ─── Why This Score ─── */
@@ -822,8 +831,83 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ─── Responsive ─── */
-    @media (min-width: 640px) {
+    /* ─── Mobile Navigation ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-default);
+      z-index: 100;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-nav-tabs {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60px;
+      width: 100%;
+    }
+
+    .mobile-nav-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      transition: all 0.25s ease;
+      font-family: var(--font-sans);
+    }
+
+    .mobile-nav-tab:hover {
+      color: var(--text-secondary);
+    }
+
+    .mobile-nav-tab.active {
+      color: var(--neon-mint);
+      border-bottom: 3px solid var(--neon-mint);
+    }
+
+    .mobile-nav-icon {
+      font-size: 20px;
+    }
+
+    .mobile-content {
+      display: none;
+      padding-bottom: 80px;
+    }
+
+    .mobile-content.active {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-nav {
+        display: block;
+      }
+
+      .app-container {
+        padding: 0 16px 80px;
+      }
+
+      .card {
+        margin-top: 12px;
+      }
+    }
       .app-container {
         max-width: none !important;
         width: 100% !important;
@@ -902,15 +986,27 @@
         <div id="contributorsContainer"></div>
       </div>
 
-      <!-- CTA Chips -->
-      <div class="cta-chips">
-        <button class="cta-chip" onclick="scrollToEl('whySection')">🔍 View details</button>
-      </div>
     </div>
 
-
-
   </div><!-- /app-container -->
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-tabs">
+      <button class="mobile-nav-tab active" data-tab="home" onclick="switchTab('home')">
+        <span class="mobile-nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="mobile-nav-tab" data-tab="intervention" onclick="switchTab('intervention')">
+        <span class="mobile-nav-icon">💊</span>
+        <span>Intervention</span>
+      </button>
+      <button class="mobile-nav-tab" data-tab="score" onclick="switchTab('score')">
+        <span class="mobile-nav-icon">📊</span>
+        <span>Score</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
@@ -1465,6 +1561,25 @@
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function switchTab(tabName) {
+      // Update active tab button
+      document.querySelectorAll('.mobile-nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+      // Handle tab content
+      if (tabName === 'home') {
+        document.getElementById('score-card').style.display = 'block';
+      } else if (tabName === 'intervention') {
+        // Placeholder for intervention content
+        alert('Intervention tab - coming soon');
+      } else if (tabName === 'score') {
+        // Placeholder for score details
+        alert('Score details tab - coming soon');
+      }
     }
 
     /* ═══════════════════════════════════════════
