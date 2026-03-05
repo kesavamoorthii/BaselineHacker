@@ -82,43 +82,13 @@
       box-sizing: border-box;
     }
 
-    /* ─── Header ─── */
-    .app-header {
-      background: var(--gradient-main);
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-md);
-    }
 
-    .app-header h1 {
-      color: var(--off-white);
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    .header-pill {
-      background: rgba(255, 255, 255, 0.15);
-      color: var(--off-white);
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
 
     /* ─── Section Card ─── */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
       margin-top: 16px;
       overflow: hidden;
       width: 100%;
@@ -158,13 +128,18 @@
       background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.2) 0%, transparent 60%);
       padding: 28px 20px 20px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+
+
 
     .score-ring-wrapper {
       position: relative;
       width: 180px;
       height: 180px;
       margin: 0 auto 12px;
+      z-index: 2;
     }
 
     .score-ring-wrapper svg {
@@ -222,12 +197,14 @@
       letter-spacing: 0.3px;
       text-transform: uppercase;
       margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
     }
 
     .band-compromised {
-      background: rgba(241, 121, 104, 0.18);
-      color: #F17968;
-      border: 1px solid rgba(241, 121, 104, 0.35);
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     .band-struggling {
@@ -237,9 +214,9 @@
     }
 
     .band-stable {
-      background: rgba(244, 199, 100, 0.15);
-      color: #F4C764;
-      border: 1px solid rgba(244, 199, 100, 0.3);
+      background: rgba(251, 191, 36, 0.2);
+      color: #FBBF24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
     }
 
     .band-healthy {
@@ -257,120 +234,496 @@
     .last-updated {
       font-size: 12px;
       color: var(--text-muted);
+      position: relative;
+      z-index: 2;
     }
 
     /* ─── Why This Score ─── */
     .why-score {
-      padding: 20px;
+      padding: 24px;
+      --why-stagger: 80ms;
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.08) 0%, rgba(73, 0, 255, 0.04) 100%);
     }
 
     .why-score h3 {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 14px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      letter-spacing: 0.3px;
     }
 
-    .contributor-section {
+    /* Grid layout */
+    .why-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .why-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .why-grid .why-card-span {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* Animated cards */
+    .why-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: whyCardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(202, 15, 136, 0.3), transparent);
+      opacity: 0;
+      animation: shimmer 2s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 0 1px rgba(202, 15, 136, 0.1);
+      border-color: rgba(202, 15, 136, 0.25);
+    }
+
+    .why-card.why-delay-1 {
+      animation-delay: 0.1s;
+    }
+
+    .why-card.why-delay-2 {
+      animation-delay: 0.25s;
+    }
+
+    .why-card.why-delay-3 {
+      animation-delay: 0.4s;
+    }
+
+    .why-card.why-delay-4 {
+      animation-delay: 0.55s;
+    }
+
+    .why-card.why-delay-5 {
+      animation-delay: 0.7s;
+    }
+
+    .why-card.why-delay-6 {
+      animation-delay: 0.85s;
+    }
+
+    @keyframes whyCardIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes whyItemIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Hero card - Why X? */
+    .why-hero {
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.2) 0%, rgba(73, 0, 255, 0.1) 100%);
+      border: 1.5px solid rgba(202, 15, 136, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-main);
+      box-shadow: 0 0 20px rgba(202, 15, 136, 0.4);
+    }
+
+    .why-hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(202, 15, 136, 0.05) 0%, transparent 70%);
+      animation: heroGlow 8s ease-in-out infinite;
+    }
+
+    @keyframes heroGlow {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, 20px); }
+    }
+
+    .why-hero-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .why-hero-title .score-val {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 24px;
+    }
+
+    .why-hero-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .why-hero-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+      font-weight: 500;
+    }
+
+    .why-hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: 12px;
       margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
     }
 
-    .contributor-label {
-      font-size: 11px;
+    .why-hero-tags .tag-lim {
+      color: #F87171;
       font-weight: 600;
+    }
+
+    .why-hero-tags .tag-help {
+      color: var(--neon-mint);
+      font-weight: 600;
+    }
+
+    /* Limiters & helpers lists */
+    .why-list-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    .why-list-title.limiting {
+      color: #F87171;
+    }
+
+    .why-list-title.helping {
+      color: var(--neon-mint);
+    }
+
+    .why-list-subtitle {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+
+    .why-notes-eg {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    .why-marker-line {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+      padding: 10px 14px;
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--font-sans);
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
+      transition: all 0.25s ease;
     }
 
-    .contributor-label.negative {
-      color: #F17968;
+    .why-marker-line:hover {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(4px);
     }
 
-    .contributor-label.positive {
-      color: #8DE28D;
+    .why-marker-line:nth-child(5) {
+      animation-delay: 0.05s;
     }
 
-    .contributor-item {
+    .why-marker-line:nth-child(6) {
+      animation-delay: 0.1s;
+    }
+
+    .why-marker-line:nth-child(7) {
+      animation-delay: 0.15s;
+    }
+
+    .why-marker-line:nth-child(8) {
+      animation-delay: 0.2s;
+    }
+
+    .why-marker-line:nth-child(9) {
+      animation-delay: 0.25s;
+    }
+
+    .why-marker-line .marker-id {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .why-marker-line .marker-status {
+      font-weight: 600;
+    }
+
+    .why-marker-line.negative .marker-status {
+      color: #F87171;
+    }
+
+    .why-marker-line.positive .marker-status {
+      color: var(--neon-mint);
+    }
+
+    .why-priority-order {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      line-height: 1.5;
+    }
+
+    .why-list-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .contributor-name {
+      padding: 10px 12px;
+      margin-bottom: 6px;
       font-size: 13px;
-      font-weight: 500;
       color: var(--text-primary);
-      min-width: 100px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm);
+      cursor: help;
+      position: relative;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
     }
 
-    .contributor-bar-track {
+    .why-list-item:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+
+    .why-list-item:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    .why-list-item:nth-child(4) {
+      animation-delay: 0.15s;
+    }
+
+    .why-list-item:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .why-list-item:nth-child(6) {
+      animation-delay: 0.25s;
+    }
+
+    .why-list-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-default);
+    }
+
+    .why-list-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .why-list-item .severity-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    .why-list-item .severity-dot.critical {
+      background: #EF4444;
+      color: rgba(239, 68, 68, 0.5);
+    }
+
+    .why-list-item .severity-dot.moderate {
+      background: #FBBF24;
+      color: rgba(251, 191, 36, 0.5);
+    }
+
+    .why-list-item .severity-dot.positive {
+      background: #22C55E;
+      color: rgba(34, 197, 94, 0.5);
+    }
+
+    .why-list-item .item-name {
+      font-weight: 500;
       flex: 1;
-      height: 6px;
-      background: var(--bg-elevated);
+      min-width: 0;
+    }
+
+    .why-list-item .item-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .why-list-item .info-icon {
+      flex-shrink: 0;
+      opacity: 0.6;
+      font-size: 11px;
+    }
+
+    /* Score breakdown */
+    .breakdown-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .breakdown-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
+    }
+
+    .breakdown-row:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .breakdown-row:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .breakdown-row:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .breakdown-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .breakdown-label {
+      font-size: 13px;
+      color: var(--text-primary);
+      min-width: 0;
+      flex: 1;
+    }
+
+    .breakdown-bar-track {
+      flex: 0 0 100px;
+      height: 10px;
+      background: var(--bg-black);
       border-radius: var(--radius-full);
       overflow: hidden;
     }
 
-    .contributor-bar-fill {
+    .breakdown-bar-fill {
       height: 100%;
       border-radius: var(--radius-full);
-      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--gradient-main);
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
       width: 0;
     }
 
-    .contributor-bar-fill.negative {
-      background: linear-gradient(90deg, rgba(241, 121, 104, 0.55), #F17968);
-    }
-
-    .contributor-bar-fill.positive {
-      background: linear-gradient(90deg, rgba(141, 226, 141, 0.45), #8DE28D);
-    }
-
-    .contributor-pct {
+    .breakdown-pct {
       font-size: 12px;
-      font-weight: 700;
-      min-width: 32px;
-      text-align: right;
-    }
-
-    .contributor-pct.negative {
-      color: #F17968;
-    }
-
-    .contributor-pct.positive {
-      color: #8DE28D;
-    }
-
-    .contributor-detail {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-left: 110px;
-      margin-top: -4px;
-      margin-bottom: 8px;
-    }
-
-    .contributor-tier {
-      display: inline-block;
-      font-size: 9px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      padding: 2px 7px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid currentColor;
-      opacity: 0.88;
-      margin-left: 5px;
-      vertical-align: middle;
-      white-space: nowrap;
+      min-width: 38px;
+      text-align: right;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+
+
+    /* Tooltip */
+    .why-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      margin-bottom: 6px;
+      padding: 10px 12px;
+      background: var(--bg-black);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      z-index: 50;
+      display: none;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .why-list-item:hover .why-tooltip,
+    .why-list-item:focus-within .why-tooltip {
+      display: block;
     }
 
     /* ─── CTA Chips ─── */
@@ -409,783 +762,15 @@
       outline-offset: 2px;
     }
 
-    /* ─── Tabs ─── */
-    .tabs-container {
-      display: flex;
-      background: var(--bg-elevated);
-      border-radius: var(--radius-md);
-      padding: 3px;
-      margin: 16px 20px 0;
-      position: relative;
-      border: 1px solid var(--border-subtle);
-    }
 
-    .tab-btn {
-      flex: 1;
-      padding: 10px 8px;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: var(--text-muted);
-      background: transparent;
-      border: none;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all var(--transition-base);
-      text-align: center;
-      line-height: 1.3;
-      position: relative;
-      z-index: 1;
-    }
 
-    .tab-btn.active {
-      color: var(--neon-mint);
-      background: rgba(113, 240, 255, 0.08);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(113, 240, 255, 0.2);
-    }
 
-    .tab-btn:focus-visible {
-      outline: 2px solid var(--electric-blue);
-      outline-offset: 2px;
-    }
 
-    .tab-content {
-      display: none;
-      padding: 20px;
-      animation: fadeSlideIn 0.3s ease;
-    }
 
-    .tab-content.active {
-      display: block;
-    }
 
-    @keyframes fadeSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
 
-    /* ─── Intervention Chips ─── */
-    .interventions-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
 
-    .intervention-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: var(--radius-full);
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-default);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      user-select: none;
-    }
-
-    .intervention-chip:hover {
-      border-color: rgba(113, 240, 255, 0.4);
-      background: rgba(113, 240, 255, 0.06);
-    }
-
-    .intervention-chip.active {
-      background: rgba(92, 5, 165, 0.2);
-      border-color: var(--royal-purple);
-      box-shadow: 0 0 0 1px rgba(92, 5, 165, 0.5);
-    }
-
-    .intervention-chip:focus-visible {
-      outline: 2px solid var(--electric-blue);
-      outline-offset: 2px;
-    }
-
-    .chip-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    .chip-label {
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    .chip-toggle {
-      position: relative;
-      width: 34px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .chip-toggle input {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-track {
-      position: absolute;
-      inset: 0;
-      background: var(--border-default);
-      border-radius: var(--radius-full);
-      transition: background var(--transition-fast);
-    }
-
-    .toggle-thumb {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 14px;
-      height: 14px;
-      background: var(--off-white);
-      border-radius: 50%;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-      transition: transform var(--transition-fast);
-    }
-
-    .chip-toggle input:checked~.toggle-track {
-      background: var(--neon-mint);
-    }
-
-    .chip-toggle input:checked~.toggle-thumb {
-      transform: translateX(16px);
-    }
-
-    .reset-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 12px;
-      border-radius: var(--radius-full);
-      font-size: 11px;
-      font-weight: 500;
-      border: 1px solid var(--border-default);
-      background: var(--bg-elevated);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      margin-bottom: 20px;
-    }
-
-    .reset-btn:hover {
-      color: #F87171;
-      border-color: rgba(248, 113, 113, 0.5);
-    }
-
-    /* ─── Estimated Score Display ─── */
-    .estimated-score-box {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      text-align: center;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .estimated-score-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--gradient-main);
-    }
-
-    .est-label {
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .est-score-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .est-current {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .est-arrow {
-      font-size: 18px;
-      color: var(--text-muted);
-    }
-
-    .est-new {
-      font-size: 32px;
-      font-weight: 600;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transition: all var(--transition-slow);
-    }
-
-    .est-delta {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      background: rgba(113, 240, 255, 0.15);
-      color: var(--neon-mint);
-      animation: pulseDelta 2s ease infinite;
-    }
-
-    .est-delta.zero {
-      background: var(--bg-elevated);
-      color: var(--text-muted);
-      animation: none;
-    }
-
-    @keyframes pulseDelta {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-    }
-
-    .est-band-label {
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-
-    /* ─── Biomarkers Impacted ─── */
-    .biomarkers-section h4 {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 10px;
-    }
-
-    .biomarker-list {
-      list-style: none;
-    }
-
-    .biomarker-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 13px;
-    }
-
-    .biomarker-item:last-child {
-      border-bottom: none;
-    }
-
-    .biomarker-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .biomarker-dot.positive {
-      background: var(--neon-mint);
-    }
-
-    .biomarker-dot.neutral {
-      background: var(--border-default);
-    }
-
-    .biomarker-name {
-      flex: 1;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    .biomarker-change {
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .biomarker-change.positive {
-      color: var(--neon-mint);
-    }
-
-    /* ─── Confidence Badge ─── */
-    .confidence-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: var(--radius-full);
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 14px;
-      cursor: help;
-    }
-
-    .confidence-high {
-      background: rgba(113, 240, 255, 0.15);
-      color: var(--neon-mint);
-      border: 1px solid rgba(113, 240, 255, 0.3);
-    }
-
-    .confidence-medium {
-      background: rgba(251, 191, 36, 0.15);
-      color: #FBBF24;
-      border: 1px solid rgba(251, 191, 36, 0.3);
-    }
-
-    .confidence-low {
-      background: rgba(249, 115, 22, 0.15);
-      color: #FB923C;
-      border: 1px solid rgba(249, 115, 22, 0.3);
-    }
-
-    .confidence-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    /* ─── Tab 2: Target Score ─── */
-    .target-section-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-    }
-
-    .target-slider-container {
-      margin-bottom: 20px;
-    }
-
-    .target-value-display {
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .target-big-number {
-      font-size: 48px;
-      font-weight: 600;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-
-    .target-band-label {
-      font-size: 13px;
-      font-weight: 500;
-      margin-top: 4px;
-      color: var(--text-secondary);
-    }
-
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: var(--radius-full);
-      background: var(--bg-elevated);
-      outline: none;
-      margin: 8px 0;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--gradient-main);
-      cursor: pointer;
-      box-shadow: 0 2px 12px rgba(202, 15, 136, 0.4);
-      border: 3px solid var(--bg-card);
-      transition: transform var(--transition-fast);
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-    }
-
-    input[type="range"]:focus-visible {
-      outline: 2px solid var(--electric-blue);
-      outline-offset: 4px;
-    }
-
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* Achievability */
-    .achievability-box {
-      border-radius: var(--radius-md);
-      padding: 14px;
-      margin-bottom: 18px;
-      font-size: 13px;
-      font-weight: 500;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      line-height: 1.45;
-    }
-
-    .achievability-box.achievable {
-      background: rgba(113, 240, 255, 0.1);
-      color: var(--neon-mint);
-      border: 1px solid rgba(113, 240, 255, 0.25);
-    }
-
-    .achievability-box.stretch {
-      background: rgba(251, 191, 36, 0.1);
-      color: #FBBF24;
-      border: 1px solid rgba(251, 191, 36, 0.25);
-    }
-
-    .achievability-box.difficult {
-      background: rgba(249, 115, 22, 0.1);
-      color: #FB923C;
-      border: 1px solid rgba(249, 115, 22, 0.3);
-    }
-
-    .achievability-box.unreachable {
-      background: rgba(239, 68, 68, 0.1);
-      color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-
-    .achievability-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    /* Recommended Actions Plan */
-    .action-plan {
-      margin-bottom: 20px;
-    }
-
-    .action-plan h4 {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-
-    .plan-action-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--bg-elevated);
-      border-radius: var(--radius-sm);
-      margin-bottom: 6px;
-      border: 1px solid var(--border-subtle);
-    }
-
-    .plan-action-icon {
-      font-size: 18px;
-    }
-
-    .plan-action-info {
-      flex: 1;
-    }
-
-    .plan-action-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    .plan-action-impact {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .plan-action-check {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--neon-mint);
-      color: var(--bg-black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    /* Biomarker improvements for target */
-    .biomarker-improvements {
-      margin-bottom: 18px;
-    }
-
-    .biomarker-improvements h4 {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 10px;
-    }
-
-    .bioimp-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 12px;
-    }
-
-    .bioimp-name {
-      flex: 1;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    .bioimp-current {
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .bioimp-arrow {
-      color: var(--text-muted);
-    }
-
-    .bioimp-target {
-      color: var(--neon-mint);
-      font-weight: 600;
-    }
-
-    .bioimp-time {
-      font-size: 10px;
-      color: var(--text-muted);
-      padding: 2px 6px;
-      background: var(--bg-elevated);
-      border-radius: var(--radius-full);
-    }
-
-    /* Apply Plan Button */
-    .apply-plan-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: var(--radius-md);
-      background: var(--gradient-main);
-      color: var(--off-white);
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      box-shadow: 0 4px 20px rgba(202, 15, 136, 0.3);
-      letter-spacing: 0.2px;
-    }
-
-    .apply-plan-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(202, 15, 136, 0.4);
-    }
-
-    .apply-plan-btn:active {
-      transform: translateY(0);
-    }
-
-    .apply-plan-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .apply-plan-btn:focus-visible {
-      outline: 2px solid var(--neon-mint);
-      outline-offset: 2px;
-    }
-
-    /* ─── Section C: Explainability ─── */
-    .explainability-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      margin-top: 16px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .explainability-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      background: var(--gradient-card);
-      pointer-events: none;
-    }
-
-    details {
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    details summary {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-primary);
-      cursor: pointer;
-      list-style: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background var(--transition-fast);
-      user-select: none;
-    }
-
-    details summary:hover {
-      background: rgba(241, 243, 246, 0.04);
-    }
-
-    details summary::after {
-      content: '▸';
-      font-size: 12px;
-      color: var(--text-muted);
-      transition: transform var(--transition-fast);
-    }
-
-    details[open] summary::after {
-      transform: rotate(90deg);
-    }
-
-    details summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .details-content {
-      padding: 0 20px 16px;
-      font-size: 12.5px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .details-content p {
-      margin-bottom: 8px;
-    }
-
-    .details-content ul {
-      margin-left: 16px;
-      margin-bottom: 8px;
-    }
-
-    .details-content li {
-      margin-bottom: 4px;
-    }
-
-    /* Missing Data Warning */
-    .missing-data-warning {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 12px 16px;
-      margin: 12px 20px;
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      color: #FBBF24;
-      line-height: 1.45;
-    }
-
-    .missing-data-warning .warn-icon {
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* Debug Drawer */
-    .debug-drawer-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 100%;
-      padding: 12px;
-      background: var(--bg-elevated);
-      border: none;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all var(--transition-fast);
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .debug-drawer-toggle:hover {
-      color: var(--text-secondary);
-      background: rgba(241, 243, 246, 0.04);
-    }
-
-    .debug-drawer {
-      display: none;
-      padding: 16px 20px;
-      background: var(--bg-black);
-      color: var(--neon-mint);
-      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-      font-size: 11px;
-      line-height: 1.7;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .debug-drawer.open {
-      display: block;
-    }
-
-    .debug-key {
-      color: #A78BFA;
-    }
-
-    .debug-val {
-      color: var(--neon-mint);
-    }
-
-    .debug-bracket {
-      color: var(--text-muted);
-    }
-
-    .debug-section {
-      margin-bottom: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
 
     /* ─── Animations ─── */
     @keyframes slideUp {
@@ -1246,8 +831,83 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ─── Responsive ─── */
-    @media (min-width: 640px) {
+    /* ─── Mobile Navigation ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-default);
+      z-index: 100;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-nav-tabs {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 60px;
+      width: 100%;
+    }
+
+    .mobile-nav-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      transition: all 0.25s ease;
+      font-family: var(--font-sans);
+    }
+
+    .mobile-nav-tab:hover {
+      color: var(--text-secondary);
+    }
+
+    .mobile-nav-tab.active {
+      color: var(--neon-mint);
+      border-bottom: 3px solid var(--neon-mint);
+    }
+
+    .mobile-nav-icon {
+      font-size: 20px;
+    }
+
+    .mobile-content {
+      display: none;
+      padding-bottom: 80px;
+    }
+
+    .mobile-content.active {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-nav {
+        display: block;
+      }
+
+      .app-container {
+        padding: 0 16px 80px;
+      }
+
+      .card {
+        margin-top: 12px;
+      }
+    }
       .app-container {
         max-width: none !important;
         width: 100% !important;
@@ -1274,8 +934,8 @@
 
     @media (min-width: 1024px) {
       .app-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 24px;
         max-width: none !important;
         width: 100% !important;
@@ -1283,55 +943,17 @@
       }
 
       .app-container>#score-card {
-        grid-column: 1;
-        align-self: start;
-      }
-
-      .app-container>#mode-switch-card {
-        grid-column: 2;
-        align-self: start;
-      }
-
-      .app-container>.explainability-card {
-        grid-column: 1 / -1;
+        width: 100%;
       }
 
       .card-body {
         padding: 20px 28px 28px;
       }
-
-      .tab-content {
-        padding: 24px 28px;
-      }
-    }
-
-    /* ─── Scrollbar ─── */
-    .debug-drawer::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .debug-drawer::-webkit-scrollbar-thumb {
-      background: var(--border-default);
-      border-radius: var(--radius-full);
-    }
-
-    /* ─── No-selection for interactive elements ─── */
-    .intervention-chip,
-    .tab-btn,
-    .cta-chip,
-    .reset-btn {
-      -webkit-tap-highlight-color: transparent;
     }
   </style>
 </head>
 
 <body>
-
-  <!-- Header -->
-  <header class="app-header">
-    <h1>Baseline Score</h1>
-    <span class="header-pill">Dashboard</span>
-  </header>
 
   <div class="app-container">
 
@@ -1361,135 +983,30 @@
 
       <!-- Why this score -->
       <div class="why-score" id="whySection">
-        <h3>📊 Why this score?</h3>
         <div id="contributorsContainer"></div>
       </div>
-    </div>
 
-    <!-- ════════ SECTION B: Mode Switch ════════ -->
-    <div class="card animate-in" id="mode-switch-card">
-      <div class="tabs-container">
-        <button class="tab-btn" onclick="window.location.href='improve.html'" id="tabBtn0">⚡ Improve</button>
-        <button class="tab-btn active" onclick="switchTab(1)" id="tabBtn1">Set Target → Required Actions</button>
-      </div>
-
-      <!-- Tab 1: Interventions -->
-      <div class="tab-content" id="tabContent0">
-        <div class="interventions-grid" id="interventionsGrid"></div>
-        <button class="reset-btn" id="resetBtn" onclick="resetAll()">↺ Reset all</button>
-
-        <div class="estimated-score-box" id="estimatedBox">
-          <div class="est-label">Estimated New Score</div>
-          <div class="est-score-row">
-            <span class="est-current" id="estCurrent">63.7</span>
-            <span class="est-arrow">→</span>
-            <span class="est-new" id="estNew">63.7</span>
-          </div>
-          <span class="est-delta zero" id="estDelta">+0.0</span>
-          <div class="est-band-label" id="estBand"></div>
-        </div>
-
-        <div class="biomarkers-section" id="biomarkersSection">
-          <h4>Biomarkers Impacted</h4>
-          <ul class="biomarker-list" id="biomarkerList">
-            <li class="biomarker-item" style="color:var(--text-muted); font-size:12px;">Toggle actions above to see
-              impacted biomarkers</li>
-          </ul>
-        </div>
-
-        <div id="confidenceBadgeContainer"></div>
-      </div>
-
-      <!-- Tab 2: Target Score -->
-      <div class="tab-content active" id="tabContent1">
-        <div class="target-section-label">Set your target score</div>
-        <div class="target-slider-container">
-          <div class="target-value-display">
-            <div class="target-big-number" id="targetBigNum">63.7</div>
-            <div class="target-band-label" id="targetBandLabel"></div>
-          </div>
-          <input type="range" id="targetSlider" min="0" max="100" step="0.1" value="63.7">
-          <div class="slider-labels">
-            <span>Current: <strong id="sliderCurrentLabel">63.7</strong></span>
-            <span>Max: 100</span>
-          </div>
-        </div>
-
-        <div id="achievabilityBox" class="achievability-box achievable" style="display:none;"></div>
-
-        <div class="action-plan" id="actionPlan" style="display:none;">
-          <h4>Recommended Action Plan</h4>
-          <div id="planActionsList"></div>
-        </div>
-
-        <div class="biomarker-improvements" id="biomarkerImprovements" style="display:none;">
-          <h4>Required Biomarker Improvements</h4>
-          <div id="bioimpList"></div>
-        </div>
-
-        <button class="apply-plan-btn" id="applyPlanBtn" onclick="applyPlan()" disabled>Apply this plan</button>
-      </div>
-    </div>
-
-    <!-- ════════ SECTION C: Explainability ════════ -->
-    <div class="explainability-card animate-in">
-      <details>
-        <summary>How this estimate works</summary>
-        <div class="details-content">
-          <p>Your Baseline Score is a composite metric (0–100) derived from blood biomarkers, lifestyle data, and health
-            indicators. Each biomarker is weighted by clinical significance and your personal variance.</p>
-          <p><strong>When you toggle interventions:</strong></p>
-          <ul>
-            <li>Each action maps to specific biomarkers it can improve.</li>
-            <li>Individual impacts are based on published clinical averages.</li>
-            <li>Combined effects use a <strong>diminishing-returns model</strong> — each additional action contributes
-              slightly less than in isolation.</li>
-            <li>A hard cap of <strong>+12.0 points</strong> prevents unrealistic additive inflation.</li>
-            <li>Overlapping biomarker effects are de-duplicated (e.g., sleep + yoga both affect Cortisol).</li>
-          </ul>
-          <p>The confidence level decreases as more actions are combined, reflecting real-world uncertainty in
-            multi-variable predictions.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>Score band thresholds</summary>
-        <div class="details-content">
-          <ul>
-            <li><strong>0–39</strong> — Compromised</li>
-            <li><strong>40–54</strong> — Struggling</li>
-            <li><strong>55–69</strong> — Stable</li>
-            <li><strong>70–84</strong> — Healthy</li>
-            <li><strong>85–100</strong> — Elite</li>
-          </ul>
-        </div>
-      </details>
-
-      <details>
-        <summary>Data sources & limitations</summary>
-        <div class="details-content">
-          <p>Estimates rely on population-level clinical data. Individual responses may vary based on genetics,
-            adherence, baseline health, and other factors not captured in this model.</p>
-          <p>This is a <strong>directional planning tool</strong>, not a medical prediction. Always consult your
-            physician before making health changes.</p>
-        </div>
-      </details>
-
-      <!-- Missing data warning -->
-      <div class="missing-data-warning" id="missingDataWarning">
-        <span class="warn-icon">⚠️</span>
-        <span><strong>2 biomarkers missing data:</strong> Testosterone and Bone Density have no recent labs. Estimates
-          for Strength Training may be less accurate.</span>
-      </div>
-
-      <!-- Debug Drawer -->
-      <button class="debug-drawer-toggle" id="debugToggle" onclick="toggleDebug()">
-        <span>⚙</span> Debug Drawer
-      </button>
-      <div class="debug-drawer" id="debugDrawer"></div>
     </div>
 
   </div><!-- /app-container -->
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-tabs">
+      <button class="mobile-nav-tab active" data-tab="home" onclick="switchTab('home')">
+        <span class="mobile-nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="mobile-nav-tab" data-tab="intervention" onclick="switchTab('intervention')">
+        <span class="mobile-nav-icon">💊</span>
+        <span>Intervention</span>
+      </button>
+      <button class="mobile-nav-tab" data-tab="score" onclick="switchTab('score')">
+        <span class="mobile-nav-icon">📊</span>
+        <span>Score</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
@@ -1501,20 +1018,30 @@
 
     const BASELINE = {
       score: 63.7,
+      uncappedScore: 77,   // When set, score is capped by top limiter
+      cappingFactor: 'Vitamin D',
       lastUpdated: '2026-03-04T14:30:00Z',
       contributors: {
         negative: [
-          { name: 'Vitamin D', contribution: 18, detail: 'Severely deficient' },
-          { name: 'Sleep Quality', contribution: 14, detail: 'Poor consistency' },
-          { name: 'HDL Cholesterol', contribution: 11, detail: 'Below optimal' },
-          { name: 'VO2 Max', contribution: 9, detail: 'Below average' }
+          { id: 'A2', metric: 'BMI', value: '5.3', unit: 'ng/ml', status: 'High', contribution: 18, potentialPoints: 8 },
+          { id: 'A2', metric: 'Non-HDL', value: '4.8', unit: 'mg/DL', status: 'Borderline Low', contribution: 14, potentialPoints: 5 },
+          { id: 'B1', metric: 'Vitamin D', value: '18', unit: 'ng/ml', status: 'Severely deficient', contribution: 11, potentialPoints: 4 },
+          { id: 'B2', metric: 'Sleep Quality', value: '42', unit: '%', status: 'Poor consistency', contribution: 9, potentialPoints: 3 }
         ],
         positive: [
-          { name: 'Blood Glucose', contribution: 12, detail: 'Well controlled' },
-          { name: 'Blood Pressure', contribution: 10, detail: 'Optimal range' },
-          { name: 'BMI', contribution: 8, detail: 'Healthy range' }
-        ]
-      }
+          { id: 'A5', metric: 'Ferritin', value: '5.3', unit: 'ng/ml', status: 'Optimal', contribution: 12 },
+          { id: 'B5', metric: 'Lpa', value: '4.8', unit: 'mg/DL', status: 'Optimal', contribution: 10 },
+          { id: 'A4', metric: 'Blood Glucose', value: '92', unit: 'mg/DL', status: 'Optimal', contribution: 8 },
+          { id: 'B4', metric: 'Blood Pressure', value: '118/72', unit: 'mmHg', status: 'Optimal', contribution: 6 }
+        ],
+        priorityOrder: ['A1', 'A2', 'B1', 'B2', 'A5', 'B5', 'C1', 'C2', 'C3'],
+        reversePriorityOrder: ['A5', 'A4', 'B5', 'B4', 'C5', 'C4']
+      },
+      scoreAreas: [
+        { name: 'Core Health (metabolism, fitness)', pct: 72, markers: ['VO2 Max', 'BMI', 'Sleep Quality'] },
+        { name: 'Lipids & inflammation', pct: 58, markers: ['HDL Cholesterol', 'Blood Glucose'] },
+        { name: 'Vitamins & nutrients', pct: 42, markers: ['Vitamin D'] }
+      ]
     };
 
     const INTERVENTIONS = [
@@ -1592,9 +1119,9 @@
     ];
 
     const BAND_THRESHOLDS = [
-      { max: 39, label: 'Compromised', cls: 'band-compromised', color: '#F17968' },
+      { max: 39, label: 'Compromised', cls: 'band-compromised', color: '#F87171' },
       { max: 54, label: 'Struggling', cls: 'band-struggling', color: '#FB923C' },
-      { max: 69, label: 'Stable', cls: 'band-stable', color: '#F4C764' },
+      { max: 69, label: 'Stable', cls: 'band-stable', color: '#FBBF24' },
       { max: 84, label: 'Healthy', cls: 'band-healthy', color: '#71F0FF' },
       { max: 100, label: 'Elite', cls: 'band-elite', color: '#A78BFA' }
     ];
@@ -1708,20 +1235,6 @@
        RENDERING
        ═══════════════════════════════════════════ */
 
-    // Tier label helpers
-    function getNegativeTier(pct) {
-      if (pct > 15)  return { label: 'Very poor', color: '#F17968' };
-      if (pct >= 10) return { label: 'Poor',      color: '#FBA07A' };
-      if (pct >= 5)  return { label: 'Low',        color: '#FBC98A' };
-      return               { label: 'Average',     color: '#94A3B8' };
-    }
-
-    function getPositiveTier(pct) {
-      if (pct > 10) return { label: 'Optimal', color: '#8DE28D' };
-      if (pct >= 5) return { label: 'Healthy',  color: '#A8EDAA' };
-      return              { label: 'Normal',    color: '#94A3B8' };
-    }
-
     // Score ring
     const CIRCUMFERENCE = 2 * Math.PI * 70; // ≈ 439.82
 
@@ -1766,53 +1279,76 @@
         ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     }
 
+    function getNextTier(score) {
+      const idx = BAND_THRESHOLDS.findIndex(b => score <= b.max);
+      if (idx >= 0 && idx < BAND_THRESHOLDS.length - 1) {
+        return { ...BAND_THRESHOLDS[idx + 1], targetScore: BAND_THRESHOLDS[idx].max + 1 };
+      }
+      return null;
+    }
+
     function renderContributors() {
       const container = document.getElementById('contributorsContainer');
-      let html = '';
+      const score = BASELINE.score;
+      const band = getBand(score);
+      const nextTier = getNextTier(score);
+      const neg = BASELINE.contributors.negative;
+      const pos = BASELINE.contributors.positive;
+      const totalPotential = neg.reduce((s, c) => s + (c.potentialPoints || 0), 0);
+      const topLimiter = neg[0];
+      const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
+      const limNames = neg.map(c => c.metric).join(' · ');
+      const helpNames = pos.map(c => c.metric).join(' · ');
+      const bodyText = isCapped
+        ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
+        : `${topLimiter.metric} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
 
-      // Negative
-      html += '<div class="contributor-section">';
-      html += '<div class="contributor-label negative">▼ Pulling score down</div>';
-      for (const c of BASELINE.contributors.negative) {
-        const tier = getNegativeTier(c.contribution);
-        html += `
-      <div class="contributor-item">
-        <span class="contributor-name">${c.name}</span>
-        <div class="contributor-bar-track">
-          <div class="contributor-bar-fill negative" style="width:0" data-width="${c.contribution * 3}%"></div>
-        </div>
-        <span class="contributor-pct negative">${c.contribution}%<span class="contributor-tier" style="color:${tier.color}">${tier.label}</span></span>
-      </div>
-      <div class="contributor-detail">${c.detail}</div>`;
+      let html = '<div class="why-grid">';
+
+      // Hero card - Why X? (full width)
+      html += `<div class="why-card why-hero why-card-span why-delay-1">
+    <div class="why-hero-title">What Your Baseline Score Means To You</div>
+    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
+    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
+    <div class="why-hero-tags">
+      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
+      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
+    </div>
+  </div>`;
+
+      // Left column: Areas to Improve / Negative Impact Markers
+      html += '<div class="why-card why-delay-2">';
+      html += '<div class="why-list-title limiting">Areas to Improve</div>';
+      html += '<div class="why-list-subtitle">Negative Impact Markers</div>';
+      for (const c of neg) {
+        html += `<div class="why-marker-line negative">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
       }
       html += '</div>';
 
-      // Positive
-      html += '<div class="contributor-section">';
-      html += '<div class="contributor-label positive">▲ Supporting score</div>';
-      for (const c of BASELINE.contributors.positive) {
-        const tier = getPositiveTier(c.contribution);
-        html += `
-      <div class="contributor-item">
-        <span class="contributor-name">${c.name}</span>
-        <div class="contributor-bar-track">
-          <div class="contributor-bar-fill positive" style="width:0" data-width="${c.contribution * 3}%"></div>
-        </div>
-        <span class="contributor-pct positive">${c.contribution}%<span class="contributor-tier" style="color:${tier.color}">${tier.label}</span></span>
-      </div>
-      <div class="contributor-detail">${c.detail}</div>`;
+      // Right column: What's Working Well / Positive Impact Markers
+      html += '<div class="why-card why-delay-3">';
+      html += '<div class="why-list-title helping">What\'s Working Well</div>';
+      html += '<div class="why-list-subtitle">Positive Impact Markers</div>';
+      for (const c of pos) {
+        html += `<div class="why-marker-line positive">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
       }
+      html += '</div>';
+
+
+
+
+
       html += '</div>';
 
       container.innerHTML = html;
 
-      // Animate bars
+      // Animate breakdown bars with delay
       requestAnimationFrame(() => {
         setTimeout(() => {
-          container.querySelectorAll('.contributor-bar-fill').forEach(bar => {
-            bar.style.width = bar.dataset.width;
+          container.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width || '0';
           });
-        }, 200);
+        }, 600);
       });
     }
 
@@ -1984,41 +1520,7 @@
     }
 
     function renderDebug() {
-      const drawer = document.getElementById('debugDrawer');
-      const selected = [...state.selectedActions];
-      const actions = INTERVENTIONS.filter(a => state.selectedActions.has(a.id));
-      const bms = getImpactedBiomarkers(state.selectedActions);
-      const delta = Math.round((state.estimatedScore - BASELINE.score) * 10) / 10;
-
-      let html = '<div class="debug-section">';
-      html += `<span class="debug-key">baseline_score:</span> <span class="debug-val">${BASELINE.score}</span><br>`;
-      html += `<span class="debug-key">estimated_score:</span> <span class="debug-val">${state.estimatedScore}</span><br>`;
-      html += `<span class="debug-key">delta:</span> <span class="debug-val">+${delta}</span><br>`;
-      html += `<span class="debug-key">band:</span> <span class="debug-val">${getBand(state.estimatedScore).label}</span>`;
-      html += '</div>';
-
-      html += '<div class="debug-section">';
-      html += `<span class="debug-key">selected_actions:</span> <span class="debug-bracket">[</span><br>`;
-      for (const id of selected) {
-        const a = INTERVENTIONS.find(i => i.id === id);
-        html += `  <span class="debug-val">"${id}"</span> <span class="debug-bracket">(base: ${a.baseImpact})</span><br>`;
-      }
-      html += '<span class="debug-bracket">]</span>';
-      html += '</div>';
-
-      html += '<div class="debug-section">';
-      html += `<span class="debug-key">impacted_biomarkers:</span> <span class="debug-bracket">[</span><br>`;
-      for (const bm of bms) {
-        html += `  <span class="debug-val">"${bm.name}"</span>: <span class="debug-bracket">+${bm.improvement}% (via ${bm.sources.join(', ')})</span><br>`;
-      }
-      html += '<span class="debug-bracket">]</span>';
-      html += '</div>';
-
-      html += `<span class="debug-key">max_cap:</span> <span class="debug-val">${MAX_DELTA}</span><br>`;
-      html += `<span class="debug-key">diminishing_factor:</span> <span class="debug-val">${DIMINISHING_FACTOR}</span><br>`;
-      html += `<span class="debug-key">confidence:</span> <span class="debug-val">${selected.length > 0 ? getConfidenceLevel(selected.length).label : 'N/A'}</span>`;
-
-      drawer.innerHTML = html;
+      // Debug drawer removed
     }
 
     /* ═══════════════════════════════════════════
@@ -2050,39 +1552,8 @@
       showToast('All actions reset');
     }
 
-    function switchTab(index) {
-      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
-      });
-      document.querySelectorAll('.tab-content').forEach((content, i) => {
-        content.classList.toggle('active', i === index);
-      });
-      if (index === 1) {
-        renderTargetTab();
-      }
-      // Scroll to tabs
-      document.getElementById('mode-switch-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function applyPlan() {
-      const recommended = state.recommendedPlan;
-      if (recommended.length === 0) return;
-
-      // Save recommended plan IDs to localStorage for improve.html to pick up
-      localStorage.setItem('dh_plan', JSON.stringify(recommended.map(a => a.id)));
-
-      // Navigate to improve page
-      window.location.href = 'improve.html';
-    }
-
     function scrollToEl(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function toggleDebug() {
-      const drawer = document.getElementById('debugDrawer');
-      drawer.classList.toggle('open');
-      renderDebug();
     }
 
     function showToast(msg) {
@@ -2092,19 +1563,22 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* ═══════════════════════════════════════════
-       TARGET SLIDER
-       ═══════════════════════════════════════════ */
-
-    const slider = document.getElementById('targetSlider');
-    slider.min = 0;
-    slider.max = 100;
-    slider.value = BASELINE.score;
-
-    slider.addEventListener('input', function () {
-      state.targetScore = Math.round(parseFloat(this.value) * 10) / 10;
-      renderTargetTab();
-    });
+    function switchTab(tabName) {
+      if (tabName === 'intervention') {
+        window.location.href = 'improve.html';
+        return;
+      }
+      if (tabName === 'score') {
+        window.location.href = 'target.html';
+        return;
+      }
+      // Home: update active tab button
+      document.querySelectorAll('.mobile-nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById('score-card').style.display = 'block';
+    }
 
     /* ═══════════════════════════════════════════
        INIT
@@ -2113,15 +1587,6 @@
     function init() {
       renderMainScore();
       renderContributors();
-      renderInterventionChips();
-      renderEstimatedScore();
-      renderBiomarkers();
-      renderConfidence();
-      renderTargetTab();
-      renderDebug();
-
-      // Set slider current label
-      document.getElementById('sliderCurrentLabel').textContent = BASELINE.score.toFixed(1);
     }
 
     // Run on DOM ready
