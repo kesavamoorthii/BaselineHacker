@@ -61,40 +61,39 @@ body {
 }
 
 /* ─── Header ─── */
-.app-header {
+.header {
   background: var(--bg-black);
-  padding: 14px 20px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   position: sticky;
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border-subtle);
 }
-.back-btn {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
+.header-back {
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
-  padding: 6px 13px;
-  display: flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 8px 16px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
   cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 500;
+  color: var(--off-white);
+  font-size: 14px;
+  font-weight: 600;
   font-family: var(--font-sans);
   text-decoration: none;
   flex-shrink: 0;
 }
-.back-btn:hover { background: var(--bg-card); color: var(--text-primary); }
+.header-back:hover { background: rgba(255,255,255,.12); }
 .header-title {
-  color: var(--text-primary);
+  color: white;
   font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+  margin-right: 60px;
 }
 
 /* ─── Page Content ─── */
@@ -112,9 +111,8 @@ body {
 .target-card { padding: 24px 20px; }
 .target-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 .target-side {
   display: flex;
@@ -126,33 +124,69 @@ body {
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--text-muted);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .target-side-score {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 900;
   color: var(--text-secondary);
   line-height: 1;
 }
-.target-side.right { align-items: flex-end; }
+.target-band {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-top: 6px;
+}
+.target-side.right {
+  align-items: flex-end;
+}
 .target-side.right .target-side-score {
   color: var(--off-white);
 }
-.target-arrow {
-  font-size: 20px;
-  color: var(--text-muted);
-  padding: 0 4px;
-  align-self: center;
-  margin-top: 10px;
+.target-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+}
+.target-arrow-line {
+  width: 60%;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--text-muted) 0%, var(--green) 100%);
+  position: relative;
+}
+.target-arrow-line::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: -3px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--green);
 }
 .target-delta {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--green);
-  margin-top: 2px;
+  background: rgba(34,197,94,.1);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
 }
-.target-delta.zero { color: var(--text-muted); }
-.target-delta.negative { color: #FCA5A5; }
+.target-delta.zero {
+  color: var(--text-muted);
+  background: rgba(255,255,255,.05);
+}
+.target-delta.negative {
+  color: #FCA5A5;
+  background: rgba(252,165,165,.1);
+}
 
 /* Slider */
 .slider-wrap { position: relative; padding: 4px 0; margin-bottom: 20px; }
@@ -315,6 +349,8 @@ input[type=range]::-webkit-slider-thumb:hover {
   font-size: 17px;
   font-weight: 700;
   flex: 1;
+  text-align: center;
+  margin-right: 80px;
 }
 .detail-body {
   max-width: 640px;
@@ -677,10 +713,10 @@ input[type=range]::-webkit-slider-thumb:hover {
   background: rgba(28, 28, 30, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px 24px 0 0;
+  border-radius: 18px 18px 0 0;
   z-index: 100;
-  padding: 12px 0 24px;
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 8px 0 10px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
   box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: none;
@@ -691,8 +727,8 @@ input[type=range]::-webkit-slider-thumb:hover {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
-  height: 4px;
+  width: 28px;
+  height: 3px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
 }
@@ -700,9 +736,9 @@ input[type=range]::-webkit-slider-thumb:hover {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 56px;
+  height: 46px;
   width: 100%;
-  padding: 0 8px;
+  padding: 0 6px;
 }
 .mobile-nav-tab {
   flex: 1;
@@ -710,8 +746,8 @@ input[type=range]::-webkit-slider-thumb:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 10px 16px;
+  gap: 3px;
+  padding: 6px 10px;
   border: none;
   background: none;
   color: rgba(255, 255, 255, 0.5);
@@ -721,7 +757,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 16px;
+  border-radius: 12px;
   position: relative;
 }
 .mobile-nav-tab:hover { color: rgba(255, 255, 255, 0.8); }
@@ -729,9 +765,9 @@ input[type=range]::-webkit-slider-thumb:hover {
 .mobile-nav-tab.active::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -2px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
+  border-radius: 14px;
   z-index: -1;
 }
 .mobile-nav-tab.active .mobile-nav-icon {
@@ -743,8 +779,8 @@ input[type=range]::-webkit-slider-thumb:hover {
   100% { transform: scale(1); }
 }
 .mobile-nav-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -760,8 +796,8 @@ input[type=range]::-webkit-slider-thumb:hover {
 <div class="app-shell">
 
   <!-- Header -->
-  <header class="app-header">
-    <a href="index.html" class="back-btn" title="Back">← Back</a>
+  <header class="header">
+    <a href="index.html" class="header-back" title="Back">← Back</a>
     <div class="header-title">Set Your Goal</div>
   </header>
 
@@ -774,12 +810,16 @@ input[type=range]::-webkit-slider-thumb:hover {
         <div class="target-side">
           <div class="target-side-label">Your Score</div>
           <div class="target-side-score" id="currentScoreLabel">63.7</div>
+          <div class="target-band" id="currentBandLabel">Stable</div>
         </div>
-        <div class="target-arrow">→</div>
+        <div class="target-center">
+          <div class="target-delta" id="targetDelta">+7.3 pts</div>
+          <div class="target-arrow-line"></div>
+        </div>
         <div class="target-side right">
           <div class="target-side-label">Target</div>
           <div class="target-side-score" id="targetScoreDisplay">71</div>
-          <div class="target-delta" id="targetDelta">+7.3 pts</div>
+          <div class="target-band" id="targetBandLabel">Healthy</div>
         </div>
       </div>
 
@@ -1232,14 +1272,6 @@ function getBand(score) {
   return BANDS[BANDS.length - 1];
 }
 
-function getInferenceColor(score) {
-  if (score > 85) return '#8DE28D';   // Elite
-  if (score > 75) return '#71F0FF';   // Robust
-  if (score > 65) return '#F4C764';   // Stable
-  if (score > 50) return '#FB923C';   // Constrained
-  return '#F87171';                   // Compromised
-}
-
 function getImpactForUser(action) {
   const w = action.relevance[state.userId] || 0;
   return Math.round(action.baseImpact * w * 10) / 10;
@@ -1265,16 +1297,18 @@ function getActionsForGoal() {
     .map(a => ({ ...a, effectiveImpact: getImpactForUser(a) }))
     .filter(a => a.effectiveImpact > 0.3);
 
-  // Priority boost — selected categories get 1.5x sort weight
+  // Priority boost — selected categories get 1.5x SORT weight (display value unchanged)
   if (state.priorities.size > 0) {
     actions = actions.map(a => {
       const group = mapCategoryToGroup(a.category);
       const boost = state.priorities.has(group) ? 1.5 : 1.0;
-      return { ...a, effectiveImpact: a.effectiveImpact * boost };
+      return { ...a, sortWeight: a.effectiveImpact * boost };
     });
+  } else {
+    actions = actions.map(a => ({ ...a, sortWeight: a.effectiveImpact }));
   }
 
-  return actions.sort((a, b) => b.effectiveImpact - a.effectiveImpact);
+  return actions.sort((a, b) => b.sortWeight - a.sortWeight);
 }
 
 /* ════════════════════════════════════════════
@@ -1337,18 +1371,24 @@ function render() {
   state.targetScore = target;
   const gap = target - user.score;
 
-  // Current score
+  // Current score + band
   document.getElementById('currentScoreLabel').textContent = user.score;
+  const currentBand = getBand(user.score);
+  const currentBandEl = document.getElementById('currentBandLabel');
+  currentBandEl.textContent = currentBand.label;
+  currentBandEl.style.color = currentBand.color;
 
   // Slider min = current score (no going backwards)
   const slider = document.getElementById('targetSlider');
   slider.min = minScore;
   slider.value = target;
 
-  // Target display
-  const targetScoreEl = document.getElementById('targetScoreDisplay');
-  targetScoreEl.textContent = target;
-  targetScoreEl.style.color = getInferenceColor(target);
+  // Target display + band
+  document.getElementById('targetScoreDisplay').textContent = target;
+  const targetBand = getBand(target);
+  const targetBandEl = document.getElementById('targetBandLabel');
+  targetBandEl.textContent = targetBand.label;
+  targetBandEl.style.color = targetBand.color;
 
   const deltaEl = document.getElementById('targetDelta');
   if (gap > 0) {
@@ -1394,9 +1434,10 @@ function renderActions() {
     if (simScore >= target) break;
     const proj = calcProjectedScore(new Set([...simSet, a.id]));
     if (proj > simScore) {
+      const marginalPts = Math.round((proj - simScore) * 10) / 10;
       simSet.add(a.id);
       simScore = proj;
-      neededActions.push(a);
+      neededActions.push({ ...a, marginalImpact: marginalPts });
     }
   }
 
@@ -1419,7 +1460,7 @@ function renderActions() {
           <div class="action-name">${action.label}</div>
           <div class="action-desc">Improves ${bioNames}</div>
           <div class="action-meta">
-            <div class="action-pts">+${action.effectiveImpact.toFixed(1)} pts</div>
+            <div class="action-pts">+${action.marginalImpact.toFixed(1)} pts</div>
             <div class="action-timeline">${action.timeframe}</div>
           </div>
         </div>

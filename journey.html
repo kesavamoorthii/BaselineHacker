@@ -157,7 +157,7 @@
     }
     .phase-row {
       display: flex;
-      min-height: 170px;
+      min-height: 150px;
     }
     .phase-row.left .phase-card { margin-left: auto; }
     .phase-row.right .phase-card { margin-right: auto; }
@@ -166,13 +166,13 @@
       background: var(--card);
       border: 1px solid #e5e7eb;
       border-radius: var(--radius-md);
-      padding: 12px 10px;
+      padding: 10px 9px;
       box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
       transform: translateY(12px);
       opacity: 0;
       animation: reveal 420ms ease forwards;
-      min-height: 156px;
-      width: min(252px, 62vw);
+      min-height: 138px;
+      width: min(220px, 54vw);
     }
     .phase-head {
       display: flex;
@@ -194,10 +194,10 @@
       font-weight: 700;
     }
     .phase-title {
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 700;
       color: #111827;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       line-height: 1.2;
     }
     .phase-type {
@@ -215,10 +215,10 @@
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
-      padding: 8px;
-      font-size: 11px;
+      padding: 7px;
+      font-size: 10px;
       color: #4b5563;
-      min-height: 72px;
+      min-height: 60px;
       line-height: 1.45;
     }
     .phase-note strong {
@@ -269,7 +269,7 @@
             <stop offset="100%" stop-color="var(--track-e)" />
           </linearGradient>
         </defs>
-        <path class="journey-path" d="M210 48 C340 96, 340 176, 210 228 C80 280, 80 360, 210 412 C340 464, 340 544, 210 596 C80 648, 80 728, 210 780 C340 832, 340 912, 210 948" />
+        <path class="journey-path" id="journeyPath" d="M210 48 C340 96, 340 176, 210 228 C80 280, 80 360, 210 412 C340 464, 340 544, 210 596 C80 648, 80 728, 210 780 C340 832, 340 912, 210 948" />
       </svg>
       <div class="phase-list" id="phaseList"></div>
     </div>
@@ -330,6 +330,27 @@
           </div>
         </div>
       `; }).join('');
+
+      // Stretch the timeline curve to the full scroll content height.
+      const wrap = document.querySelector('.timeline-wrap');
+      const svg = document.querySelector('.path-svg');
+      const path = document.getElementById('journeyPath');
+      const contentHeight = Math.max(wrap.clientHeight, list.scrollHeight + 120);
+      const waves = Math.max(actions.length + 1, 5);
+      const startY = 42;
+      const step = (contentHeight - startY - 24) / waves;
+      let y = startY;
+      let d = `M210 ${startY.toFixed(1)}`;
+      for (let i = 0; i < waves; i++) {
+        const dirX = i % 2 === 0 ? 342 : 78;
+        const c1y = y + step * 0.35;
+        const c2y = y + step * 0.85;
+        y += step;
+        d += ` C${dirX} ${c1y.toFixed(1)}, ${dirX} ${c2y.toFixed(1)}, 210 ${y.toFixed(1)}`;
+      }
+      svg.style.height = contentHeight + 'px';
+      svg.setAttribute('viewBox', `0 0 420 ${Math.round(contentHeight)}`);
+      path.setAttribute('d', d);
     }
 
     if (document.readyState === 'loading') {

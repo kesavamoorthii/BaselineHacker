@@ -78,7 +78,7 @@
       max-width: none !important;
       width: 100% !important;
       margin: 0 !important;
-      padding: 0 24px 32px;
+      padding: 24px 24px 32px;
       box-sizing: border-box;
     }
 
@@ -86,14 +86,17 @@
 
     /* ─── Section Card ─── */
     .card {
-      background: var(--bg-card);
+      background: linear-gradient(135deg, rgba(12, 12, 12, 0.8) 0%, rgba(18, 18, 18, 0.6) 100%);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      margin-top: 16px;
+      margin-top: 0;
       overflow: hidden;
       width: 100%;
       max-width: none;
       position: relative;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
     .card::before {
@@ -125,110 +128,145 @@
 
     /* ─── Score Ring ─── */
     .score-card-top {
-      background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.2) 0%, transparent 60%);
-      padding: 28px 20px 20px;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(202, 15, 136, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(73, 0, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.3) 0%, rgba(202, 15, 136, 0.2) 30%, transparent 70%);
+      padding: 40px 20px 32px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-
-
-    .score-ring-wrapper {
-      position: relative;
-      width: 180px;
-      height: 180px;
-      margin: 0 auto 12px;
-      z-index: 2;
+    .score-card-top::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="none"><defs><linearGradient id="bioGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(113,240,255,0.08);stop-opacity:1" /><stop offset="100%" style="stop-color:rgba(202,15,136,0.04);stop-opacity:1" /></linearGradient></defs><g opacity="0.6"><circle cx="350" cy="30" r="25" fill="none" stroke="rgba(113,240,255,0.15)" stroke-width="1.5"/><circle cx="350" cy="30" r="35" fill="none" stroke="rgba(113,240,255,0.08)" stroke-width="1"/><circle cx="380" cy="60" r="20" fill="none" stroke="rgba(202,15,136,0.12)" stroke-width="1.5"/><circle cx="360" cy="80" r="15" fill="none" stroke="rgba(113,240,255,0.1)" stroke-width="1"/><line x1="350" y1="30" x2="380" y2="60" stroke="rgba(113,240,255,0.1)" stroke-width="1"/><line x1="380" y1="60" x2="360" y2="80" stroke="rgba(202,15,136,0.08)" stroke-width="1"/><line x1="350" y1="30" x2="360" y2="80" stroke="rgba(113,240,255,0.08)" stroke-width="0.8"/><circle cx="350" cy="30" r="3" fill="rgba(113,240,255,0.3)"/><circle cx="380" cy="60" r="2.5" fill="rgba(202,15,136,0.25)"/><circle cx="360" cy="80" r="2" fill="rgba(113,240,255,0.2)"/><path d="M 320 20 Q 330 40 340 60 Q 350 80 360 100" fill="none" stroke="rgba(113,240,255,0.12)" stroke-width="1.5" stroke-dasharray="3,2"/><path d="M 340 10 Q 350 35 360 60 Q 370 85 380 110" fill="none" stroke="rgba(202,15,136,0.1)" stroke-width="1" stroke-dasharray="2,2"/><circle cx="320" cy="20" r="2" fill="rgba(113,240,255,0.25)"/><circle cx="340" cy="60" r="1.5" fill="rgba(202,15,136,0.2)"/><circle cx="360" cy="100" r="2" fill="rgba(113,240,255,0.15)"/><text x="310" y="45" font-size="11" fill="rgba(113,240,255,0.15)" font-family="monospace" font-weight="bold">92.5</text><text x="370" y="35" font-size="10" fill="rgba(202,15,136,0.12)" font-family="monospace">78</text><text x="355" y="110" font-size="9" fill="rgba(113,240,255,0.12)" font-family="monospace">64.3</text><text x="330" y="75" font-size="10" fill="rgba(202,15,136,0.1)" font-family="monospace">88</text><text x="385" y="90" font-size="9" fill="rgba(113,240,255,0.11)" font-family="monospace">71.2</text></g></svg>'),
+        radial-gradient(circle at 50% 0%, rgba(92, 5, 165, 0.3) 0%, rgba(202, 15, 136, 0.2) 30%, transparent 70%);
+      background-size: 100% 100%, 100% 100%;
+      background-position: right top, 0 0;
+      background-repeat: no-repeat, no-repeat;
+      animation: scoreGlow 4s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .score-ring-wrapper svg {
+    .score-card-top::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 150px;
+      background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" preserveAspectRatio="xMaxYMax slice"><defs><linearGradient id="bioGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(202,15,136,0.06);stop-opacity:1" /><stop offset="100%" style="stop-color:rgba(113,240,255,0.08);stop-opacity:1" /></linearGradient></defs><g opacity="0.5"><circle cx="150" cy="120" r="30" fill="none" stroke="rgba(202,15,136,0.12)" stroke-width="1.5"/><circle cx="150" cy="120" r="45" fill="none" stroke="rgba(113,240,255,0.08)" stroke-width="1"/><circle cx="180" cy="100" r="22" fill="none" stroke="rgba(113,240,255,0.1)" stroke-width="1.5"/><circle cx="130" cy="90" r="18" fill="none" stroke="rgba(202,15,136,0.1)" stroke-width="1"/><line x1="150" y1="120" x2="180" y2="100" stroke="rgba(202,15,136,0.09)" stroke-width="1"/><line x1="180" y1="100" x2="130" y2="90" stroke="rgba(113,240,255,0.08)" stroke-width="1"/><line x1="150" y1="120" x2="130" y2="90" stroke="rgba(202,15,136,0.07)" stroke-width="0.8"/><circle cx="150" cy="120" r="3" fill="rgba(202,15,136,0.25)"/><circle cx="180" cy="100" r="2.5" fill="rgba(113,240,255,0.2)"/><circle cx="130" cy="90" r="2" fill="rgba(202,15,136,0.2)"/><path d="M 160 140 Q 170 120 180 100 Q 190 80 200 60" fill="none" stroke="rgba(202,15,136,0.1)" stroke-width="1.5" stroke-dasharray="3,2"/><path d="M 140 150 Q 155 125 170 100 Q 185 75 200 50" fill="none" stroke="rgba(113,240,255,0.08)" stroke-width="1" stroke-dasharray="2,2"/><text x="140" y="75" font-size="10" fill="rgba(202,15,136,0.13)" font-family="monospace" font-weight="bold">85.6</text><text x="165" y="115" font-size="9" fill="rgba(113,240,255,0.12)" font-family="monospace">69</text><text x="125" y="110" font-size="10" fill="rgba(202,15,136,0.11)" font-family="monospace">73.4</text><text x="175" y="75" font-size="9" fill="rgba(113,240,255,0.1)" font-family="monospace">91</text><text x="145" y="135" font-size="9" fill="rgba(202,15,136,0.1)" font-family="monospace">58.2</text></g></svg>');
+      background-size: 100% 100%;
+      background-position: right bottom;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      opacity: 0.7;
+      animation: bioFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes bioFloat {
+      0%, 100% { opacity: 0.7; transform: translateY(0px); }
+      50% { opacity: 0.9; transform: translateY(-8px); }
+    }
+
+    @keyframes scoreGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .score-radial-wrapper {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 0 auto 20px;
+    }
+
+    .score-dots-container {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      transform: rotate(-90deg);
     }
 
-    .score-ring-bg {
-      fill: none;
-      stroke: var(--border-default);
-      stroke-width: 10;
-    }
-
-    .score-ring-fill {
-      fill: none;
-      stroke-width: 10;
-      stroke-linecap: round;
-      stroke-dasharray: 439.82;
-      stroke-dashoffset: 439.82;
-      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .score-center {
+    .score-center-circle {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      text-align: center;
+      width: 130px;
+      height: 130px;
+      background: var(--bg-black);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(202, 15, 136, 0.1);
+      animation: centerPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes centerPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(202, 15, 136, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(202, 15, 136, 0.2), inset 0 0 30px rgba(202, 15, 136, 0.15); }
     }
 
     .score-number {
-      font-size: 42px;
+      font-size: 56px;
       font-weight: 600;
-      letter-spacing: -1.5px;
+      letter-spacing: -2px;
       line-height: 1;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--off-white);
     }
 
     .score-of {
       font-size: 13px;
       color: var(--text-muted);
       font-weight: 500;
+      margin-top: 6px;
     }
 
-    .score-band-badge {
-      display: inline-block;
-      padding: 5px 16px;
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 2;
+    .score-icon-badge {
+      display: none;
     }
 
     .band-compromised {
-      background: rgba(239, 68, 68, 0.2);
+      background: transparent;
       color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: none;
     }
 
     .band-struggling {
-      background: rgba(249, 115, 22, 0.2);
+      background: transparent;
       color: #FB923C;
-      border: 1px solid rgba(249, 115, 22, 0.3);
+      border: none;
     }
 
     .band-stable {
-      background: rgba(251, 191, 36, 0.2);
+      background: transparent;
       color: #FBBF24;
-      border: 1px solid rgba(251, 191, 36, 0.3);
+      border: none;
     }
 
     .band-healthy {
-      background: rgba(113, 240, 255, 0.15);
+      background: transparent;
       color: var(--neon-mint);
-      border: 1px solid rgba(113, 240, 255, 0.3);
+      border: none;
     }
 
     .band-elite {
-      background: rgba(92, 5, 165, 0.3);
+      background: transparent;
       color: #A78BFA;
-      border: 1px solid rgba(92, 5, 165, 0.5);
+      border: none;
     }
 
     .last-updated {
@@ -242,7 +280,19 @@
     .why-score {
       padding: 24px;
       --why-stagger: 80ms;
-      background: linear-gradient(135deg, rgba(92, 5, 165, 0.08) 0%, rgba(73, 0, 255, 0.04) 100%);
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.1) 0%, rgba(73, 0, 255, 0.05) 100%);
+      position: relative;
+    }
+
+    .why-score::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.05) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .why-score h3 {
@@ -265,7 +315,7 @@
 
     @media (min-width: 768px) {
       .why-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
       }
 
@@ -274,9 +324,30 @@
       }
     }
 
+    @media (min-width: 1024px) {
+      .why-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .why-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .why-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
     /* Animated cards */
     .why-card {
-      background: var(--bg-elevated);
+      background: linear-gradient(135deg, rgba(12, 12, 12, 0.8) 0%, rgba(18, 18, 18, 0.6) 100%);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
@@ -286,6 +357,128 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(202, 15, 136, 0.05) 0%, rgba(73, 0, 255, 0.02) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    @media (max-width: 767px) {
+      .why-card {
+        padding: 16px 16px;
+        animation: whyCardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+    }
+
+    .why-card.collapsible {
+      cursor: pointer;
+    }
+
+    .why-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .why-card-title-section {
+      flex: 1;
+    }
+
+    .why-card-toggle-icon {
+      font-size: 20px;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: none;
+      color: var(--neon-mint);
+      animation: togglePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes togglePulse {
+      0%, 100% { opacity: 0.7; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-2px); }
+    }
+
+    .why-card.collapsed .why-card-toggle-icon {
+      transform: rotate(-90deg);
+      animation: none;
+    }
+
+    .why-card-content {
+      max-height: 1000px;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, margin-top 0.4s ease;
+      opacity: 1;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .why-card.collapsed .why-card-content {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+    }
+
+    /* Mobile-only expandable behavior */
+    @media (max-width: 767px) {
+      .why-card-toggle-icon {
+        display: block;
+      }
+
+      .why-card.collapsible {
+        cursor: pointer;
+      }
+
+      .why-card.collapsed .why-card-content {
+        max-height: 0;
+        opacity: 0;
+        margin-top: 0;
+      }
+
+      .why-card.collapsed .why-card-toggle-icon {
+        transform: rotate(-90deg);
+      }
+    }
+
+    /* Desktop: always expanded, no collapse */
+    @media (min-width: 768px) {
+      .why-card.collapsible {
+        cursor: default;
+      }
+
+      .why-card.collapsible.collapsed {
+        cursor: default;
+      }
+
+      .why-card.collapsible.collapsed .why-card-content {
+        max-height: 1000px;
+        opacity: 1;
+        margin-top: 12px;
+      }
+
+      .why-card-toggle-icon {
+        display: none;
+      }
     }
 
     .why-card::after {
@@ -295,9 +488,9 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(202, 15, 136, 0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(202, 15, 136, 0.5), transparent);
       opacity: 0;
-      animation: shimmer 2s ease-in-out infinite;
+      animation: shimmer 2.5s ease-in-out infinite;
       animation-delay: 0.5s;
     }
 
@@ -307,9 +500,9 @@
     }
 
     .why-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 0 1px rgba(202, 15, 136, 0.1);
-      border-color: rgba(202, 15, 136, 0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(202, 15, 136, 0.15);
+      border-color: rgba(202, 15, 136, 0.35);
     }
 
     .why-card.why-delay-1 {
@@ -324,16 +517,18 @@
       animation-delay: 0.4s;
     }
 
-    .why-card.why-delay-4 {
-      animation-delay: 0.55s;
-    }
+    @media (max-width: 767px) {
+      .why-card.why-delay-1 {
+        animation-delay: 0.1s;
+      }
 
-    .why-card.why-delay-5 {
-      animation-delay: 0.7s;
-    }
+      .why-card.why-delay-2 {
+        animation-delay: 0.35s;
+      }
 
-    .why-card.why-delay-6 {
-      animation-delay: 0.85s;
+      .why-card.why-delay-3 {
+        animation-delay: 0.6s;
+      }
     }
 
     @keyframes whyCardIn {
@@ -349,12 +544,27 @@
       }
     }
 
+    @media (max-width: 767px) {
+      @keyframes whyCardIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
     /* Hero card - Why X? */
     .why-hero {
-      background: linear-gradient(135deg, rgba(92, 5, 165, 0.2) 0%, rgba(73, 0, 255, 0.1) 100%);
-      border: 1.5px solid rgba(202, 15, 136, 0.3);
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.25) 0%, rgba(73, 0, 255, 0.15) 100%);
+      border: 1.5px solid rgba(202, 15, 136, 0.4);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .why-hero::before {
@@ -365,23 +575,12 @@
       right: 0;
       height: 3px;
       background: var(--gradient-main);
-      box-shadow: 0 0 20px rgba(202, 15, 136, 0.4);
-    }
-
-    .why-hero::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(202, 15, 136, 0.05) 0%, transparent 70%);
-      animation: heroGlow 8s ease-in-out infinite;
+      animation: heroGlow 3s ease-in-out infinite;
     }
 
     @keyframes heroGlow {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, 20px); }
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
     .why-hero-title {
@@ -436,7 +635,7 @@
     }
 
     .why-hero-tags .tag-help {
-      color: #8DE28D;
+      color: var(--neon-mint);
       font-weight: 600;
     }
 
@@ -450,12 +649,20 @@
       letter-spacing: 0.5px;
     }
 
+    @media (max-width: 767px) {
+      .why-list-title {
+        font-size: 12px;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+      }
+    }
+
     .why-list-title.limiting {
-      color: #E4E4E7;
+      color: #F87171;
     }
 
     .why-list-title.helping {
-      color: #E4E4E7;
+      color: var(--neon-mint);
     }
 
     .why-list-subtitle {
@@ -466,6 +673,14 @@
       color: var(--text-muted);
       margin-top: 2px;
       margin-bottom: 10px;
+    }
+
+    @media (max-width: 767px) {
+      .why-list-subtitle {
+        font-size: 9px;
+        margin-bottom: 8px;
+        letter-spacing: 0.4px;
+      }
     }
 
     .why-notes-eg {
@@ -531,7 +746,698 @@
     }
 
     .why-marker-line.positive .marker-status {
-      color: #8DE28D;
+      color: var(--neon-mint);
+    }
+
+    /* Enhanced Biomarker Details */
+    .biomarker-detail-item {
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.12) 0%, rgba(73, 0, 255, 0.06) 100%);
+      border: 1px solid rgba(202, 15, 136, 0.2);
+      border-radius: var(--radius-md);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .biomarker-detail-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .biomarker-detail-item:hover::before {
+      left: 100%;
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-detail-item {
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        gap: 10px;
+      }
+    }
+
+    .biomarker-detail-item:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+
+    .biomarker-detail-item:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    .biomarker-detail-item:nth-child(4) {
+      animation-delay: 0.15s;
+    }
+
+    .biomarker-detail-item:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .biomarker-detail-item:hover {
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.18) 0%, rgba(73, 0, 255, 0.1) 100%);
+      border-color: rgba(202, 15, 136, 0.4);
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(202, 15, 136, 0.15);
+    }
+
+    .biomarker-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .biomarker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .biomarker-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-name {
+        font-size: 12px;
+      }
+    }
+
+    .biomarker-status {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-status {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+    }
+
+    .biomarker-status.negative {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+    }
+
+    .biomarker-status.positive {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22C55E;
+    }
+
+    .biomarker-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .biomarker-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-value {
+        font-size: 14px;
+      }
+    }
+
+    .biomarker-unit {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-unit {
+        font-size: 10px;
+      }
+    }
+
+    .biomarker-impact {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 120px;
+    }
+
+    .impact-bar {
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .impact-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shimmerBar 2s infinite;
+    }
+
+    @keyframes shimmerBar {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .impact-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .impact-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    @media (max-width: 767px) {
+      .impact-text {
+        font-size: 9px;
+      }
+    }
+
+    /* External Influencers Section */
+    .external-influencers-item {
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, rgba(73, 0, 255, 0.12) 0%, rgba(113, 240, 255, 0.06) 100%);
+      border: 1px solid rgba(113, 240, 255, 0.2);
+      border-radius: var(--radius-md);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .external-influencers-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(113, 240, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    @media (max-width: 767px) {
+      .external-influencers-item {
+        padding: 12px 12px;
+        margin-bottom: 8px;
+        gap: 10px;
+      }
+    }
+
+    .external-influencers-item:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+
+    .external-influencers-item:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    .external-influencers-item:nth-child(4) {
+      animation-delay: 0.15s;
+    }
+
+    .external-influencers-item:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .external-influencers-item:hover {
+      background: linear-gradient(135deg, rgba(73, 0, 255, 0.18) 0%, rgba(113, 240, 255, 0.1) 100%);
+      border-color: rgba(113, 240, 255, 0.4);
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(113, 240, 255, 0.15);
+    }
+
+    .external-influencers-item:hover::before {
+      left: 100%;
+    }
+
+    .external-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 767px) {
+      .external-icon {
+        font-size: 18px;
+      }
+    }
+
+    .external-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .external-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .external-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 767px) {
+      .external-name {
+        font-size: 12px;
+      }
+    }
+
+    .external-type {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 767px) {
+      .external-type {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+    }
+
+    .external-impact {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 767px) {
+      .external-impact {
+        font-size: 11px;
+        line-height: 1.3;
+      }
+    }
+
+    .external-biomarkers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .biomarker-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      background: rgba(113, 240, 255, 0.1);
+      border: 1px solid rgba(113, 240, 255, 0.2);
+      border-radius: var(--radius-full);
+      color: var(--neon-mint);
+      font-weight: 500;
+    }
+
+    @media (max-width: 767px) {
+      .biomarker-tag {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+    }
+
+    .external-type.medication {
+      background: rgba(239, 68, 68, 0.15);
+      color: #F87171;
+    }
+
+    .external-type.supplement {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22C55E;
+    }
+
+    /* Analytics Section */
+    .analytics-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+      padding: 0 24px;
+    }
+
+    .analytics-card {
+      background: linear-gradient(135deg, rgba(12, 12, 12, 0.8) 0%, rgba(18, 18, 18, 0.6) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: whyCardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .analytics-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(202, 15, 136, 0.05) 0%, rgba(73, 0, 255, 0.02) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .analytics-card:hover::before {
+      opacity: 1;
+    }
+
+    .analytics-card:hover {
+      border-color: rgba(202, 15, 136, 0.3);
+      box-shadow: 0 8px 24px rgba(202, 15, 136, 0.1);
+      transform: translateY(-4px);
+    }
+
+    #heroCardContainer {
+      padding: 24px 24px 32px;
+      margin-top: 16px;
+    }
+
+    .analytics-header {
+      margin-bottom: 16px;
+    }
+
+    .analytics-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    /* Score Range */
+    .score-range-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .range-bar {
+      display: flex;
+      height: 12px;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      gap: 2px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .range-segment {
+      flex: 1;
+      border-radius: var(--radius-full);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .range-segment::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmerSegment 2s infinite;
+    }
+
+    @keyframes shimmerSegment {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .range-segment:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .range-segment.compromised {
+      background: #F87171;
+    }
+
+    .range-segment.struggling {
+      background: #FB923C;
+    }
+
+    .range-segment.stable {
+      background: #FBBF24;
+    }
+
+    .range-segment.healthy {
+      background: #71F0FF;
+    }
+
+    .range-segment.elite {
+      background: #A78BFA;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .range-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .legend-item:hover {
+      background: rgba(202, 15, 136, 0.1);
+      transform: translateX(2px);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .legend-dot.compromised {
+      background: #F87171;
+    }
+
+    .legend-dot.struggling {
+      background: #FB923C;
+    }
+
+    .legend-dot.stable {
+      background: #FBBF24;
+    }
+
+    .legend-dot.healthy {
+      background: #71F0FF;
+    }
+
+    .legend-dot.elite {
+      background: #A78BFA;
+    }
+
+    /* Baseline Trend */
+    .trend-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .trend-svg {
+      width: 100%;
+      height: auto;
+      min-height: 140px;
+    }
+
+    .trend-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin: 4px 0 0 0;
+    }
+
+    .trend-svg {
+      width: 100%;
+      height: auto;
+      min-height: 160px;
+      margin-bottom: 12px;
+    }
+
+    .trend-point {
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 4px rgba(113, 240, 255, 0.3));
+    }
+
+    .trend-point:hover {
+      r: 7;
+      opacity: 1;
+      filter: drop-shadow(0 0 12px rgba(113, 240, 255, 0.8));
+    }
+
+    .trend-point.current {
+      animation: pulseCurrent 2s ease-in-out infinite;
+    }
+
+    .trend-point.latest {
+      animation: pulseLatest 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseCurrent {
+      0%, 100% { r: 5; opacity: 0.8; filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4)); }
+      50% { r: 7; opacity: 1; filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.8)); }
+    }
+
+    @keyframes pulseLatest {
+      0%, 100% { r: 6; opacity: 1; filter: drop-shadow(0 0 8px rgba(202, 15, 136, 0.6)); }
+      50% { r: 8; opacity: 0.9; filter: drop-shadow(0 0 16px rgba(202, 15, 136, 1)); }
+    }
+
+    .trend-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.12) 0%, rgba(73, 0, 255, 0.06) 100%);
+      border: 1px solid rgba(202, 15, 136, 0.15);
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .trend-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s ease;
+    }
+
+    .trend-stat:hover {
+      background: rgba(202, 15, 136, 0.1);
+      transform: scale(1.05);
+    }
+
+    .trend-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .trend-value {
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .trend-value.negative {
+      background: linear-gradient(135deg, #F87171, #EF4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .trend-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      .analytics-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .trend-info {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     .why-priority-order {
@@ -841,10 +1747,10 @@
       background: rgba(28, 28, 30, 0.98);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-radius: 24px 24px 0 0;
+      border-radius: 18px 18px 0 0;
       z-index: 100;
-      padding: 12px 0 24px;
-      padding-bottom: max(24px, env(safe-area-inset-bottom));
+      padding: 8px 0 10px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
       box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-bottom: none;
@@ -856,8 +1762,8 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 36px;
-      height: 4px;
+      width: 28px;
+      height: 3px;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 2px;
     }
@@ -866,9 +1772,9 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      height: 56px;
+      height: 46px;
       width: 100%;
-      padding: 0 8px;
+      padding: 0 6px;
     }
 
     .mobile-nav-tab {
@@ -877,34 +1783,34 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 10px 16px;
+      gap: 3px;
+      padding: 6px 10px;
       cursor: pointer;
       border: none;
       background: none;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 11px;
       font-weight: 500;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: var(--font-sans);
-      border-radius: 16px;
+      border-radius: 12px;
       position: relative;
     }
 
     .mobile-nav-tab:hover {
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .mobile-nav-tab.active {
-      color: #E4E4E7;
+      color: rgba(255, 255, 255, 1);
     }
 
     .mobile-nav-tab.active::before {
       content: '';
       position: absolute;
-      inset: -4px;
+      inset: -2px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
+      border-radius: 14px;
       z-index: -1;
     }
 
@@ -919,8 +1825,8 @@
     }
 
     .mobile-nav-icon {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -946,34 +1852,19 @@
       }
 
       .app-container {
-        padding: 0 16px 80px;
+        padding: 16px 16px 80px;
       }
 
       .card {
-        margin-top: 12px;
-      }
-    }
-      .app-container {
-        max-width: none !important;
-        width: 100% !important;
-        padding: 0 32px 40px;
+        margin-top: 0;
       }
 
-      .score-ring-wrapper {
-        width: 200px;
-        height: 200px;
+      .analytics-section {
+        padding: 0 16px;
       }
 
-      .score-number {
-        font-size: 48px;
-      }
-
-      .interventions-grid {
-        gap: 10px;
-      }
-
-      .tab-btn {
-        font-size: 12.5px;
+      #heroCardContainer {
+        padding: 0 16px;
       }
     }
 
@@ -1005,21 +1896,12 @@
     <!-- ════════ SECTION A: Core Score Card ════════ -->
     <div class="card animate-in" id="score-card">
       <div class="score-card-top">
-        <div class="score-ring-wrapper">
-          <svg viewBox="0 0 160 160">
-            <defs>
-              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#CA0F88" />
-                <stop offset="50%" stop-color="#5C05A5" />
-                <stop offset="100%" stop-color="#4900FF" />
-              </linearGradient>
-            </defs>
-            <circle class="score-ring-bg" cx="80" cy="80" r="70" />
-            <circle class="score-ring-fill" cx="80" cy="80" r="70" stroke="url(#scoreGrad)" id="scoreRing" />
-          </svg>
-          <div class="score-center">
+        <div class="score-radial-wrapper">
+          <canvas id="scoreDotsCanvas" class="score-dots-container" width="260" height="260"></canvas>
+          <div class="score-center-circle">
             <div class="score-number" id="mainScoreNum">0</div>
-            <div class="score-of">/ 100</div>
+            <div class="score-of">out of 100</div>
+            <div class="score-icon-badge">✦</div>
           </div>
         </div>
         <div id="mainBandBadge" class="score-band-badge band-stable">Stable</div>
@@ -1030,6 +1912,135 @@
       <div class="why-score" id="whySection">
         <div id="contributorsContainer"></div>
       </div>
+
+      <!-- Score Analytics Section -->
+      <div class="analytics-section">
+        <!-- Score Range Card -->
+        <div class="analytics-card why-delay-1">
+          <div class="analytics-header">
+            <h3 class="analytics-title">Score Range</h3>
+          </div>
+          <div class="score-range-container">
+            <div class="range-bar">
+              <div class="range-segment compromised" style="width: 39%;"></div>
+              <div class="range-segment struggling" style="width: 15%;"></div>
+              <div class="range-segment stable" style="width: 15%;"></div>
+              <div class="range-segment healthy" style="width: 15%;"></div>
+              <div class="range-segment elite" style="width: 16%;"></div>
+            </div>
+            <div class="range-labels">
+              <span>50</span>
+              <span>65</span>
+              <span>75</span>
+              <span>85</span>
+            </div>
+            <div class="range-legend">
+              <div class="legend-item"><span class="legend-dot compromised"></span>Compromised</div>
+              <div class="legend-item"><span class="legend-dot struggling"></span>Constrained</div>
+              <div class="legend-item"><span class="legend-dot stable"></span>Stable</div>
+              <div class="legend-item"><span class="legend-dot healthy"></span>Robust</div>
+              <div class="legend-item"><span class="legend-dot elite"></span>Elite</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Baseline Trend Card -->
+        <div class="analytics-card why-delay-2">
+          <div class="analytics-header">
+            <h3 class="analytics-title">Baseline Trend</h3>
+            <p class="trend-subtitle">Your score progression over time</p>
+          </div>
+          <div class="trend-chart">
+            <svg viewBox="0 0 420 180" class="trend-svg" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="trendGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(202, 15, 136, 0.4)" />
+                  <stop offset="50%" stop-color="rgba(113, 240, 255, 0.2)" />
+                  <stop offset="100%" stop-color="rgba(113, 240, 255, 0.02)" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              <!-- Background grid -->
+              <g opacity="0.3">
+                <line x1="0" y1="30" x2="420" y2="30" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="60" x2="420" y2="60" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="90" x2="420" y2="90" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="120" x2="420" y2="120" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="150" x2="420" y2="150" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+              </g>
+
+              <!-- Y-axis labels -->
+              <text x="410" y="35" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">100</text>
+              <text x="410" y="95" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">75</text>
+              <text x="410" y="155" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">50</text>
+
+              <!-- Smooth curve area fill -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50 L 400,160 Q 350,165 300,165 T 200,165 T 100,165 L 20,160 Z" 
+                    fill="url(#trendGrad)" opacity="0.6"/>
+
+              <!-- Smooth curve line with glow -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50" 
+                    fill="none" stroke="rgba(202, 15, 136, 0.3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+              
+              <!-- Main line -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50" 
+                    fill="none" stroke="url(#trendGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Data points with animation -->
+              <g id="dataPoints">
+                <circle cx="20" cy="110" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="70" cy="85" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="120" cy="75" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="170" cy="65" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="220" cy="55" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="270" cy="50" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="320" cy="45" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="360" cy="48" r="5" fill="#FBBF24" opacity="0.9" class="trend-point current"/>
+                <circle cx="400" cy="50" r="6" fill="#CA0F88" opacity="1" class="trend-point latest" filter="url(#glow)"/>
+              </g>
+
+              <!-- Score labels on points -->
+              <text x="20" y="100" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">70</text>
+              <text x="120" y="65" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">67</text>
+              <text x="220" y="45" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">67</text>
+              <text x="320" y="35" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">68</text>
+              <text x="400" y="40" font-size="10" fill="#CA0F88" text-anchor="middle" font-weight="600">65</text>
+            </svg>
+            
+            <div class="trend-info">
+              <div class="trend-stat">
+                <span class="trend-label">Current</span>
+                <span class="trend-value">65</span>
+              </div>
+              <div class="trend-stat">
+                <span class="trend-label">Peak</span>
+                <span class="trend-value">70</span>
+              </div>
+              <div class="trend-stat">
+                <span class="trend-label">Change</span>
+                <span class="trend-value negative">-5</span>
+              </div>
+            </div>
+
+            <div class="trend-labels">
+              <span>Dec 25</span>
+              <span>Jan 15</span>
+              <span>Feb 05</span>
+              <span>Feb 26</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Card - What Your Baseline Score Means To You -->
+      <div id="heroCardContainer"></div>
 
     </div>
 
@@ -1078,6 +2089,11 @@
           { id: 'B5', metric: 'Lpa', value: '4.8', unit: 'mg/DL', status: 'Optimal', contribution: 10 },
           { id: 'A4', metric: 'Blood Glucose', value: '92', unit: 'mg/DL', status: 'Optimal', contribution: 8 },
           { id: 'B4', metric: 'Blood Pressure', value: '118/72', unit: 'mmHg', status: 'Optimal', contribution: 6 }
+        ],
+        external: [
+          { id: 'M1', name: 'Metformin', type: 'Medication', affectedBiomarkers: ['Blood Glucose', 'Triglycerides'], impact: 'Controls blood glucose levels', icon: '💊' },
+          { id: 'S1', name: 'Vitamin D3 Supplement', type: 'Supplement', affectedBiomarkers: ['Vitamin D'], impact: 'Supports vitamin D levels', icon: '🧴' },
+          { id: 'M2', name: 'Lisinopril', type: 'Medication', affectedBiomarkers: ['Blood Pressure'], impact: 'Manages blood pressure', icon: '💊' }
         ],
         priorityOrder: ['A1', 'A2', 'B1', 'B2', 'A5', 'B5', 'C1', 'C2', 'C3'],
         reversePriorityOrder: ['A5', 'A4', 'B5', 'B4', 'C5', 'C4']
@@ -1196,14 +2212,6 @@
       return BAND_THRESHOLDS[BAND_THRESHOLDS.length - 1];
     }
 
-    function getInferenceColor(score) {
-      if (score > 85) return '#8DE28D';   // Elite
-      if (score > 75) return '#71F0FF';   // Robust
-      if (score > 65) return '#F4C764';   // Stable
-      if (score > 50) return '#FB923C';   // Constrained
-      return '#F87171';                   // Compromised
-    }
-
     function calculateNewScore(selectedIds) {
       if (selectedIds.size === 0) return BASELINE.score;
 
@@ -1288,19 +2296,6 @@
        RENDERING
        ═══════════════════════════════════════════ */
 
-    // Score ring
-    const CIRCUMFERENCE = 2 * Math.PI * 70; // ≈ 439.82
-
-    function renderScoreRing(score, animate) {
-      const ring = document.getElementById('scoreRing');
-      const offset = CIRCUMFERENCE * (1 - score / 100);
-      if (animate) {
-        ring.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-      }
-      ring.style.strokeDasharray = CIRCUMFERENCE;
-      ring.style.strokeDashoffset = offset;
-    }
-
     function animateNumber(el, from, to, duration = 800) {
       const start = performance.now();
       const diff = to - from;
@@ -1315,13 +2310,104 @@
       requestAnimationFrame(tick);
     }
 
+    function renderScoreDots(score, animate) {
+      const canvas = document.getElementById('scoreDotsCanvas');
+      const ctx = canvas.getContext('2d');
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const innerRadius = 75;
+      const outerRadius = 125;
+      
+      const rings = 8;
+      const dotsPerRing = [24, 28, 32, 36, 40, 44, 48, 52];
+      const filledPercent = score / 100;
+      let animationTime = 0;
+      
+      function drawDots(progress, time) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let ring = 0; ring < rings; ring++) {
+          const radius = innerRadius + (outerRadius - innerRadius) * (ring / (rings - 1));
+          const numDots = dotsPerRing[ring];
+          const dotSize = 3 - (ring * 0.2);
+          const baseOpacity = 0.15 + (0.15 * (1 - ring / rings));
+          
+          for (let i = 0; i < numDots; i++) {
+            const angle = (i / numDots) * Math.PI * 2 - Math.PI / 2;
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius;
+            const dotProgress = i / numDots;
+            const isFilled = dotProgress <= filledPercent * progress;
+            
+            // Animation: pulse and glow effect
+            const pulseTime = (time * 0.003 + i * 0.05) % (Math.PI * 2);
+            const pulseScale = 1 + Math.sin(pulseTime) * 0.3;
+            const animatedDotSize = dotSize * pulseScale;
+            
+            if (isFilled) {
+              const glowOpacity = 0.3 + Math.sin(pulseTime) * 0.2;
+              
+              // Glow effect
+              const glowGradient = ctx.createRadialGradient(x, y, 0, x, y, animatedDotSize * 3);
+              glowGradient.addColorStop(0, `rgba(202, 15, 136, ${glowOpacity})`);
+              glowGradient.addColorStop(1, `rgba(202, 15, 136, 0)`);
+              ctx.fillStyle = glowGradient;
+              ctx.beginPath();
+              ctx.arc(x, y, animatedDotSize * 3, 0, Math.PI * 2);
+              ctx.fill();
+              
+              // Main dot with gradient
+              const gradient = ctx.createRadialGradient(x, y, 0, x, y, animatedDotSize + 2);
+              gradient.addColorStop(0, `rgba(202, 15, 136, ${0.9 - ring * 0.08})`);
+              gradient.addColorStop(0.5, `rgba(92, 5, 165, ${0.7 - ring * 0.06})`);
+              gradient.addColorStop(1, `rgba(73, 0, 255, ${0.5 - ring * 0.04})`);
+              ctx.fillStyle = gradient;
+            } else {
+              ctx.fillStyle = `rgba(241, 243, 246, ${baseOpacity})`;
+            }
+            
+            ctx.beginPath();
+            ctx.arc(x, y, animatedDotSize, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      
+      if (animate) {
+        let startTime = null;
+        const duration = 1200;
+        
+        function animateDots(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          
+          animationTime = timestamp;
+          drawDots(eased, animationTime);
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateDots);
+          } else {
+            // Continue animation loop after initial animation
+            function continuousAnimation(timestamp) {
+              drawDots(1, timestamp);
+              requestAnimationFrame(continuousAnimation);
+            }
+            requestAnimationFrame(continuousAnimation);
+          }
+        }
+        requestAnimationFrame(animateDots);
+      } else {
+        drawDots(1, 0);
+      }
+    }
+
     function renderMainScore() {
       const score = BASELINE.score;
       const band = getBand(score);
       const numEl = document.getElementById('mainScoreNum');
       animateNumber(numEl, 0, score, 1200);
-      numEl.style.color = getInferenceColor(score);
-      renderScoreRing(score, true);
+      renderScoreDots(score, true);
 
       const badge = document.getElementById('mainBandBadge');
       badge.textContent = band.label;
@@ -1348,53 +2434,140 @@
       const nextTier = getNextTier(score);
       const neg = BASELINE.contributors.negative;
       const pos = BASELINE.contributors.positive;
+      const ext = BASELINE.contributors.external;
       const totalPotential = neg.reduce((s, c) => s + (c.potentialPoints || 0), 0);
       const topLimiter = neg[0];
       const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
       const limNames = neg.map(c => c.metric).join(' · ');
       const helpNames = pos.map(c => c.metric).join(' · ');
-      const bodyText = isCapped
-        ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
-        : `${topLimiter.metric} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
 
       let html = '<div class="why-grid">';
 
-      // Hero card - Why X? (full width)
-      html += `<div class="why-card why-hero why-card-span why-delay-1">
-    <div class="why-hero-title">What Your Baseline Score Means To You</div>
-    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
-    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
-    <div class="why-hero-tags">
-      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
-      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
-    </div>
-  </div>`;
-
-      // Left column: Areas to Improve / Negative Impact Markers
-      html += '<div class="why-card why-delay-2">';
-      html += '<div class="why-list-title limiting">Areas to Improve</div>';
-      html += '<div class="why-list-subtitle">Negative Impact Markers</div>';
-      for (const c of neg) {
-        html += `<div class="why-marker-line negative">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
-      }
+      // Right column: What's Working Well (FIRST) - EXPANDABLE
+      html += '<div class="why-card why-delay-1 collapsible collapsed" data-card="positive">';
+      html += '<div class="why-card-header">';
+      html += '<div class="why-card-title-section">';
+      html += '<div class="why-list-title helping">✨ What\'s Working Well</div>';
+      html += '<div class="why-list-subtitle">Positive Biomarkers Supporting Your Health</div>';
       html += '</div>';
-
-      // Right column: What's Working Well / Positive Impact Markers
-      html += '<div class="why-card why-delay-3">';
-      html += '<div class="why-list-title helping">What\'s Working Well</div>';
-      html += '<div class="why-list-subtitle">Positive Impact Markers</div>';
+      html += '<div class="why-card-toggle-icon">▼</div>';
+      html += '</div>';
+      html += '<div class="why-card-content">';
       for (const c of pos) {
-        html += `<div class="why-marker-line positive">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
+        const impactBar = Math.round((c.contribution / 15) * 100);
+        html += `<div class="biomarker-detail-item">
+          <div class="biomarker-left">
+            <div class="biomarker-header">
+              <span class="biomarker-name">${c.metric}</span>
+              <span class="biomarker-status positive">${c.status}</span>
+            </div>
+            <div class="biomarker-value-row">
+              <span class="biomarker-value">${c.value}</span>
+              <span class="biomarker-unit">${c.unit}</span>
+            </div>
+          </div>
+          <div class="biomarker-impact">
+            <div class="impact-bar">
+              <div class="impact-fill" style="width: ${impactBar}%; background: linear-gradient(90deg, #22C55E, #16A34A);"></div>
+            </div>
+            <div class="impact-text">+${c.contribution}pts · maintain</div>
+          </div>
+        </div>`;
       }
       html += '</div>';
+      html += '</div>';
 
+      // Left column: Areas Needing Attention (SECOND) - EXPANDABLE
+      html += '<div class="why-card why-delay-2 collapsible collapsed" data-card="negative">';
+      html += '<div class="why-card-header">';
+      html += '<div class="why-card-title-section">';
+      html += '<div class="why-list-title limiting">⚠️ Areas Needing Attention</div>';
+      html += '<div class="why-list-subtitle">Key Biomarkers Impacting Your Score</div>';
+      html += '</div>';
+      html += '<div class="why-card-toggle-icon">▼</div>';
+      html += '</div>';
+      html += '<div class="why-card-content">';
+      for (const c of neg) {
+        const impactBar = Math.round((c.contribution / 20) * 100);
+        html += `<div class="biomarker-detail-item">
+          <div class="biomarker-left">
+            <div class="biomarker-header">
+              <span class="biomarker-name">${c.metric}</span>
+              <span class="biomarker-status negative">${c.status}</span>
+            </div>
+            <div class="biomarker-value-row">
+              <span class="biomarker-value">${c.value}</span>
+              <span class="biomarker-unit">${c.unit}</span>
+            </div>
+          </div>
+          <div class="biomarker-impact">
+            <div class="impact-bar">
+              <div class="impact-fill" style="width: ${impactBar}%; background: linear-gradient(90deg, #F87171, #EF4444);"></div>
+            </div>
+            <div class="impact-text">-${c.contribution}pts · +${c.potentialPoints} gain</div>
+          </div>
+        </div>`;
+      }
+      html += '</div>';
+      html += '</div>';
 
-
-
+      // Third column: External Influencers (THIRD) - EXPANDABLE
+      html += '<div class="why-card why-delay-3 collapsible collapsed" data-card="external">';
+      html += '<div class="why-card-header">';
+      html += '<div class="why-card-title-section">';
+      html += '<div class="why-list-title" style="color: #71F0FF;">🔬 External Influencers</div>';
+      html += '<div class="why-list-subtitle">Medications & Supplements Affecting Your Markers</div>';
+      html += '</div>';
+      html += '<div class="why-card-toggle-icon">▼</div>';
+      html += '</div>';
+      html += '<div class="why-card-content">';
+      for (const e of ext) {
+        const typeClass = e.type.toLowerCase();
+        html += `<div class="external-influencers-item">
+          <div class="external-icon">${e.icon}</div>
+          <div class="external-content">
+            <div class="external-header">
+              <span class="external-name">${e.name}</span>
+              <span class="external-type ${typeClass}">${e.type}</span>
+            </div>
+            <div class="external-impact">${e.impact}</div>
+            <div class="external-biomarkers">
+              ${e.affectedBiomarkers.map(bm => `<span class="biomarker-tag">${bm}</span>`).join('')}
+            </div>
+          </div>
+        </div>`;
+      }
+      html += '</div>';
+      html += '</div>';
 
       html += '</div>';
 
       container.innerHTML = html;
+
+      // Add click handlers for expandable cards (mobile only)
+      container.querySelectorAll('.why-card.collapsible').forEach(card => {
+        card.addEventListener('click', function(e) {
+          // Only enable collapse/expand on mobile (≤767px)
+          if (window.innerWidth <= 767) {
+            if (e.target.closest('.why-card-header')) {
+              const isCollapsed = this.classList.contains('collapsed');
+              
+              // Collapse all cards first
+              container.querySelectorAll('.why-card.collapsible').forEach(c => {
+                c.classList.add('collapsed');
+              });
+              
+              // If this card was collapsed, expand it
+              if (isCollapsed) {
+                this.classList.remove('collapsed');
+              }
+            }
+          }
+        });
+      });
+
+      // Render hero card separately
+      renderHeroCard(score, neg, totalPotential, limNames, helpNames);
 
       // Animate breakdown bars with delay
       requestAnimationFrame(() => {
@@ -1404,6 +2577,20 @@
           });
         }, 600);
       });
+    }
+
+    function renderHeroCard(score, neg, totalPotential, limNames, helpNames) {
+      const heroContainer = document.getElementById('heroCardContainer');
+      let html = `<div class="why-card why-hero why-card-span why-delay-3">
+    <div class="why-hero-title">What Your Baseline Score Means To You</div>
+    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
+    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
+    <div class="why-hero-tags">
+      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
+      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
+    </div>
+  </div>`;
+      heroContainer.innerHTML = html;
     }
 
     function renderInterventionChips() {
