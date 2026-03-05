@@ -61,39 +61,40 @@ body {
 }
 
 /* ─── Header ─── */
-.header {
-  background: var(--gradient-main);
-  padding: 16px 20px;
+.app-header {
+  background: var(--bg-black);
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border-subtle);
 }
-.header-back {
-  background: rgba(255,255,255,.18);
-  border: none;
+.back-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  padding: 8px 16px;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 6px 13px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
   cursor: pointer;
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
   font-family: var(--font-sans);
   text-decoration: none;
   flex-shrink: 0;
 }
-.header-back:hover { background: rgba(255,255,255,.28); }
+.back-btn:hover { background: var(--bg-card); color: var(--text-primary); }
 .header-title {
-  color: white;
+  color: var(--text-primary);
   font-size: 18px;
-  font-weight: 700;
-  flex: 1;
-  text-align: center;
-  margin-right: 60px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* ─── Page Content ─── */
@@ -112,38 +113,43 @@ body {
 .target-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 4px;
 }
-.target-label {
-  font-size: 12px;
+.target-side {
+  display: flex;
+  flex-direction: column;
+}
+.target-side-label {
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  color: #E4E4E7;
+  color: var(--text-muted);
+  margin-bottom: 2px;
 }
-.target-score-big {
-  font-size: 48px;
+.target-side-score {
+  font-size: 36px;
   font-weight: 900;
-  color: var(--off-white);
+  color: var(--text-secondary);
   line-height: 1;
 }
-.target-subtitle {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
+.target-side.right { align-items: flex-end; }
+.target-side.right .target-side-score {
+  color: var(--off-white);
 }
-.target-current {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-top: 4px;
+.target-arrow {
+  font-size: 20px;
+  color: var(--text-muted);
+  padding: 0 4px;
+  align-self: center;
+  margin-top: 10px;
 }
 .target-delta {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--green);
-  margin-bottom: 20px;
+  margin-top: 2px;
 }
 .target-delta.zero { color: var(--text-muted); }
 .target-delta.negative { color: #FCA5A5; }
@@ -189,7 +195,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  color: #E4E4E7;
+  color: var(--text-muted);
 }
 .actions-list {
   display: flex;
@@ -282,7 +288,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   transform: translateX(0);
 }
 .detail-header {
-  background: var(--gradient-main);
+  background: var(--bg-black);
   padding: 16px 20px;
   display: flex;
   align-items: center;
@@ -293,12 +299,12 @@ input[type=range]::-webkit-slider-thumb:hover {
   border-bottom: 1px solid var(--border-subtle);
 }
 .detail-back {
-  background: rgba(255,255,255,.18);
-  border: none;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   padding: 8px 16px;
   cursor: pointer;
-  color: white;
+  color: var(--off-white);
   font-size: 14px;
   font-weight: 600;
   font-family: var(--font-sans);
@@ -416,7 +422,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   display: flex;
   align-items: center;
   background: var(--bg-card);
-  border: 1px solid rgba(113,240,255,.28);
+  border: 1px solid rgba(113,240,255,.18);
   border-radius: var(--radius-md);
   padding: 14px 16px;
   gap: 12px;
@@ -638,7 +644,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   .app-shell { max-width: 720px; }
   .page { padding: 24px; }
   .target-card { padding: 32px 28px; }
-  .target-score-big { font-size: 56px; }
+  .target-side-score { font-size: 42px; }
   .actions-list { gap: 12px; }
   .action-card { padding: 20px; }
   .action-name { font-size: 16px; }
@@ -754,8 +760,8 @@ input[type=range]::-webkit-slider-thumb:hover {
 <div class="app-shell">
 
   <!-- Header -->
-  <header class="header">
-    <a href="index.html" class="header-back" title="Back">← Back</a>
+  <header class="app-header">
+    <a href="index.html" class="back-btn" title="Back">← Back</a>
     <div class="header-title">Set Your Goal</div>
   </header>
 
@@ -765,12 +771,14 @@ input[type=range]::-webkit-slider-thumb:hover {
     <!-- SET TARGET Card -->
     <div class="card target-card animate-in">
       <div class="target-header">
-        <div>
-          <div class="target-label">Set Target</div>
-          <div class="target-current" id="currentScoreLabel">Current: 63.7</div>
+        <div class="target-side">
+          <div class="target-side-label">Your Score</div>
+          <div class="target-side-score" id="currentScoreLabel">63.7</div>
         </div>
-        <div style="text-align:right">
-          <div class="target-score-big" id="targetScoreDisplay">71</div>
+        <div class="target-arrow">→</div>
+        <div class="target-side right">
+          <div class="target-side-label">Target</div>
+          <div class="target-side-score" id="targetScoreDisplay">71</div>
           <div class="target-delta" id="targetDelta">+7.3 pts</div>
         </div>
       </div>
@@ -1182,7 +1190,7 @@ const ACTION_CATALOGUE = [
   {
     id: 'eliminate_processed',
     label: 'Eliminate Processed Foods',
-    icon: '🚫🍟',
+    icon: '🥦',
     category: 'Diet',
     baseImpact: 3.2,
     difficulty: 'hard',
@@ -1222,6 +1230,14 @@ function getUser() { return USERS[state.userId]; }
 function getBand(score) {
   for (const b of BANDS) if (score <= b.max) return b;
   return BANDS[BANDS.length - 1];
+}
+
+function getInferenceColor(score) {
+  if (score > 85) return '#8DE28D';   // Elite
+  if (score > 75) return '#71F0FF';   // Robust
+  if (score > 65) return '#F4C764';   // Stable
+  if (score > 50) return '#FB923C';   // Constrained
+  return '#F87171';                   // Compromised
 }
 
 function getImpactForUser(action) {
@@ -1322,7 +1338,7 @@ function render() {
   const gap = target - user.score;
 
   // Current score
-  document.getElementById('currentScoreLabel').textContent = `Current: ${user.score}`;
+  document.getElementById('currentScoreLabel').textContent = user.score;
 
   // Slider min = current score (no going backwards)
   const slider = document.getElementById('targetSlider');
@@ -1330,7 +1346,9 @@ function render() {
   slider.value = target;
 
   // Target display
-  document.getElementById('targetScoreDisplay').textContent = target;
+  const targetScoreEl = document.getElementById('targetScoreDisplay');
+  targetScoreEl.textContent = target;
+  targetScoreEl.style.color = getInferenceColor(target);
 
   const deltaEl = document.getElementById('targetDelta');
   if (gap > 0) {
