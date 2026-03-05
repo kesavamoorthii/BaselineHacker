@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(gh auth status)",
+      "Bash(ngrok version)",
+      "Bash(brew install gh)",
+      "Bash(brew install ngrok)",
+      "Bash(npm install -g netlify-cli)",
+      "Bash(npm install -g vercel)",
+      "Bash(ngrok config check)",
+      "Bash(netlify status)",
+      "Bash(vercel whoami)",
+      "Bash(gh auth login --web -p https)",
+      "Bash(git init)",
+      "Bash(git add index.html)",
+      "Bash(git commit:*)",
+      "Bash(gh repo create BaselineHacker --public --source=. --push --description \"Baseline Score – mobile-first health dashboard prototype\")",
+      "Bash(gh api repos/rethinavelsmitch/BaselineHacker/pages -X POST -f build_type=workflow -f source='{\"\"branch\"\":\"\"main\"\",\"\"path\"\":\"\"/\"\"}')",
+      "Bash(gh api repos/rethinavelsmitch/BaselineHacker/pages -X POST -f source='{\"\"branch\"\":\"\"main\"\",\"\"path\"\":\"\"/\"\"}')",
+      "Bash(gh api repos/rethinavelsmitch/BaselineHacker/pages -X POST --input - 2)",
+      "Bash(1:*)",
+      "Bash(gh api repos/rethinavelsmitch/BaselineHacker/pages)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f''Status: {d.get\\(\"\"status\"\",\"\"building\"\"\\)}\\\\nURL: {d[\"\"html_url\"\"]}''\\)\")"
+    ]
+  }
+}
