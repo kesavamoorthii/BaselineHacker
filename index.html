@@ -241,70 +241,248 @@ body {
   gap: 6px;
 }
 
-.contributor-section { margin-bottom: 16px; }
+/* Score summary card */
+.score-summary-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
 
-.contributor-label {
-  font-size: 11px;
+.score-summary-line {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.score-summary-line .score-val { font-weight: 600; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.score-summary-line .band-val { color: var(--text-secondary); margin-left: 4px; }
+
+.score-summary-bullets {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.score-summary-bullets li { margin-bottom: 4px; }
+
+/* Limiters & helpers lists */
+.why-list-section { margin-bottom: 18px; }
+
+.why-list-title {
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
 }
 
-.contributor-label.negative { color: #F87171; }
-.contributor-label.positive { color: var(--neon-mint); }
-
-.contributor-item {
+.why-list-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
-}
-
-.contributor-name {
+  padding: 8px 0;
   font-size: 13px;
-  font-weight: 500;
   color: var(--text-primary);
-  min-width: 100px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: help;
+  position: relative;
 }
 
-.contributor-bar-track {
+.why-list-item:last-child { border-bottom: none; }
+
+.why-list-item .severity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.why-list-item .severity-dot.critical { background: #EF4444; }
+.why-list-item .severity-dot.moderate { background: #FBBF24; }
+.why-list-item .severity-dot.positive { background: #22C55E; }
+
+.why-list-item .item-name { font-weight: 500; flex: 1; min-width: 0; }
+.why-list-item .item-detail { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+.why-list-item .info-icon { flex-shrink: 0; opacity: 0.7; }
+
+/* Score breakdown bar chart */
+.score-breakdown-section { margin-bottom: 18px; }
+
+.score-breakdown-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.breakdown-row:last-child { margin-bottom: 0; }
+
+.breakdown-label {
+  font-size: 13px;
+  color: var(--text-primary);
+  min-width: 0;
   flex: 1;
-  height: 6px;
+}
+
+.breakdown-bar-track {
+  flex: 0 0 120px;
+  height: 8px;
   background: var(--bg-elevated);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
 
-.contributor-bar-fill {
+.breakdown-bar-fill {
   height: 100%;
   border-radius: var(--radius-full);
+  background: var(--gradient-main);
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 0;
 }
 
-.contributor-bar-fill.negative { background: linear-gradient(90deg, #CA0F88, #EF4444); }
-.contributor-bar-fill.positive { background: linear-gradient(90deg, #4900FF, var(--neon-mint)); }
-
-.contributor-pct {
+.breakdown-pct {
   font-size: 12px;
-  font-weight: 700;
-  min-width: 32px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 36px;
   text-align: right;
 }
 
-.contributor-pct.negative { color: #F87171; }
-.contributor-pct.positive { color: var(--neon-mint); }
+/* Gap to next level */
+.gap-callout {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
 
-.contributor-detail {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-left: 110px;
-  margin-top: -4px;
+.gap-callout-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 8px;
+}
+
+.gap-callout-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.gap-callout-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--gradient-main);
+  color: var(--off-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.gap-callout-cta:hover { box-shadow: var(--shadow-glow); }
+
+/* One-line explanation */
+.one-line-explanation {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--royal-purple);
+}
+
+/* Quick summary */
+.quick-summary-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.quick-summary-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.quick-summary-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.quick-summary-tags {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.quick-summary-tags .tag-label { font-weight: 600; color: var(--text-secondary); }
+.quick-summary-tags .tag-lim { color: #F87171; }
+.quick-summary-tags .tag-help { color: #22C55E; }
+
+.quick-summary-cta {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--neon-mint);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quick-summary-cta:hover { text-decoration: underline; }
+
+/* Tooltip */
+.why-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  background: var(--bg-black);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  z-index: 50;
+  display: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.why-list-item:hover .why-tooltip,
+.why-list-item:focus-within .why-tooltip { display: block; }
+
+.why-list-item .info-icon {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-left: 4px;
 }
 
 /* ─── CTA Chips ─── */
@@ -1090,23 +1268,22 @@ details summary::-webkit-details-marker { display: none; }
 
 @media (min-width: 1024px) {
   .app-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
     max-width: none !important;
     width: 100% !important;
     padding: 24px 48px 48px;
   }
   .app-container > #score-card {
-    grid-column: 1;
-    align-self: start;
+    width: 100%;
   }
   .app-container > #mode-switch-card {
-    grid-column: 2;
-    align-self: start;
+    width: 100%;
   }
-  .app-container > .explainability-card {
-    grid-column: 1 / -1;
+  /* Full cover when second tab (Set Target) is active */
+  .app-container > #mode-switch-card.tab-target-active {
+    width: 100%;
   }
   .card-body { padding: 20px 28px 28px; }
   .tab-content { padding: 24px 28px; }
@@ -1119,6 +1296,11 @@ details summary::-webkit-details-marker { display: none; }
 .debug-drawer::-webkit-scrollbar-thumb {
   background: var(--border-default);
   border-radius: var(--radius-full);
+}
+
+/* ─── Full cover for second tab ─── */
+#score-card.hidden-when-target {
+  display: none !important;
 }
 
 /* ─── No-selection for interactive elements ─── */
@@ -1240,58 +1422,6 @@ details summary::-webkit-details-marker { display: none; }
     </div>
   </div>
 
-  <!-- ════════ SECTION C: Explainability ════════ -->
-  <div class="explainability-card animate-in">
-    <details>
-      <summary>How this estimate works</summary>
-      <div class="details-content">
-        <p>Your Baseline Score is a composite metric (0–100) derived from blood biomarkers, lifestyle data, and health indicators. Each biomarker is weighted by clinical significance and your personal variance.</p>
-        <p><strong>When you toggle interventions:</strong></p>
-        <ul>
-          <li>Each action maps to specific biomarkers it can improve.</li>
-          <li>Individual impacts are based on published clinical averages.</li>
-          <li>Combined effects use a <strong>diminishing-returns model</strong> — each additional action contributes slightly less than in isolation.</li>
-          <li>A hard cap of <strong>+12.0 points</strong> prevents unrealistic additive inflation.</li>
-          <li>Overlapping biomarker effects are de-duplicated (e.g., sleep + yoga both affect Cortisol).</li>
-        </ul>
-        <p>The confidence level decreases as more actions are combined, reflecting real-world uncertainty in multi-variable predictions.</p>
-      </div>
-    </details>
-
-    <details>
-      <summary>Score band thresholds</summary>
-      <div class="details-content">
-        <ul>
-          <li><strong>0–39</strong> — Compromised</li>
-          <li><strong>40–54</strong> — Struggling</li>
-          <li><strong>55–69</strong> — Stable</li>
-          <li><strong>70–84</strong> — Healthy</li>
-          <li><strong>85–100</strong> — Elite</li>
-        </ul>
-      </div>
-    </details>
-
-    <details>
-      <summary>Data sources & limitations</summary>
-      <div class="details-content">
-        <p>Estimates rely on population-level clinical data. Individual responses may vary based on genetics, adherence, baseline health, and other factors not captured in this model.</p>
-        <p>This is a <strong>directional planning tool</strong>, not a medical prediction. Always consult your physician before making health changes.</p>
-      </div>
-    </details>
-
-    <!-- Missing data warning -->
-    <div class="missing-data-warning" id="missingDataWarning">
-      <span class="warn-icon">⚠️</span>
-      <span><strong>2 biomarkers missing data:</strong> Testosterone and Bone Density have no recent labs. Estimates for Strength Training may be less accurate.</span>
-    </div>
-
-    <!-- Debug Drawer -->
-    <button class="debug-drawer-toggle" id="debugToggle" onclick="toggleDebug()">
-      <span>⚙</span> Debug Drawer
-    </button>
-    <div class="debug-drawer" id="debugDrawer"></div>
-  </div>
-
 </div><!-- /app-container -->
 
 <!-- Toast -->
@@ -1304,20 +1434,27 @@ details summary::-webkit-details-marker { display: none; }
 
 const BASELINE = {
   score: 63.7,
+  uncappedScore: 77,   // When set, score is capped by top limiter
+  cappingFactor: 'Vitamin D',
   lastUpdated: '2026-03-04T14:30:00Z',
   contributors: {
     negative: [
-      { name: 'Vitamin D',      contribution: 18, detail: 'Severely deficient' },
-      { name: 'Sleep Quality',   contribution: 14, detail: 'Poor consistency' },
-      { name: 'HDL Cholesterol', contribution: 11, detail: 'Below optimal' },
-      { name: 'VO2 Max',         contribution: 9,  detail: 'Below average' }
+      { name: 'Vitamin D', plainName: 'Vitamin D', contribution: 18, detail: 'Severely deficient', severity: 'critical', potentialPoints: 8, tooltip: 'Low levels limit how high your score can go. Improving it can add up to 8 points.' },
+      { name: 'Sleep Quality', plainName: 'Sleep quality', contribution: 14, detail: 'Poor consistency', severity: 'critical', potentialPoints: 5, tooltip: 'Poor sleep consistency affects recovery and stress markers. Improving it could add ~5 points.' },
+      { name: 'HDL Cholesterol', plainName: 'HDL cholesterol', contribution: 11, detail: 'Below optimal', severity: 'moderate', potentialPoints: 4, tooltip: 'HDL below optimal range. Diet and exercise can help improve it.' },
+      { name: 'VO2 Max', plainName: 'VO2 max (fitness)', contribution: 9, detail: 'Below average', severity: 'moderate', potentialPoints: 3, tooltip: 'Cardio fitness is below average. Endurance training could add ~3 points.' }
     ],
     positive: [
-      { name: 'Blood Glucose',   contribution: 12, detail: 'Well controlled' },
-      { name: 'Blood Pressure',  contribution: 10, detail: 'Optimal range' },
-      { name: 'BMI',             contribution: 8,  detail: 'Healthy range' }
+      { name: 'Blood Glucose', plainName: 'Blood sugar', contribution: 12, detail: 'Well controlled', tooltip: 'Blood sugar is well controlled. Keep it up.' },
+      { name: 'Blood Pressure', plainName: 'Blood pressure', contribution: 10, detail: 'Optimal range', tooltip: 'Blood pressure is in optimal range.' },
+      { name: 'BMI', plainName: 'Body composition', contribution: 8, detail: 'Healthy range', tooltip: 'BMI is in a healthy range.' }
     ]
-  }
+  },
+  scoreAreas: [
+    { name: 'Core Health (metabolism, fitness)', pct: 72, markers: ['VO2 Max', 'BMI', 'Sleep Quality'] },
+    { name: 'Lipids & inflammation', pct: 58, markers: ['HDL Cholesterol', 'Blood Glucose'] },
+    { name: 'Vitamins & nutrients', pct: 42, markers: ['Vitamin D'] }
+  ]
 };
 
 const INTERVENTIONS = [
@@ -1555,49 +1692,127 @@ function renderMainScore() {
     ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
+function getNextTier(score) {
+  const idx = BAND_THRESHOLDS.findIndex(b => score <= b.max);
+  if (idx >= 0 && idx < BAND_THRESHOLDS.length - 1) {
+    return { ...BAND_THRESHOLDS[idx + 1], targetScore: BAND_THRESHOLDS[idx].max + 1 };
+  }
+  return null;
+}
+
 function renderContributors() {
   const container = document.getElementById('contributorsContainer');
+  const score = BASELINE.score;
+  const band = getBand(score);
+  const nextTier = getNextTier(score);
+  const neg = BASELINE.contributors.negative;
+  const pos = BASELINE.contributors.positive;
+  const totalPotential = neg.reduce((s, c) => s + (c.potentialPoints || 0), 0);
+  const topLimiter = neg[0];
+  const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
+
   let html = '';
 
-  // Negative
-  html += '<div class="contributor-section">';
-  html += '<div class="contributor-label negative">▼ Pulling score down</div>';
-  for (const c of BASELINE.contributors.negative) {
-    html += `
-      <div class="contributor-item">
-        <span class="contributor-name">${c.name}</span>
-        <div class="contributor-bar-track">
-          <div class="contributor-bar-fill negative" style="width:0" data-width="${c.contribution * 3}%"></div>
-        </div>
-        <span class="contributor-pct negative">${c.contribution}%</span>
-      </div>
-      <div class="contributor-detail">${c.detail}</div>`;
+  // 1. Score summary card
+  html += '<div class="score-summary-card">';
+  html += `<div class="score-summary-line">Your score: <span class="score-val">${Math.round(score)}</span> <span class="band-val">(${band.label})</span></div>`;
+  html += '<div class="score-summary-bullets"><ul>';
+  html += `<li>${neg.length} area${neg.length > 1 ? 's' : ''} ${neg.length === 1 ? 'is' : 'are'} limiting your score</li>`;
+  html += `<li>Improving them could add up to ~${Math.round(totalPotential)} points</li>`;
+  html += '</ul></div></div>';
+
+  // 2. What's limiting you
+  html += '<div class="why-list-section">';
+  html += '<div class="why-list-title">What\'s holding your score back</div>';
+  for (const c of neg) {
+    const sev = c.severity || 'moderate';
+    const dot = sev === 'critical' ? 'critical' : 'moderate';
+    const line = c.contribution >= 15 ? `→ Caps score at ${Math.round(score)}` : '→ Below optimal';
+    const tooltip = (c.tooltip || '').replace(/'/g, "\\'");
+    html += `<div class="why-list-item" tabindex="0" title="${c.tooltip || ''}">
+      <span class="severity-dot ${dot}"></span>
+      <span class="item-name">${c.plainName || c.name} (${c.detail.toLowerCase()})</span>
+      <span class="info-icon">ℹ️</span>
+      <span class="item-detail">${line}</span>
+      <div class="why-tooltip">${c.tooltip || ''}</div>
+    </div>`;
   }
   html += '</div>';
 
-  // Positive
-  html += '<div class="contributor-section">';
-  html += '<div class="contributor-label positive">▲ Supporting score</div>';
-  for (const c of BASELINE.contributors.positive) {
-    html += `
-      <div class="contributor-item">
-        <span class="contributor-name">${c.name}</span>
-        <div class="contributor-bar-track">
-          <div class="contributor-bar-fill positive" style="width:0" data-width="${c.contribution * 3}%"></div>
-        </div>
-        <span class="contributor-pct positive">${c.contribution}%</span>
-      </div>
-      <div class="contributor-detail">${c.detail}</div>`;
+  // 3. What's helping you
+  html += '<div class="why-list-section">';
+  html += '<div class="why-list-title">What\'s helping your score</div>';
+  for (const c of pos) {
+    const tooltip = (c.tooltip || '').replace(/"/g, '&quot;');
+    html += `<div class="why-list-item" tabindex="0" title="${c.tooltip || ''}">
+      <span class="severity-dot positive"></span>
+      <span class="item-name">${c.plainName || c.name}</span>
+      <span class="info-icon">ℹ️</span>
+      <span class="item-detail">→ In good range</span>
+      <div class="why-tooltip">${c.tooltip || ''}</div>
+    </div>`;
   }
+  html += '</div>';
+
+  // 4. Simple bar chart - Score breakdown by area
+  html += '<div class="score-breakdown-section">';
+  html += '<div class="score-breakdown-title">Score breakdown by area</div>';
+  for (const area of BASELINE.scoreAreas || []) {
+    html += `<div class="breakdown-row">
+      <span class="breakdown-label">${area.name}</span>
+      <div class="breakdown-bar-track">
+        <div class="breakdown-bar-fill" style="width:0" data-width="${area.pct}%"></div>
+      </div>
+      <span class="breakdown-pct">${area.pct}%</span>
+    </div>`;
+  }
+  html += '</div>';
+
+  // 5 & 9. Gap to next level + Progress toward next tier (combined)
+  if (nextTier) {
+    const nextScore = nextTier.targetScore || (nextTier.max - 4); // e.g. 70 for Healthy
+    const gap = (nextScore - score).toFixed(1);
+    html += '<div class="gap-callout">';
+    html += `<div class="gap-callout-title">To reach ${nextScore} (${nextTier.label})</div>`;
+    html += `<div class="gap-callout-text">Current: ${band.label} (${Math.round(score)}) · Next: ${nextTier.label} (${nextScore})<br>You're ${gap} points away. The biggest opportunity:<br>→ Improve ${topLimiter.plainName || topLimiter.name} (could add ~${topLimiter.potentialPoints || 0} points)</div>`;
+    html += '<button class="gap-callout-cta" onclick="switchTab(1)">Get recommendations →</button>';
+    html += '</div>';
+  }
+
+  // 6. One-line explanation
+  const oneLine = isCapped
+    ? `Your score is ${Math.round(score)} because ${BASELINE.cappingFactor} is limiting it. Improving ${BASELINE.cappingFactor} could raise your score to ~${Math.round(score + (topLimiter.potentialPoints || 0))}.`
+    : `Your score is ${Math.round(score)} because ${topLimiter.plainName || topLimiter.name} is limiting it. Improving ${topLimiter.plainName || topLimiter.name} could raise your score to ~${Math.round(score + (topLimiter.potentialPoints || 0))}.`;
+  html += `<div class="one-line-explanation">${oneLine}</div>`;
+
+  // 7. Before/after when capped
+  if (isCapped) {
+    html += '<div class="score-summary-card">';
+    html += `<div class="score-summary-line">Your score: <span class="score-val">${Math.round(score)}</span></div>`;
+    html += `<div class="score-summary-bullets"><p>Your metrics add up to ${Math.round(BASELINE.uncappedScore)}, but your score is limited to ${Math.round(score)} by ${BASELINE.cappingFactor}. Improve ${BASELINE.cappingFactor} to unlock more.</p></div>`;
+    html += '</div>';
+  }
+
+  // 10. Quick summary layout
+  const limNames = neg.map(c => c.plainName || c.name).join(' · ');
+  const helpNames = pos.map(c => c.plainName || c.name).join(' · ');
+  html += '<div class="quick-summary-card">';
+  html += '<div class="quick-summary-title">Why ' + Math.round(score) + '?</div>';
+  const bodyText = isCapped
+    ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
+    : `${topLimiter.plainName || topLimiter.name} is limiting your score. Your underlying metrics could improve.`;
+  html += `<div class="quick-summary-body">${bodyText}</div>`;
+  html += `<div class="quick-summary-tags"><span class="tag-label">Limiting:</span> <span class="tag-lim">${limNames}</span><br><span class="tag-label">Helping:</span> <span class="tag-help">${helpNames}</span></div>`;
+  html += '<div class="quick-summary-cta" onclick="switchTab(1)">See how to improve →</div>';
   html += '</div>';
 
   container.innerHTML = html;
 
-  // Animate bars
+  // Animate breakdown bars
   requestAnimationFrame(() => {
     setTimeout(() => {
-      container.querySelectorAll('.contributor-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width;
+      container.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width || '0';
       });
     }, 200);
   });
@@ -1772,6 +1987,7 @@ function renderTargetTab() {
 
 function renderDebug() {
   const drawer = document.getElementById('debugDrawer');
+  if (!drawer) return;
   const selected = [...state.selectedActions];
   const actions = INTERVENTIONS.filter(a => state.selectedActions.has(a.id));
   const bms = getImpactedBiomarkers(state.selectedActions);
@@ -1844,11 +2060,18 @@ function switchTab(index) {
   document.querySelectorAll('.tab-content').forEach((content, i) => {
     content.classList.toggle('active', i === index);
   });
+  const modeCard = document.getElementById('mode-switch-card');
+  const scoreCard = document.getElementById('score-card');
   if (index === 1) {
+    modeCard.classList.add('tab-target-active');
+    scoreCard.classList.add('hidden-when-target');
     renderTargetTab();
+  } else {
+    modeCard.classList.remove('tab-target-active');
+    scoreCard.classList.remove('hidden-when-target');
   }
   // Scroll to tabs
-  document.getElementById('mode-switch-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  modeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function applyPlan() {
@@ -1884,6 +2107,7 @@ function scrollToEl(id) {
 
 function toggleDebug() {
   const drawer = document.getElementById('debugDrawer');
+  if (!drawer) return;
   drawer.classList.toggle('open');
   renderDebug();
 }
