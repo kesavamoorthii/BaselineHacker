@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biomarker · Baseline Score</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #040404;
+      --bg-card: #0C0C0C;
+      --bg-elevated: #121212;
+      --gradient-main: linear-gradient(135deg, #CA0F88 0%, #5C05A5 50%, #4900FF 100%);
+      --text-primary: #F1F3F6;
+      --text-secondary: rgba(241, 243, 246, 0.75);
+      --text-muted: rgba(241, 243, 246, 0.5);
+      --border-subtle: rgba(241, 243, 246, 0.08);
+      --radius-md: 12px;
+      --radius-full: 9999px;
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-black); color: var(--text-primary); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    .app-header {
+      background: var(--gradient-main);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 6px 13px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-decoration: none;
+    }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.22); }
+
+    .page { padding: 20px 16px 40px; max-width: 600px; margin: 0 auto; }
+
+    .bio-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .bio-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: rgba(92, 5, 165, 0.2);
+      border: 1px solid rgba(92, 5, 165, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .bio-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .bio-updated { font-size: 12px; color: var(--text-muted); }
+
+    .value-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .value-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 6px; }
+    .value-display { font-size: 28px; font-weight: 700; }
+    .value-unit { font-size: 14px; font-weight: 500; color: var(--text-muted); margin-left: 4px; }
+
+    .range-section { margin-top: 16px; }
+    .range-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 8px; }
+    .range-bar-wrap { position: relative; margin-bottom: 8px; }
+    .range-bar {
+      height: 12px;
+      border-radius: 6px;
+      display: flex;
+      overflow: visible;
+    }
+    .range-segment { flex: 1; min-width: 0; }
+    .range-indicator-dot {
+      position: absolute;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 10px solid #FBBF24;
+      transform: translateX(-50%);
+    }
+    .range-markers { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-bottom: 10px; }
+    .range-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .status-pill {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .status-pill.optimal { background: rgba(34, 197, 94, 0.2); color: #22C55E; }
+    .status-pill.caution { background: rgba(251, 191, 36, 0.2); color: #FBBF24; }
+    .status-pill.high { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+    .status-pill.low { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+
+    .desc-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .desc-icon { font-size: 18px; margin-bottom: 8px; }
+    .desc-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+    .desc-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    .trend-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .trend-title { font-size: 14px; font-weight: 700; }
+    .trend-btn {
+      background: none;
+      border: none;
+      color: #71F0FF;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-sans);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="app-header">
+    <a class="back-btn" href="improve.html">← Back</a>
+  </header>
+
+  <div class="page">
+    <div class="bio-header">
+      <div class="bio-icon" id="bioIcon">💧</div>
+      <div>
+        <h1 class="bio-title" id="bioTitle">Biomarker</h1>
+        <div class="bio-updated" id="bioUpdated">Last Updated: —</div>
+      </div>
+    </div>
+
+    <div class="value-section">
+      <div class="value-label">Current Value</div>
+      <div class="value-display">
+        <span id="currentValue">—</span>
+        <span class="value-unit" id="currentUnit"></span>
+      </div>
+      <div class="range-section">
+        <div class="range-label">Reference Range</div>
+        <div class="range-bar-wrap">
+          <div class="range-bar" id="rangeBar"></div>
+          <div class="range-indicator-dot" id="indicatorDot"></div>
+        </div>
+        <div class="range-markers" id="rangeMarkers"></div>
+        <div class="range-indicator">
+          <span></span>
+          <span class="status-pill" id="statusPill">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="desc-section">
+      <div class="desc-icon">💡</div>
+      <div class="desc-title" id="descTitle">—</div>
+      <div class="desc-text" id="descText">—</div>
+    </div>
+
+    <div class="trend-section">
+      <span class="trend-title">Trend Over Time</span>
+      <button class="trend-btn" id="trendBtn">View less ▲</button>
+    </div>
+  </div>
+
+  <script>
+    const BIOMARKER_DATA = {
+      'Vitamin D': {
+        icon: '☀️',
+        unit: 'ng/mL',
+        currentValue: 21.6,
+        range: [0, 30, 50, 100],
+        rangeLabels: ['0', '30', '50', '100'],
+        zones: ['low', 'optimal', 'optimal', 'high'],
+        status: 'Low',
+        statusClass: 'low',
+        title: 'Vitamin D: Your Sunshine Vitamin',
+        desc: 'Vitamin D is the sunshine vitamin—your body makes it when skin is exposed to sunlight. It supports bone health, immunity, and mood. Low levels are common, especially in winter or with limited sun exposure. Good news: it responds well to supplementation and sensible sun exposure.'
+      },
+      'Iron': {
+        icon: '🩸',
+        unit: 'µg/dL',
+        currentValue: 94,
+        range: [0, 60, 150, 175, 400],
+        rangeLabels: ['0', '60', '150', '175', '400'],
+        zones: ['low', 'low', 'optimal', 'optimal', 'high'],
+        status: 'Low',
+        statusClass: 'low',
+        title: 'Iron: The Oxygen Carrier',
+        desc: 'Iron helps your blood carry oxygen to every cell. Too little and you feel tired and weak; too much can stress your organs. Get tested before supplementing—iron overload is real. Food sources like lean meat, beans, and spinach, paired with vitamin C, help absorption.'
+      },
+      'Heart Health': {
+        icon: '❤️',
+        unit: 'mg/dL',
+        currentValue: 105,
+        range: [0, 50, 100, 150, 500],
+        rangeLabels: ['0', '50', '100', '150', '500'],
+        zones: ['optimal', 'optimal', 'caution', 'high', 'high'],
+        status: 'Mildly High',
+        statusClass: 'caution',
+        title: 'Triglycerides & HDL: Heart Health Duo',
+        desc: 'Triglycerides and HDL cholesterol work together for heart health. High triglycerides often come from excess sugar and refined carbs. HDL is the "good" cholesterol that helps clear arteries. Focus on whole foods, healthy fats, and movement to improve both.'
+      },
+      'Blood Sugar': {
+        icon: '📊',
+        unit: 'mg/dL',
+        currentValue: 108,
+        range: [0, 70, 100, 126, 200],
+        rangeLabels: ['0', '70', '100', '126', '200'],
+        zones: ['low', 'optimal', 'caution', 'high', 'high'],
+        status: 'Mildly High',
+        statusClass: 'caution',
+        title: 'Blood Sugar: Your Energy Currency',
+        desc: 'Blood glucose fuels your cells. Spikes and crashes affect energy, focus, and long-term health. Stable levels come from balanced meals, fewer refined carbs, and regular movement. Small changes add up—start with one meal at a time.'
+      },
+      'Sleep': {
+        icon: '😴',
+        unit: 'score',
+        currentValue: 62,
+        range: [0, 50, 70, 90, 100],
+        rangeLabels: ['0', '50', '70', '90', '100'],
+        zones: ['low', 'caution', 'optimal', 'optimal', 'optimal'],
+        status: 'Improving',
+        statusClass: 'caution',
+        title: 'Sleep Quality: The Foundation of Recovery',
+        desc: 'Sleep is when your body repairs, consolidates memory, and balances hormones. Poor sleep affects everything—mood, immunity, and metabolism. Prioritize consistency, darkness, and a wind-down routine. Your future self will thank you.'
+      },
+      'Stress': {
+        icon: '🧘',
+        unit: 'µg/dL',
+        currentValue: 18,
+        range: [0, 6, 19, 25, 50],
+        rangeLabels: ['0', '6', '19', '25', '50'],
+        zones: ['low', 'optimal', 'optimal', 'caution', 'high'],
+        status: 'Optimal',
+        statusClass: 'optimal',
+        title: 'Cortisol: Your Stress Hormone',
+        desc: 'Cortisol helps you respond to stress—but chronic elevation wears you down. It affects sleep, immunity, and weight. Breathing exercises, movement, and boundaries help keep it in check. Listen to your body and give it recovery time.'
+      },
+      'Recovery': {
+        icon: '💚',
+        unit: 'ms',
+        currentValue: 45,
+        range: [0, 30, 50, 80, 150],
+        rangeLabels: ['0', '30', '50', '80', '150'],
+        zones: ['low', 'caution', 'optimal', 'optimal', 'optimal'],
+        status: 'Good',
+        statusClass: 'optimal',
+        title: 'HRV: Your Recovery Signal',
+        desc: 'Heart rate variability (HRV) reflects how well your nervous system adapts. Higher HRV often means better recovery and resilience. It responds to sleep, stress, and training load. Track trends over time rather than single readings.'
+      },
+      'Liver Health': {
+        icon: '🫀',
+        unit: 'U/L',
+        currentValue: 42,
+        range: [0, 9, 36, 120, 300],
+        rangeLabels: ['0', '9', '36', '120', '300'],
+        zones: ['optimal', 'optimal', 'caution', 'high', 'high'],
+        status: 'Mildly High',
+        statusClass: 'caution',
+        title: 'GGTP / Liver Enzymes: Your Liver\'s Report Card',
+        desc: 'Liver enzymes like GGTP reflect liver health. Elevated levels can come from alcohol, certain medications, or fatty liver. The good news: the liver can repair when given support. Reduce alcohol, eat whole foods, and move regularly.'
+      },
+      'Blood Pressure': {
+        icon: '🩺',
+        unit: 'mmHg',
+        currentValue: '128/82',
+        range: [0, 90, 120, 140, 180],
+        rangeLabels: ['0', '90', '120', '140', '180'],
+        zones: ['low', 'optimal', 'caution', 'high', 'high'],
+        status: 'Elevated',
+        statusClass: 'caution',
+        title: 'Blood Pressure: The Silent Signal',
+        desc: 'Blood pressure shows how hard your heart works. High readings often have no symptoms until damage is done. Lifestyle changes—less salt, more movement, stress management—can make a real difference. Small steps, big impact.'
+      },
+      'Breathing': {
+        icon: '🏃',
+        unit: 'mL/kg/min',
+        currentValue: 38,
+        range: [0, 30, 42, 50, 80],
+        rangeLabels: ['0', '30', '42', '50', '80'],
+        zones: ['low', 'caution', 'optimal', 'optimal', 'optimal'],
+        status: 'Improving',
+        statusClass: 'caution',
+        title: 'VO2 Max: Your Fitness Engine',
+        desc: 'VO2 max measures how much oxygen your body can use during intense exercise. It reflects cardiovascular fitness and longevity. Build it with consistent cardio—running, cycling, swimming—and progressive overload over time.'
+      },
+      'Energy': {
+        icon: '⚡',
+        unit: 'ng/dL',
+        currentValue: 420,
+        range: [0, 264, 916, 1200, 2000],
+        rangeLabels: ['0', '264', '916', '1200', '2000'],
+        zones: ['low', 'low', 'optimal', 'optimal', 'high'],
+        status: 'Low',
+        statusClass: 'low',
+        title: 'Free Testosterone: Vitality & Strength',
+        desc: 'Testosterone supports muscle, energy, mood, and libido. Levels naturally vary and decline with age. Strength training, sleep, and healthy fats support optimal levels. Get tested before considering any intervention.'
+      },
+      'Weight': {
+        icon: '⚖️',
+        unit: '%',
+        currentValue: 24,
+        range: [0, 18, 25, 32, 50],
+        rangeLabels: ['0', '18', '25', '32', '50'],
+        zones: ['low', 'optimal', 'optimal', 'caution', 'high'],
+        status: 'Good',
+        statusClass: 'optimal',
+        title: 'Body Fat %: Beyond the Scale',
+        desc: 'Body fat percentage matters more than weight alone. Healthy ranges vary by age and sex. Too little or too much both have risks. Focus on body composition through strength training and balanced nutrition.'
+      },
+      'Bones': {
+        icon: '🦴',
+        unit: 'T-score',
+        currentValue: -0.8,
+        range: [-3, -2.5, -1, 0, 2],
+        rangeLabels: ['-3', '-2.5', '-1', '0', '2'],
+        zones: ['low', 'low', 'caution', 'optimal', 'optimal'],
+        status: 'Monitor',
+        statusClass: 'caution',
+        title: 'Bone Density: Your Skeletal Frame',
+        desc: 'Bone density supports your structure and reduces fracture risk. Weight-bearing exercise and adequate calcium and vitamin D help maintain it. It changes slowly—consistency over years matters.'
+      },
+      'Fitness': {
+        icon: '🏃',
+        unit: 'mL/kg/min',
+        currentValue: 38,
+        range: [0, 30, 42, 50, 80],
+        rangeLabels: ['0', '30', '42', '50', '80'],
+        zones: ['low', 'caution', 'optimal', 'optimal', 'optimal'],
+        status: 'Improving',
+        statusClass: 'caution',
+        title: 'VO2 Max: Your Fitness Engine',
+        desc: 'VO2 max measures how much oxygen your body can use during intense exercise. It reflects cardiovascular fitness and longevity. Build it with consistent cardio—running, cycling, swimming—and progressive overload over time.'
+      },
+      'Flexibility': {
+        icon: '🧘‍♀️',
+        unit: 'score',
+        currentValue: 65,
+        range: [0, 40, 60, 80, 100],
+        rangeLabels: ['0', '40', '60', '80', '100'],
+        zones: ['low', 'caution', 'optimal', 'optimal', 'optimal'],
+        status: 'Good',
+        statusClass: 'optimal',
+        title: 'Flexibility: Range of Motion',
+        desc: 'Flexibility supports movement quality and reduces injury risk. It improves with consistent stretching and mobility work. Yoga, dynamic warm-ups, and foam rolling all help. Progress takes patience.'
+      },
+      'Homocysteine': {
+        icon: '💧',
+        unit: 'µmol/L',
+        currentValue: 22.89,
+        range: [0, 4, 7, 15, 30],
+        rangeLabels: ['0', '4', '7', '15', '30'],
+        zones: ['low', 'optimal', 'optimal', 'caution', 'high'],
+        status: 'Mildly High',
+        statusClass: 'caution',
+        title: 'Homocysteine: The Drama Queen of Your Bloodstream',
+        desc: 'Homocysteine is the bad drunk at your body\'s party. He can ruin everything—unless B12, B6, and Folate kick him out. Homocysteine isn\'t evil—he just doesn\'t know when to stop. Most of the time, he minds his business. But ditch your B vitamins and he turns into a vessel-scratching, mood-tanking, brain-draining nightmare. High levels mean trouble for your heart, your memory, and your stress resilience. He\'s sensitive, reactive, and way too into drama. Good news? He responds quickly to the right nutrients.'
+      }
+    };
+
+    const ZONE_COLORS = { low: '#EF4444', optimal: '#22C55E', caution: '#FBBF24', high: '#EF4444' };
+
+    const TECHNICAL_ALIASES = {
+      'HDL Cholesterol': 'Heart Health',
+      'Triglycerides': 'Heart Health',
+      'Blood Glucose': 'Blood Sugar',
+      'Sleep Quality': 'Sleep',
+      'Cortisol': 'Stress',
+      'HRV': 'Recovery',
+      'Liver Enzymes': 'Liver Health',
+      'Lung Function': 'Breathing',
+      'Heart Rate': 'Heart Health',
+      'Testosterone': 'Energy',
+      'BMI': 'Weight',
+      'Bone Density': 'Bones',
+      'VO2 Max': 'Fitness',
+      'hsCRP': 'Heart Health',
+      'HbA1c': 'Blood Sugar',
+      'Gut Health': 'Recovery',
+      'Oxidative Stress': 'Stress',
+      'Vitamin B12': 'Heart Health',
+      'Folate (B9)': 'Heart Health',
+      'Homocysteine': 'Homocysteine',
+      'Magnesium': 'Stress',
+      'Zinc': 'Energy',
+      'Selenium': 'Energy',
+      'Vitamin E': 'Energy',
+      'Iron': 'Iron'
+    };
+
+    function init() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id') || '';
+      const name = decodeURIComponent(id).replace(/_/g, ' ');
+      const lookupKey = TECHNICAL_ALIASES[name] || name;
+      const data = BIOMARKER_DATA[lookupKey] || BIOMARKER_DATA['Vitamin D'];
+
+      document.getElementById('bioIcon').textContent = data.icon;
+      document.getElementById('bioTitle').textContent = name;
+      document.getElementById('bioUpdated').textContent = 'Last Updated: ' + new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      document.getElementById('currentValue').textContent = typeof data.currentValue === 'number' ? data.currentValue.toFixed(2) : data.currentValue;
+      document.getElementById('currentUnit').textContent = data.unit;
+
+      const range = data.range;
+      const rangeMin = range[0], rangeMax = range[range.length - 1];
+      const val = typeof data.currentValue === 'number' ? data.currentValue : parseFloat(String(data.currentValue).split('/')[0]) || rangeMin;
+      const pct = Math.min(100, Math.max(0, ((val - rangeMin) / (rangeMax - rangeMin)) * 100));
+
+      const bar = document.getElementById('rangeBar');
+      bar.innerHTML = data.zones.map((z) =>
+        `<span class="range-segment" style="background:${ZONE_COLORS[z]}"></span>`
+      ).join('');
+
+      document.getElementById('rangeMarkers').innerHTML = data.rangeLabels.map(l => `<span>${l}</span>`).join('');
+
+      const dot = document.getElementById('indicatorDot');
+      dot.style.left = pct + '%';
+
+      const pill = document.getElementById('statusPill');
+      pill.textContent = data.status;
+      pill.className = 'status-pill ' + data.statusClass;
+
+      document.getElementById('descTitle').textContent = data.title;
+      document.getElementById('descText').textContent = data.desc;
+
+      document.title = name + ' · Baseline Score';
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+
+</html>

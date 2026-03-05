@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommendation · Baseline Score</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #040404;
+      --bg-card: #0C0C0C;
+      --gradient-main: linear-gradient(135deg, #CA0F88 0%, #5C05A5 50%, #4900FF 100%);
+      --text-primary: #F1F3F6;
+      --text-secondary: rgba(241, 243, 246, 0.75);
+      --text-muted: rgba(241, 243, 246, 0.5);
+      --border-subtle: rgba(241, 243, 246, 0.08);
+      --radius-md: 12px;
+      --radius-full: 9999px;
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-black); color: var(--text-primary); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    .app-header {
+      background: var(--gradient-main);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 6px 13px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-decoration: none;
+    }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.22); }
+
+    .page { padding: 20px 16px 40px; max-width: 600px; margin: 0 auto; }
+
+    .rec-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .rec-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(92, 5, 165, 0.12);
+      border: 1px solid rgba(92, 5, 165, 0.25);
+      color: var(--text-primary);
+    }
+
+    .rec-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .rec-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .rec-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .rec-section-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="app-header">
+    <a class="back-btn" href="improve.html">← Back</a>
+  </header>
+
+  <div class="page">
+    <div class="rec-chips" id="recChips"></div>
+    <h1 class="rec-title" id="recTitle">—</h1>
+    <div class="rec-section">
+      <div class="rec-section-title">Why this matters</div>
+      <div class="rec-section-text" id="recWhy">—</div>
+    </div>
+    <div class="rec-section">
+      <div class="rec-section-title">How to do it</div>
+      <div class="rec-section-text" id="recHow">—</div>
+    </div>
+  </div>
+
+  <script>
+    const REC_DATA = {
+      'Take vitamin D with breakfast or a fatty meal': {
+        title: 'Take vitamin D with breakfast or a fatty meal',
+        why: 'Vitamin D is fat-soluble—it\'s absorbed better when your body has fat to work with. Taking it with breakfast helps you remember and ensures consistent absorption. Many people are deficient, especially in winter or with limited sun exposure.',
+        how: 'Take your supplement with a meal that includes healthy fats (eggs, avocado, nuts, olive oil). Morning is ideal for consistency. Aim for 1,000–2,000 IU daily unless your doctor recommends otherwise.'
+      },
+      'Consider iron if deficient — get tested first': {
+        title: 'Consider iron if deficient — get tested first',
+        why: 'Iron deficiency causes fatigue, weakness, and poor concentration. But supplementing blindly can be dangerous—iron overload harms your organs. A simple blood test (ferritin, serum iron) tells you if you\'re actually low.',
+        how: 'Get a blood test before supplementing. If deficient, your doctor may recommend iron supplements. Take with vitamin C for better absorption. Avoid taking with calcium or dairy, which can block absorption.'
+      },
+      'Omega-3 with meals for better absorption': {
+        title: 'Omega-3 with meals for better absorption',
+        why: 'Omega-3 fats support heart health, brain function, and inflammation control. They\'re best absorbed when taken with food. Taking on an empty stomach can cause digestive upset and reduce absorption.',
+        how: 'Take your omega-3 (fish oil or algae) with a meal that includes fat. Aim for 1–2 g of EPA+DHA daily. Store in a cool place to prevent oxidation. If you get fishy burps, try taking with food or switching to enteric-coated capsules.'
+      },
+      'Eat more whole foods and vegetables': {
+        title: 'Eat more whole foods and vegetables',
+        why: 'Whole foods are packed with fiber, vitamins, and phytonutrients that processed foods lack. They support gut health, stable blood sugar, and long-term vitality. Vegetables add volume without excess calories and feed your microbiome.',
+        how: 'Fill half your plate with vegetables at each meal. Choose whole grains over refined. Snack on nuts, fruit, and hummus instead of packaged snacks. Start with one meal—add a side salad or extra veggies to dinner.'
+      },
+      'Reduce processed carbs and added sugar': {
+        title: 'Reduce processed carbs and added sugar',
+        why: 'Processed carbs and added sugar spike blood sugar, crash energy, and drive inflammation. They\'re linked to weight gain, metabolic issues, and chronic disease. Cutting back improves energy, mood, and metabolic markers.',
+        how: 'Swap white bread and pasta for whole grains. Read labels—sugar hides in sauces, dressings, and "healthy" snacks. Replace sugary drinks with water, sparkling water, or herbal tea. Allow treats occasionally—deprivation backfires.'
+      },
+      'Add healthy fats: nuts, olive oil, avocado': {
+        title: 'Add healthy fats: nuts, olive oil, avocado',
+        why: 'Healthy fats support hormone production, brain health, and vitamin absorption. They keep you full longer and stabilize blood sugar. Mediterranean-style eating—rich in olive oil, nuts, and avocado—is linked to longevity.',
+        how: 'Use olive oil for cooking and dressings. Add a handful of nuts or seeds to meals or snacks. Include avocado in salads or smoothies. Choose fatty fish (salmon, mackerel) 1–2 times per week.'
+      },
+      'Keep a consistent sleep schedule': {
+        title: 'Keep a consistent sleep schedule',
+        why: 'Your body runs on a circadian clock. Irregular sleep confuses it—affecting hormones, mood, and recovery. Going to bed and waking at similar times each day (even on weekends) trains your body to sleep better.',
+        how: 'Pick a bedtime and wake time you can stick to 7 days a week. Aim for within 30 minutes of your target. Avoid bright screens 1 hour before bed. Use a wind-down routine—reading, stretching, or gentle breathing.'
+      },
+      'Aim for 7–8 hours nightly': {
+        title: 'Aim for 7–8 hours nightly',
+        why: 'Most adults need 7–8 hours for optimal recovery, cognition, and mood. Chronic short sleep increases diabetes, heart disease, and mental health risks. Quality matters more than quantity—but you need enough of both.',
+        how: 'Calculate your ideal bedtime: wake time minus 7.5 hours. Protect that window. If you nap, keep it under 20 minutes and before 3pm. Track your sleep for a week to see patterns.'
+      },
+      'No screens 1 hour before bed': {
+        title: 'No screens 1 hour before bed',
+        why: 'Blue light from phones and screens suppresses melatonin, the hormone that signals sleep. Scrolling also keeps your mind active when it should be winding down. The combination delays sleep and reduces quality.',
+        how: 'Set a device-free cutoff 1 hour before bed. Charge phones outside the bedroom. Replace with reading, stretching, or a warm shower. If you must use a device, enable night mode and reduce brightness.'
+      },
+      '2–3 sessions per week': {
+        title: '2–3 sessions per week',
+        why: 'Strength training builds muscle, supports bone density, and boosts metabolism. Two to three sessions per week is enough for most people to see progress without overtraining. Consistency beats intensity.',
+        how: 'Schedule 2–3 sessions of 45–60 minutes. Focus on compound movements: squats, deadlifts, rows, presses. Progress gradually—add weight or reps when you can complete sets with good form.'
+      },
+      'Focus on compound movements (squats, rows)': {
+        title: 'Focus on compound movements (squats, rows)',
+        why: 'Compound movements train multiple muscles at once—more efficient and functional. They build real-world strength and burn more calories than isolation exercises. Squats, rows, and presses form the foundation.',
+        how: 'Start each session with compound lifts. Squats: legs and core. Rows: back and biceps. Presses: chest, shoulders, triceps. Deadlifts: posterior chain. Learn proper form before adding weight.'
+      },
+      'Progressive overload over time': {
+        title: 'Progressive overload over time',
+        why: 'Your body adapts to stress. To keep improving, you must gradually increase demand—more weight, reps, or sets. Without progression, gains plateau. Small, steady increases add up over months.',
+        how: 'Add 2.5–5 kg when you can complete sets with good form. Or add reps when you hit the top of your range. Track your lifts. Aim for 1–2% more per week—slow and steady wins.'
+      },
+      'Active commuting — walk or bike short trips': {
+        title: 'Active commuting — walk or bike short trips',
+        why: 'Turning commute time into movement time adds exercise without extra hours. Walking and biking improve cardiovascular health, mood, and energy. Short trips under 5 km are ideal for biking.',
+        how: 'Start with one trip per week—bike or walk to work, a friend\'s place, or the store. Plan your route. Keep a change of clothes if needed. Build up gradually. Even 5 km each way adds 10 km of daily movement.'
+      },
+      '7k–8k steps per day': {
+        title: '7k–8k steps per day',
+        why: '7,000–8,000 steps is the sweet spot for most people—linked to lower mortality and better health. It\'s achievable without a formal workout. Every step counts: stairs, errands, walking meetings.',
+        how: 'Wear a tracker or use your phone. Park farther away. Take walking breaks. Walk after meals. Aim for 7k–8k as a baseline. If you\'re below, add 500 steps per week until you hit it.'
+      },
+      'Brisk walks 20–30 min, 3x/week': {
+        title: 'Brisk walks 20–30 min, 3x/week',
+        why: 'Brisk walking (where you can talk but not sing) elevates heart rate enough to improve cardiovascular fitness. It\'s low-impact, sustainable, and accessible. Three times a week builds a habit.',
+        how: 'Schedule 20–30 minute walks on non-consecutive days. Walk at a pace that feels slightly challenging. Use hills or inclines to increase intensity. Pair with a podcast or music to stay consistent.'
+      },
+      'Replace with mocktails or sparkling water': {
+        title: 'Replace with mocktails or sparkling water',
+        why: 'Habit and routine drive drinking. Replacing the ritual—not just the alcohol—makes cutting back easier. Sparkling water and mocktails give you something to hold and sip without the downsides.',
+        how: 'Keep sparkling water, flavored seltzer, or non-alcoholic options on hand. Try a "mocktail" hour—same time, different drink. Add citrus, herbs, or bitters for flavor. Celebrate without alcohol.'
+      },
+      'Track alcohol-free days': {
+        title: 'Track alcohol-free days',
+        why: 'Awareness drives change. Tracking shows how often you drink and helps you set goals. Seeing streaks of alcohol-free days can be motivating. Many people find they drink more than they realized.',
+        how: 'Use an app or calendar to mark alcohol-free days. Start with one or two per week. Build a streak. Celebrate milestones. Share your goal with someone for accountability.'
+      },
+      'Avoid triggers — plan alternatives': {
+        title: 'Avoid triggers — plan alternatives',
+        why: 'Stress, boredom, and social situations often trigger drinking. Knowing your triggers lets you plan ahead. Having alternatives—a walk, a call, a hobby—makes it easier to choose differently.',
+        how: 'Identify your top triggers. Plan alternatives: walk, call a friend, exercise, hobby. Avoid high-trigger situations initially if needed. Have an exit plan for social events. Say "I\'m not drinking tonight" in advance.'
+      },
+      'Set a quit date and stick to it': {
+        title: 'Set a quit date and stick to it',
+        why: 'Quitting is easier with a clear plan. A quit date gives you time to prepare—tell people, remove triggers, get support. Commitment to a specific day increases success.',
+        how: 'Pick a date within the next 2 weeks. Tell friends and family. Remove cigarettes and ashtrays from your home. Consider nicotine replacement or medication if needed. Plan your first day—what will you do instead?'
+      },
+      'Use nicotine alternatives if needed': {
+        title: 'Use nicotine alternatives if needed',
+        why: 'Nicotine withdrawal is real—cravings, irritability, difficulty concentrating. Nicotine replacement (gum, patches, lozenges) can double your odds of quitting by managing withdrawal while you break the habit.',
+        how: 'Talk to your doctor or pharmacist. Patches provide steady nicotine; gum/lozenges help with cravings. Use as directed. Don\'t smoke while using. Taper off over time. Combine with behavioral support.'
+      },
+      'Tell someone — accountability helps': {
+        title: 'Tell someone — accountability helps',
+        why: 'Quitting in secret is harder. Telling someone creates accountability and support. They can check in, celebrate wins, and help when you\'re struggling. Social support is one of the strongest predictors of success.',
+        how: 'Tell a friend, family member, or partner. Ask them to check in weekly. Join a quit group or online community. Consider a quit coach or counselor. You don\'t have to do it alone.'
+      },
+      '10 min breathing or meditation daily': {
+        title: '10 min breathing or meditation daily',
+        why: 'Stress activates the sympathetic nervous system. Breathing and meditation activate the parasympathetic—calming and recovery. Ten minutes daily can lower cortisol, improve focus, and build resilience.',
+        how: 'Set a daily time—morning or before bed. Use an app (Calm, Headspace) or simple breathing: 4 in, 6 out. Focus on the breath. When your mind wanders, gently return. Consistency over perfection.'
+      },
+      'Short walks when stressed': {
+        title: 'Short walks when stressed',
+        why: 'Movement shifts your state. A short walk can interrupt rumination, lower cortisol, and reset your mood. It\'s a simple, free tool you can use anytime.',
+        how: 'When you feel stressed, step outside for 5–10 minutes. Walk at a comfortable pace. Notice your surroundings. Breathe. Return before you\'re exhausted. Make it a habit.'
+      },
+      'Set boundaries — say no when needed': {
+        title: 'Set boundaries — say no when needed',
+        why: 'Overcommitting drains your energy and increases stress. Boundaries protect your time and energy. Saying no to what doesn\'t serve you lets you say yes to what matters.',
+        how: 'Identify your limits. Practice "I can\'t" or "I\'m not available." You don\'t need to explain. Start with small no\'s. Protect your sleep, rest, and priorities.'
+      },
+      'Morning stretch routine — 5–10 min': {
+        title: 'Morning stretch routine — 5–10 min',
+        why: 'Sleep leaves muscles tight. A short morning stretch improves mobility, reduces stiffness, and prepares your body for the day. It\'s a simple, low-barrier habit.',
+        how: 'Do 5–10 minutes right after waking. Focus on hips, hamstrings, back, and shoulders. Hold each stretch 20–30 seconds. Breathe. No need for intense yoga—gentle movement is enough.'
+      },
+      '15 min yoga before bed': {
+        title: '15 min yoga before bed',
+        why: 'Gentle yoga before bed signals your body to wind down. It stretches tight muscles, calms the nervous system, and prepares you for sleep. Avoid vigorous styles—restorative or gentle flows work best.',
+        how: 'Do 15 minutes of gentle yoga 30–60 minutes before bed. Child\'s pose, legs up the wall, gentle twists. Focus on breath. Dim the lights. Use it as a transition from day to sleep.'
+      },
+      'Focus on breath and gentle movement': {
+        title: 'Focus on breath and gentle movement',
+        why: 'Yoga and stretching work best when you connect breath to movement. It calms the mind and increases body awareness. Gentle movement is sustainable—no need to push or strain.',
+        how: 'Breathe in as you expand or lengthen; breathe out as you release or fold. Move slowly. Don\'t force. Listen to your body. Consistency over intensity.'
+      }
+    };
+
+    function init() {
+      const params = new URLSearchParams(location.search);
+      const rec = params.get('rec') || '';
+      const text = decodeURIComponent(rec);
+      const data = REC_DATA[text] || {
+        title: text || 'Recommendation',
+        why: 'This recommendation supports your health goals. Small, consistent actions add up over time.',
+        how: 'Start with one small step. Build the habit gradually. Celebrate progress.'
+      };
+
+      document.getElementById('recChips').innerHTML = `<span class="rec-chip">${data.title}</span>`;
+      document.getElementById('recTitle').textContent = data.title;
+      document.getElementById('recWhy').textContent = data.why;
+      document.getElementById('recHow').textContent = data.how;
+
+      document.title = data.title + ' · Baseline Score';
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+
+</html>
