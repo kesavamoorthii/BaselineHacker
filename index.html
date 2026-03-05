@@ -82,43 +82,13 @@
       box-sizing: border-box;
     }
 
-    /* ─── Header ─── */
-    .app-header {
-      background: var(--gradient-main);
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-md);
-    }
 
-    .app-header h1 {
-      color: var(--off-white);
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    .header-pill {
-      background: rgba(255, 255, 255, 0.15);
-      color: var(--off-white);
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
 
     /* ─── Section Card ─── */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
       margin-top: 16px;
       overflow: hidden;
       width: 100%;
@@ -281,6 +251,7 @@
     .why-grid {
       display: grid;
       gap: 16px;
+      grid-template-columns: 1fr;
     }
 
     @media (min-width: 768px) {
@@ -328,7 +299,7 @@
 
     .why-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 48px rgba(202, 15, 136, 0.15), 0 0 0 1px rgba(202, 15, 136, 0.1);
+      box-shadow: 0 0 0 1px rgba(202, 15, 136, 0.1);
       border-color: rgba(202, 15, 136, 0.25);
     }
 
@@ -375,7 +346,6 @@
       border: 1.5px solid rgba(202, 15, 136, 0.3);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(202, 15, 136, 0.1);
     }
 
     .why-hero::before {
@@ -459,34 +429,6 @@
     .why-hero-tags .tag-help {
       color: var(--neon-mint);
       font-weight: 600;
-    }
-
-    .why-hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      background: var(--gradient-main);
-      color: var(--off-white);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 1;
-      letter-spacing: 0.2px;
-      box-shadow: 0 4px 16px rgba(202, 15, 136, 0.3);
-    }
-
-    .why-hero-cta:hover {
-      box-shadow: 0 8px 32px rgba(202, 15, 136, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .why-hero-cta:active {
-      transform: translateY(0);
     }
 
     /* Limiters & helpers lists */
@@ -929,12 +871,6 @@
 
 <body>
 
-  <!-- Header -->
-  <header class="app-header">
-    <h1>Baseline Score</h1>
-    <span class="header-pill">Dashboard</span>
-  </header>
-
   <div class="app-container">
 
     <!-- ════════ SECTION A: Core Score Card ════════ -->
@@ -963,7 +899,6 @@
 
       <!-- Why this score -->
       <div class="why-score" id="whySection">
-        <h3>📊 Why this score?</h3>
         <div id="contributorsContainer"></div>
       </div>
 
@@ -1276,21 +1211,19 @@
 
       // Hero card - Why X? (full width)
       html += `<div class="why-card why-hero why-card-span why-delay-1">
-    <div class="why-hero-title">Why <span class="score-val">${Math.round(score)}</span>?</div>
-    <div class="why-hero-body">${bodyText}</div>
-    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} limiting · ~${Math.round(totalPotential)} points potential</div>
+    <div class="why-hero-title">What Your Baseline Score Means To You</div>
+    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
+    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
     <div class="why-hero-tags">
       <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
       <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
     </div>
-    <button class="why-hero-cta" onclick="scrollToEl('whySection')">Learn more →</button>
   </div>`;
 
       // Left column: Areas to Improve / Negative Impact Markers
       html += '<div class="why-card why-delay-2">';
       html += '<div class="why-list-title limiting">Areas to Improve</div>';
       html += '<div class="why-list-subtitle">Negative Impact Markers</div>';
-      html += '<div class="why-notes-eg">For eg:</div>';
       for (const c of neg) {
         html += `<div class="why-marker-line negative">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
       }
@@ -1300,7 +1233,6 @@
       html += '<div class="why-card why-delay-3">';
       html += '<div class="why-list-title helping">What\'s Working Well</div>';
       html += '<div class="why-list-subtitle">Positive Impact Markers</div>';
-      html += '<div class="why-notes-eg">For eg:</div>';
       for (const c of pos) {
         html += `<div class="why-marker-line positive">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
       }
