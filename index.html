@@ -229,104 +229,232 @@ body {
 }
 
 /* ─── Why This Score ─── */
-.why-score { padding: 20px; }
+.why-score {
+  padding: 20px;
+  --why-stagger: 80ms;
+}
 
 .why-score h3 {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* Score summary card */
-.score-summary-card {
+/* Grid layout */
+.why-grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .why-grid .why-card-span { grid-column: 1 / -1; }
+}
+
+/* Animated cards */
+.why-card {
   background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  margin-bottom: 18px;
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: whyCardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.score-summary-line {
-  font-size: 14px;
-  font-weight: 500;
+.why-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(202, 15, 136, 0.15);
+  border-color: rgba(202, 15, 136, 0.2);
+}
+
+.why-card.why-delay-1 { animation-delay: 0.1s; }
+.why-card.why-delay-2 { animation-delay: 0.2s; }
+.why-card.why-delay-3 { animation-delay: 0.3s; }
+.why-card.why-delay-4 { animation-delay: 0.4s; }
+.why-card.why-delay-5 { animation-delay: 0.5s; }
+.why-card.why-delay-6 { animation-delay: 0.6s; }
+
+@keyframes whyCardIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes whyItemIn {
+  to { opacity: 1; }
+}
+
+/* Hero card - Why X? */
+.why-hero {
+  background: linear-gradient(135deg, rgba(92, 5, 165, 0.15) 0%, rgba(73, 0, 255, 0.08) 100%);
+  border: 1px solid rgba(202, 15, 136, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-main);
+}
+
+.why-hero-title {
+  font-size: 18px;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
-.score-summary-line .score-val { font-weight: 600; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.score-summary-line .band-val { color: var(--text-secondary); margin-left: 4px; }
+.why-hero-title .score-val {
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-.score-summary-bullets {
+.why-hero-body {
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin-bottom: 8px;
 }
 
-.score-summary-bullets li { margin-bottom: 4px; }
+.why-hero-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.why-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.why-hero-tags .tag-lim { color: #F87171; }
+.why-hero-tags .tag-help { color: #22C55E; }
+
+.why-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--gradient-main);
+  color: var(--off-white);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.why-hero-cta:hover {
+  box-shadow: var(--shadow-glow);
+  transform: scale(1.02);
+}
 
 /* Limiters & helpers lists */
-.why-list-section { margin-bottom: 18px; }
-
 .why-list-title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
   color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+
+.why-list-title.limiting::before { content: '▼'; color: #F87171; }
+.why-list-title.helping::before { content: '▲'; color: #22C55E; }
 
 .why-list-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 0;
+  padding: 10px 12px;
+  margin-bottom: 6px;
   font-size: 13px;
   color: var(--text-primary);
-  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--radius-sm);
   cursor: help;
   position: relative;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  opacity: 0;
+  animation: whyItemIn 0.5s ease forwards;
 }
 
-.why-list-item:last-child { border-bottom: none; }
+.why-list-item:nth-child(2) { animation-delay: 0.05s; }
+.why-list-item:nth-child(3) { animation-delay: 0.1s; }
+.why-list-item:nth-child(4) { animation-delay: 0.15s; }
+.why-list-item:nth-child(5) { animation-delay: 0.2s; }
+.why-list-item:nth-child(6) { animation-delay: 0.25s; }
+
+.why-list-item:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--border-default);
+}
+
+.why-list-item:last-child { margin-bottom: 0; }
 
 .why-list-item .severity-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
+  box-shadow: 0 0 8px currentColor;
 }
 
-.why-list-item .severity-dot.critical { background: #EF4444; }
-.why-list-item .severity-dot.moderate { background: #FBBF24; }
-.why-list-item .severity-dot.positive { background: #22C55E; }
+.why-list-item .severity-dot.critical { background: #EF4444; color: rgba(239,68,68,0.5); }
+.why-list-item .severity-dot.moderate { background: #FBBF24; color: rgba(251,191,36,0.5); }
+.why-list-item .severity-dot.positive { background: #22C55E; color: rgba(34,197,94,0.5); }
 
 .why-list-item .item-name { font-weight: 500; flex: 1; min-width: 0; }
-.why-list-item .item-detail { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
-.why-list-item .info-icon { flex-shrink: 0; opacity: 0.7; }
+.why-list-item .item-detail { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+.why-list-item .info-icon { flex-shrink: 0; opacity: 0.6; font-size: 11px; }
 
-/* Score breakdown bar chart */
-.score-breakdown-section { margin-bottom: 18px; }
-
-.score-breakdown-title {
-  font-size: 12px;
+/* Score breakdown */
+.breakdown-title {
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
+  letter-spacing: 0.8px;
+  margin-bottom: 14px;
   color: var(--text-secondary);
 }
 
 .breakdown-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: whyItemIn 0.5s ease forwards;
 }
+
+.breakdown-row:nth-child(2) { animation-delay: 0.1s; }
+.breakdown-row:nth-child(3) { animation-delay: 0.2s; }
+.breakdown-row:nth-child(4) { animation-delay: 0.3s; }
 
 .breakdown-row:last-child { margin-bottom: 0; }
 
@@ -338,9 +466,9 @@ body {
 }
 
 .breakdown-bar-track {
-  flex: 0 0 120px;
-  height: 8px;
-  background: var(--bg-elevated);
+  flex: 0 0 100px;
+  height: 10px;
+  background: var(--bg-black);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -349,45 +477,46 @@ body {
   height: 100%;
   border-radius: var(--radius-full);
   background: var(--gradient-main);
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
 }
 
 .breakdown-pct {
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
-  min-width: 36px;
+  min-width: 38px;
   text-align: right;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Gap to next level */
-.gap-callout {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  margin-bottom: 18px;
+/* Gap callout card */
+.why-card-gap {
+  background: linear-gradient(135deg, rgba(113, 240, 255, 0.08) 0%, rgba(73, 0, 255, 0.06) 100%) !important;
+  border-color: rgba(113, 240, 255, 0.2) !important;
 }
 
 .gap-callout-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .gap-callout-text {
   font-size: 12px;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 10px;
+  line-height: 1.6;
+  margin-bottom: 14px;
 }
 
 .gap-callout-cta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
@@ -395,67 +524,13 @@ body {
   color: var(--off-white);
   border: none;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.3s ease;
 }
 
-.gap-callout-cta:hover { box-shadow: var(--shadow-glow); }
-
-/* One-line explanation */
-.one-line-explanation {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 18px;
-  padding: 12px 16px;
-  background: var(--bg-elevated);
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--royal-purple);
+.gap-callout-cta:hover {
+  box-shadow: var(--shadow-glow);
+  transform: scale(1.02);
 }
-
-/* Quick summary */
-.quick-summary-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  margin-bottom: 18px;
-}
-
-.quick-summary-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-}
-
-.quick-summary-body {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
-
-.quick-summary-tags {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.quick-summary-tags .tag-label { font-weight: 600; color: var(--text-secondary); }
-.quick-summary-tags .tag-lim { color: #F87171; }
-.quick-summary-tags .tag-help { color: #22C55E; }
-
-.quick-summary-cta {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--neon-mint);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.quick-summary-cta:hover { text-decoration: underline; }
 
 /* Tooltip */
 .why-tooltip {
@@ -463,7 +538,7 @@ body {
   bottom: 100%;
   left: 0;
   right: 0;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   padding: 10px 12px;
   background: var(--bg-black);
   border: 1px solid var(--border-default);
@@ -478,12 +553,6 @@ body {
 
 .why-list-item:hover .why-tooltip,
 .why-list-item:focus-within .why-tooltip { display: block; }
-
-.why-list-item .info-icon {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-left: 4px;
-}
 
 /* ─── CTA Chips ─── */
 .cta-chips {
@@ -1710,26 +1779,34 @@ function renderContributors() {
   const totalPotential = neg.reduce((s, c) => s + (c.potentialPoints || 0), 0);
   const topLimiter = neg[0];
   const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
+  const limNames = neg.map(c => c.plainName || c.name).join(' · ');
+  const helpNames = pos.map(c => c.plainName || c.name).join(' · ');
+  const bodyText = isCapped
+    ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
+    : `${topLimiter.plainName || topLimiter.name} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
 
-  let html = '';
+  let html = '<div class="why-grid">';
 
-  // 1. Score summary card
-  html += '<div class="score-summary-card">';
-  html += `<div class="score-summary-line">Your score: <span class="score-val">${Math.round(score)}</span> <span class="band-val">(${band.label})</span></div>`;
-  html += '<div class="score-summary-bullets"><ul>';
-  html += `<li>${neg.length} area${neg.length > 1 ? 's' : ''} ${neg.length === 1 ? 'is' : 'are'} limiting your score</li>`;
-  html += `<li>Improving them could add up to ~${Math.round(totalPotential)} points</li>`;
-  html += '</ul></div></div>';
+  // Hero card - Why X? (full width)
+  html += `<div class="why-card why-hero why-card-span why-delay-1">
+    <div class="why-hero-title">Why <span class="score-val">${Math.round(score)}</span>?</div>
+    <div class="why-hero-body">${bodyText}</div>
+    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} limiting · ~${Math.round(totalPotential)} points potential</div>
+    <div class="why-hero-tags">
+      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
+      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
+    </div>
+    <button class="why-hero-cta" onclick="switchTab(1)">See how to improve →</button>
+  </div>`;
 
-  // 2. What's limiting you
-  html += '<div class="why-list-section">';
-  html += '<div class="why-list-title">What\'s holding your score back</div>';
+  // Left column: What's limiting + Score breakdown
+  html += '<div class="why-card why-delay-2">';
+  html += '<div class="why-list-title limiting">What\'s holding your score back</div>';
   for (const c of neg) {
     const sev = c.severity || 'moderate';
     const dot = sev === 'critical' ? 'critical' : 'moderate';
-    const line = c.contribution >= 15 ? `→ Caps score at ${Math.round(score)}` : '→ Below optimal';
-    const tooltip = (c.tooltip || '').replace(/'/g, "\\'");
-    html += `<div class="why-list-item" tabindex="0" title="${c.tooltip || ''}">
+    const line = c.contribution >= 15 ? `→ Caps at ${Math.round(score)}` : '→ Below optimal';
+    html += `<div class="why-list-item" tabindex="0" title="${(c.tooltip || '').replace(/"/g, '&quot;')}">
       <span class="severity-dot ${dot}"></span>
       <span class="item-name">${c.plainName || c.name} (${c.detail.toLowerCase()})</span>
       <span class="info-icon">ℹ️</span>
@@ -1739,12 +1816,11 @@ function renderContributors() {
   }
   html += '</div>';
 
-  // 3. What's helping you
-  html += '<div class="why-list-section">';
-  html += '<div class="why-list-title">What\'s helping your score</div>';
+  // Right column: What's helping + Gap callout
+  html += '<div class="why-card why-delay-3">';
+  html += '<div class="why-list-title helping">What\'s helping your score</div>';
   for (const c of pos) {
-    const tooltip = (c.tooltip || '').replace(/"/g, '&quot;');
-    html += `<div class="why-list-item" tabindex="0" title="${c.tooltip || ''}">
+    html += `<div class="why-list-item" tabindex="0" title="${(c.tooltip || '').replace(/"/g, '&quot;')}">
       <span class="severity-dot positive"></span>
       <span class="item-name">${c.plainName || c.name}</span>
       <span class="info-icon">ℹ️</span>
@@ -1754,67 +1830,42 @@ function renderContributors() {
   }
   html += '</div>';
 
-  // 4. Simple bar chart - Score breakdown by area
-  html += '<div class="score-breakdown-section">';
-  html += '<div class="score-breakdown-title">Score breakdown by area</div>';
+  // Score breakdown (full width on mobile, left on desktop)
+  html += '<div class="why-card why-delay-4">';
+  html += '<div class="breakdown-title">Score breakdown by area</div>';
   for (const area of BASELINE.scoreAreas || []) {
     html += `<div class="breakdown-row">
       <span class="breakdown-label">${area.name}</span>
       <div class="breakdown-bar-track">
-        <div class="breakdown-bar-fill" style="width:0" data-width="${area.pct}%"></div>
+        <div class="breakdown-bar-fill" data-width="${area.pct}%"></div>
       </div>
       <span class="breakdown-pct">${area.pct}%</span>
     </div>`;
   }
   html += '</div>';
 
-  // 5 & 9. Gap to next level + Progress toward next tier (combined)
+  // Gap to next level
   if (nextTier) {
-    const nextScore = nextTier.targetScore || (nextTier.max - 4); // e.g. 70 for Healthy
+    const nextScore = nextTier.targetScore || (nextTier.max - 4);
     const gap = (nextScore - score).toFixed(1);
-    html += '<div class="gap-callout">';
-    html += `<div class="gap-callout-title">To reach ${nextScore} (${nextTier.label})</div>`;
-    html += `<div class="gap-callout-text">Current: ${band.label} (${Math.round(score)}) · Next: ${nextTier.label} (${nextScore})<br>You're ${gap} points away. The biggest opportunity:<br>→ Improve ${topLimiter.plainName || topLimiter.name} (could add ~${topLimiter.potentialPoints || 0} points)</div>`;
-    html += '<button class="gap-callout-cta" onclick="switchTab(1)">Get recommendations →</button>';
-    html += '</div>';
+    html += `<div class="why-card why-card-gap why-delay-5">
+      <div class="gap-callout-title">To reach ${nextScore} (${nextTier.label})</div>
+      <div class="gap-callout-text">You're <strong>${gap} points</strong> away. The biggest opportunity:<br>→ Improve ${topLimiter.plainName || topLimiter.name} (could add ~${topLimiter.potentialPoints || 0} points)</div>
+      <button class="gap-callout-cta" onclick="switchTab(1)">Get recommendations →</button>
+    </div>`;
   }
 
-  // 6. One-line explanation
-  const oneLine = isCapped
-    ? `Your score is ${Math.round(score)} because ${BASELINE.cappingFactor} is limiting it. Improving ${BASELINE.cappingFactor} could raise your score to ~${Math.round(score + (topLimiter.potentialPoints || 0))}.`
-    : `Your score is ${Math.round(score)} because ${topLimiter.plainName || topLimiter.name} is limiting it. Improving ${topLimiter.plainName || topLimiter.name} could raise your score to ~${Math.round(score + (topLimiter.potentialPoints || 0))}.`;
-  html += `<div class="one-line-explanation">${oneLine}</div>`;
-
-  // 7. Before/after when capped
-  if (isCapped) {
-    html += '<div class="score-summary-card">';
-    html += `<div class="score-summary-line">Your score: <span class="score-val">${Math.round(score)}</span></div>`;
-    html += `<div class="score-summary-bullets"><p>Your metrics add up to ${Math.round(BASELINE.uncappedScore)}, but your score is limited to ${Math.round(score)} by ${BASELINE.cappingFactor}. Improve ${BASELINE.cappingFactor} to unlock more.</p></div>`;
-    html += '</div>';
-  }
-
-  // 10. Quick summary layout
-  const limNames = neg.map(c => c.plainName || c.name).join(' · ');
-  const helpNames = pos.map(c => c.plainName || c.name).join(' · ');
-  html += '<div class="quick-summary-card">';
-  html += '<div class="quick-summary-title">Why ' + Math.round(score) + '?</div>';
-  const bodyText = isCapped
-    ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
-    : `${topLimiter.plainName || topLimiter.name} is limiting your score. Your underlying metrics could improve.`;
-  html += `<div class="quick-summary-body">${bodyText}</div>`;
-  html += `<div class="quick-summary-tags"><span class="tag-label">Limiting:</span> <span class="tag-lim">${limNames}</span><br><span class="tag-label">Helping:</span> <span class="tag-help">${helpNames}</span></div>`;
-  html += '<div class="quick-summary-cta" onclick="switchTab(1)">See how to improve →</div>';
   html += '</div>';
 
   container.innerHTML = html;
 
-  // Animate breakdown bars
+  // Animate breakdown bars with delay
   requestAnimationFrame(() => {
     setTimeout(() => {
       container.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
         bar.style.width = bar.dataset.width || '0';
       });
-    }, 200);
+    }, 600);
   });
 }
 
