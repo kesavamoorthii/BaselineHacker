@@ -58,6 +58,7 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      overflow-y: hidden;
     }
 
     /* ─── Header ─── */
@@ -111,6 +112,8 @@
       padding: 12px 16px 100px;
       max-width: 600px;
       margin: 0 auto;
+      height: calc(100vh - 60px);
+      overflow: hidden;
     }
 
     /* ─── Cards base ─── */
@@ -146,10 +149,16 @@
     .score-context { padding: 16px 20px 14px; }
 
     .score-context-card {
-      position: sticky;
-      top: 66px;
-      z-index: 90;
+      position: fixed;
+      top: 58px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 95;
       background: var(--bg-card);
+    }
+    .score-context-spacer {
+      height: 156px;
     }
 
     .ctx-label {
@@ -268,6 +277,8 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      height: 100%;
+      min-height: 0;
     }
 
     .action-tabs-scroll {
@@ -315,6 +326,17 @@
 
     .action-category-panel {
       padding: 12px 0 0;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 12px;
+    }
+    .action-category-panel::-webkit-scrollbar { width: 6px; }
+    .action-category-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-full);
     }
 
     .action-view-more {
@@ -337,35 +359,133 @@
 
     .action-category-grid {
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .action-item {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.02);
+      overflow: hidden;
+      transition: all var(--transition-fast);
+    }
+    .action-item.selected {
+      border-color: rgba(92, 5, 165, 0.7);
+      box-shadow: 0 0 0 1px rgba(92, 5, 165, 0.25);
+      background: rgba(92, 5, 165, 0.08);
+    }
+    .action-item-head {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-align: left;
+    }
+    .action-item-head[data-locked="1"] {
+      opacity: 0.55;
+      cursor: default;
+    }
+    .action-item-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .action-item-name {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+    .action-item-pts {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--neon-mint);
+    }
+    .action-item-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border-default);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .action-item.selected .action-item-check {
+      border-color: var(--royal-purple);
+      background: var(--gradient-main);
+      color: #fff;
+    }
+    .action-item-collapse {
+      margin: 0 12px 10px;
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .action-item-details {
+      border-top: 1px solid var(--border-subtle);
+      padding: 10px 12px 12px;
+      display: grid;
+      gap: 10px;
+    }
+    .action-detail-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .action-detail-list {
+      margin: 0;
+      padding-left: 16px;
+      display: grid;
+      gap: 4px;
+    }
+    .action-detail-list li {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+    }
+    .action-biomarker-chips {
+      display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
-
-    .action-category-chip {
+    .action-biomarker-chip {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 5px 9px;
+      padding: 4px 8px;
       border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.03);
       font-size: 11px;
       font-weight: 600;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
       color: var(--text-primary);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
-
-    .action-category-chip:hover { border-color: var(--border-default); }
-    .action-category-chip[data-locked] { opacity: 0.6; cursor: default; }
-    .action-category-chip.active {
-      border-color: var(--royal-purple);
-      background: rgba(92, 5, 165, 0.15);
-      box-shadow: 0 0 0 1px rgba(92, 5, 165, 0.3);
+    .action-biomarker-chip .value {
+      color: var(--neon-mint);
+      font-size: 10px;
+      font-weight: 700;
     }
-    .action-category-chip .chip-pts { font-size: 9px; font-weight: 700; color: var(--neon-mint); }
 
     /* ─── Action Cards (legacy, kept for structure) ─── */
     .action-grid {
@@ -464,6 +584,24 @@
     .section-block { margin-bottom: 12px; }
     .section-block .section-title { margin-bottom: 6px; }
     #recommendationsBlock { padding-top: 16px; }
+    #recommendationsBlock,
+    #biomarkersBlock {
+      display: none !important;
+    }
+
+    .action-section {
+      height: calc(100vh - 278px);
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #actionTypesContainer {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
 
     .empty-state {
       position: fixed;
@@ -911,6 +1049,7 @@
         </div>
       </div>
     </div>
+    <div class="score-context-spacer"></div>
 
 
     <!-- Committed today banner -->
@@ -919,7 +1058,7 @@
     </div>
 
     <!-- Action Categories (grouped by type) -->
-    <div class="animate-in">
+    <div class="animate-in action-section">
       <div class="section-title-row">
         <div class="section-title">Choose Your Actions</div>
         <button class="reset-btn" onclick="resetActions()">↺ Reset all</button>
@@ -929,7 +1068,7 @@
 
     <!-- Empty state (no actions selected) -->
     <div class="empty-state" id="emptyState">
-      <p class="empty-state-text">Select your actions and achieve the score.</p>
+      <p class="empty-state-text"></p>
     </div>
 
     <!-- Recommendations -->
@@ -1138,6 +1277,7 @@
        ═══════════════════════════════════════════ */
 
     const selected = new Set();
+    const expandedActionItems = new Set();
     let gam = {};  // gamification state
     let bioExpanded = false;
     let recExpanded = false;
@@ -1287,10 +1427,34 @@
 
       for (const cat of toShow) {
         const isActive = selected.has(cat.id);
+        const isOpen = expandedActionItems.has(cat.id);
         const pts = cat.baseImpact >= 0 ? '+' + cat.baseImpact : cat.baseImpact;
-        html += `<span class="action-category-chip ${isActive ? 'active' : ''}" data-id="${cat.id}" ${locked && !isActive ? 'data-locked="1"' : ''}>
-          ${isActive ? '✓ ' : ''}${cat.label} <span class="chip-pts">${pts} pts</span>
-        </span>`;
+        html += `<div class="action-item ${isActive ? 'selected' : ''}">
+          <button class="action-item-head" data-action-id="${cat.id}" ${locked && !isActive ? 'data-locked="1"' : ''}>
+            <div class="action-item-title">
+              <span class="action-item-name">${cat.label}</span>
+              <span class="action-item-pts">${pts} pts</span>
+            </div>
+            <span class="action-item-check">${isActive ? '✓' : '+'}</span>
+          </button>`;
+        if (isActive) {
+          html += `<button class="action-item-collapse" data-collapse-id="${cat.id}">${isOpen ? 'Hide details' : 'Show details'}</button>`;
+        }
+        if (isActive && isOpen) {
+          const recs = (cat.recommendations || []).map(r => `<li>${r}</li>`).join('');
+          const bms = (cat.biomarkers || []).map(b => `<span class="action-biomarker-chip"><span class="value">+${b.improvement}%</span>${b.name}</span>`).join('');
+          html += `<div class="action-item-details">
+            <div>
+              <div class="action-detail-title">Actions</div>
+              <ul class="action-detail-list">${recs || '<li>Follow your daily protocol consistently.</li>'}</ul>
+            </div>
+            <div>
+              <div class="action-detail-title">Biomarkers Improving</div>
+              <div class="action-biomarker-chips">${bms || '<span class="action-biomarker-chip">No biomarker data</span>'}</div>
+            </div>
+          </div>`;
+        }
+        html += '</div>';
       }
       html += '</div>';
       if (hasMore) {
@@ -1351,6 +1515,8 @@
     }
 
     function renderRecommendations() {
+      document.getElementById('recommendationsBlock').style.display = 'none';
+      return;
       const recs = getRecommendations(selected);
       const block = document.getElementById('recommendationsBlock');
       const card = document.getElementById('recommendationsCard');
@@ -1382,6 +1548,8 @@
     }
 
     function renderBiomarkers() {
+      document.getElementById('biomarkersBlock').style.display = 'none';
+      return;
       const bms = getImpactedBiomarkers(selected);
       const block = document.getElementById('biomarkersBlock');
       const card = document.getElementById('biomarkersCard');
@@ -1442,7 +1610,12 @@
 
     function toggleAction(id) {
       if (gam.committedToday) return;
-      if (selected.has(id)) { selected.delete(id); } else { selected.add(id); }
+      if (selected.has(id)) {
+        selected.delete(id);
+        expandedActionItems.delete(id);
+      } else {
+        selected.add(id);
+      }
       renderActionGrid();
       renderScoreContext();
       renderEmptyState();
@@ -1454,12 +1627,20 @@
     function resetActions() {
       if (gam.committedToday) return;
       selected.clear();
+      expandedActionItems.clear();
       renderActionGrid();
       renderScoreContext();
       renderEmptyState();
       renderRecommendations();
       renderBiomarkers();
       renderCommitBtn();
+    }
+
+    function toggleActionDetail(id) {
+      if (!selected.has(id)) return;
+      if (expandedActionItems.has(id)) expandedActionItems.delete(id);
+      else expandedActionItems.add(id);
+      renderActionGrid();
     }
 
     function commitPlan() {
@@ -1531,6 +1712,13 @@
         document.getElementById('committedBanner').style.display = 'flex';
       }
 
+      // Default preview selections: 1 exercise + 2 nutrition
+      if (!gam.committedToday && selected.size === 0) {
+        ['strength', 'anti_inflammatory', 'high_protein'].forEach(id => {
+          if (ALL_CATEGORIES.some(c => c.id === id)) selected.add(id);
+        });
+      }
+
       renderHeader();
       renderActionGrid();
       renderScoreContext();
@@ -1540,9 +1728,14 @@
       renderCommitBtn();
 
       document.getElementById('actionTypesContainer').addEventListener('click', (e) => {
-        const chip = e.target.closest('.action-category-chip');
-        if (chip && !chip.dataset.locked && chip.dataset.id) {
-          toggleAction(chip.dataset.id);
+        const collapseBtn = e.target.closest('[data-collapse-id]');
+        if (collapseBtn && collapseBtn.dataset.collapseId) {
+          toggleActionDetail(collapseBtn.dataset.collapseId);
+          return;
+        }
+        const itemHead = e.target.closest('[data-action-id]');
+        if (itemHead && !itemHead.dataset.locked && itemHead.dataset.actionId) {
+          toggleAction(itemHead.dataset.actionId);
         }
       });
 
