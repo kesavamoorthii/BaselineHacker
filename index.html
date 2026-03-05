@@ -128,7 +128,10 @@
 
     /* ─── Score Ring ─── */
     .score-card-top {
-      background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.3) 0%, rgba(202, 15, 136, 0.2) 30%, transparent 70%);
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(202, 15, 136, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(73, 0, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.3) 0%, rgba(202, 15, 136, 0.2) 30%, transparent 70%);
       padding: 40px 20px 32px;
       text-align: center;
       position: relative;
@@ -142,7 +145,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.15) 0%, transparent 60%);
+      background-image: 
+        radial-gradient(circle, rgba(202, 15, 136, 0.04) 1px, transparent 1px),
+        radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.15) 0%, transparent 60%);
+      background-size: 40px 40px, 100% 100%;
+      background-position: 0 0, 0 0;
       animation: scoreGlow 4s ease-in-out infinite;
       pointer-events: none;
     }
