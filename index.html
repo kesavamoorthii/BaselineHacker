@@ -125,11 +125,22 @@
 
     /* ─── Score Ring ─── */
     .score-card-top {
-      background: var(--bg-card);
+      background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.25) 0%, rgba(202, 15, 136, 0.15) 30%, transparent 70%);
       padding: 40px 20px 32px;
       text-align: center;
       position: relative;
       overflow: hidden;
+    }
+
+    .score-card-top::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.1) 0%, transparent 60%);
+      pointer-events: none;
     }
 
     .score-radial-wrapper {
@@ -180,51 +191,37 @@
     }
 
     .score-icon-badge {
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 32px;
-      height: 32px;
-      background: var(--gradient-main);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      color: white;
-      box-shadow: 0 4px 12px rgba(202, 15, 136, 0.4);
-      z-index: 11;
+      display: none;
     }
 
     .band-compromised {
-      background: rgba(239, 68, 68, 0.15);
+      background: transparent;
       color: #F87171;
-      border-color: rgba(239, 68, 68, 0.4);
+      border: none;
     }
 
     .band-struggling {
-      background: rgba(249, 115, 22, 0.15);
+      background: transparent;
       color: #FB923C;
-      border-color: rgba(249, 115, 22, 0.4);
+      border: none;
     }
 
     .band-stable {
-      background: rgba(251, 191, 36, 0.15);
+      background: transparent;
       color: #FBBF24;
-      border-color: rgba(251, 191, 36, 0.4);
+      border: none;
     }
 
     .band-healthy {
-      background: rgba(113, 240, 255, 0.15);
+      background: transparent;
       color: var(--neon-mint);
-      border-color: rgba(113, 240, 255, 0.4);
+      border: none;
     }
 
     .band-elite {
-      background: rgba(92, 5, 165, 0.2);
+      background: transparent;
       color: #A78BFA;
-      border-color: rgba(92, 5, 165, 0.5);
+      border: none;
     }
 
     .last-updated {
@@ -1753,25 +1750,46 @@
       const centerY = canvas.height / 2;
       const innerRadius = 75;
       const outerRadius = 125;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
       const rings = 8;
       const dotsPerRing = [24, 28, 32, 36, 40, 44, 48, 52];
       const filledPercent = score / 100;
-      function drawDots(progress) {
+      let animationTime = 0;
+      
+      function drawDots(progress, time) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let ring = 0; ring < rings; ring++) {
           const radius = innerRadius + (outerRadius - innerRadius) * (ring / (rings - 1));
           const numDots = dotsPerRing[ring];
           const dotSize = 3 - (ring * 0.2);
           const baseOpacity = 0.15 + (0.15 * (1 - ring / rings));
+          
           for (let i = 0; i < numDots; i++) {
             const angle = (i / numDots) * Math.PI * 2 - Math.PI / 2;
             const x = centerX + Math.cos(angle) * radius;
             const y = centerY + Math.sin(angle) * radius;
             const dotProgress = i / numDots;
             const isFilled = dotProgress <= filledPercent * progress;
+            
+            // Animation: pulse and glow effect
+            const pulseTime = (time * 0.003 + i * 0.05) % (Math.PI * 2);
+            const pulseScale = 1 + Math.sin(pulseTime) * 0.3;
+            const animatedDotSize = dotSize * pulseScale;
+            
             if (isFilled) {
-              const gradient = ctx.createRadialGradient(x, y, 0, x, y, dotSize + 2);
+              const glowOpacity = 0.3 + Math.sin(pulseTime) * 0.2;
+              
+              // Glow effect
+              const glowGradient = ctx.createRadialGradient(x, y, 0, x, y, animatedDotSize * 3);
+              glowGradient.addColorStop(0, `rgba(202, 15, 136, ${glowOpacity})`);
+              glowGradient.addColorStop(1, `rgba(202, 15, 136, 0)`);
+              ctx.fillStyle = glowGradient;
+              ctx.beginPath();
+              ctx.arc(x, y, animatedDotSize * 3, 0, Math.PI * 2);
+              ctx.fill();
+              
+              // Main dot with gradient
+              const gradient = ctx.createRadialGradient(x, y, 0, x, y, animatedDotSize + 2);
               gradient.addColorStop(0, `rgba(202, 15, 136, ${0.9 - ring * 0.08})`);
               gradient.addColorStop(0.5, `rgba(92, 5, 165, ${0.7 - ring * 0.06})`);
               gradient.addColorStop(1, `rgba(73, 0, 255, ${0.5 - ring * 0.04})`);
@@ -1779,28 +1797,41 @@
             } else {
               ctx.fillStyle = `rgba(241, 243, 246, ${baseOpacity})`;
             }
+            
             ctx.beginPath();
-            ctx.arc(x, y, dotSize, 0, Math.PI * 2);
+            ctx.arc(x, y, animatedDotSize, 0, Math.PI * 2);
             ctx.fill();
           }
         }
       }
+      
       if (animate) {
         let startTime = null;
         const duration = 1200;
+        
         function animateDots(timestamp) {
           if (!startTime) startTime = timestamp;
           const elapsed = timestamp - startTime;
           const progress = Math.min(elapsed / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          drawDots(eased);
+          
+          animationTime = timestamp;
+          drawDots(eased, animationTime);
+          
           if (progress < 1) {
             requestAnimationFrame(animateDots);
+          } else {
+            // Continue animation loop after initial animation
+            function continuousAnimation(timestamp) {
+              drawDots(1, timestamp);
+              requestAnimationFrame(continuousAnimation);
+            }
+            requestAnimationFrame(continuousAnimation);
           }
         }
         requestAnimationFrame(animateDots);
       } else {
-        drawDots(1);
+        drawDots(1, 0);
       }
     }
 
