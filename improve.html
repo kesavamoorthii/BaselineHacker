@@ -272,11 +272,12 @@
 
     .action-tabs-scroll {
       display: flex;
-      gap: 8px;
+      gap: 0;
       overflow-x: auto;
-      padding-bottom: 4px;
+      padding-bottom: 0;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+      border-bottom: 1px solid var(--border-subtle);
     }
     .action-tabs-scroll::-webkit-scrollbar { display: none; }
 
@@ -285,58 +286,71 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 10px 14px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 600;
-      background: var(--bg-elevated);
-      border: 1.5px solid var(--border-subtle);
-      color: var(--text-secondary);
+      padding: 10px 12px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      color: var(--text-muted);
       cursor: pointer;
       transition: all var(--transition-fast);
       -webkit-tap-highlight-color: transparent;
       white-space: nowrap;
+      font-family: var(--font-sans);
     }
-    .action-tab:hover { border-color: var(--border-default); color: var(--text-primary); }
+    .action-tab:hover { color: var(--text-secondary); }
     .action-tab.active {
-      border-color: var(--royal-purple);
-      background: rgba(92, 5, 165, 0.15);
       color: var(--text-primary);
-      box-shadow: 0 0 0 1px rgba(92, 5, 165, 0.3);
+      font-weight: 600;
+      border-bottom-color: var(--royal-purple);
     }
     .action-tab .tab-badge {
       font-size: 10px;
-      font-weight: 700;
-      background: rgba(92, 5, 165, 0.3);
-      color: var(--neon-mint);
-      padding: 2px 6px;
-      border-radius: var(--radius-full);
+      font-weight: 600;
+      color: var(--text-muted);
     }
-    .action-tab .tab-badge.empty { background: transparent; color: var(--text-muted); }
+    .action-tab.active .tab-badge { color: var(--neon-mint); }
 
     .action-category-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 14px;
+      padding: 12px 0 0;
     }
+
+    .action-view-more {
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-sans);
+    }
+    .action-view-more:hover { color: var(--text-secondary); border-color: var(--border-default); }
 
     .action-category-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
 
     .action-category-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: var(--radius-md);
-      font-size: 12px;
+      gap: 4px;
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
       font-weight: 600;
       background: var(--bg-elevated);
-      border: 1.5px solid var(--border-subtle);
+      border: 1px solid var(--border-subtle);
       color: var(--text-primary);
       cursor: pointer;
       transition: all var(--transition-fast);
@@ -351,7 +365,7 @@
       background: rgba(92, 5, 165, 0.15);
       box-shadow: 0 0 0 1px rgba(92, 5, 165, 0.3);
     }
-    .action-category-chip .chip-pts { font-size: 10px; font-weight: 700; color: var(--neon-mint); }
+    .action-category-chip .chip-pts { font-size: 9px; font-weight: 700; color: var(--neon-mint); }
 
     /* ─── Action Cards (legacy, kept for structure) ─── */
     .action-grid {
@@ -1001,6 +1015,8 @@
     let bioExpanded = false;
     let recExpanded = false;
     let activeTab = 'exercises';
+    const categoriesExpanded = new Set();
+    const CATEGORIES_SHOW_LIMIT = 6;
 
     /* ═══════════════════════════════════════════
        RULE ENGINE
@@ -1111,6 +1127,12 @@
       renderActionGrid();
     }
 
+    function toggleCategoriesExpand() {
+      if (categoriesExpanded.has(activeTab)) categoriesExpanded.delete(activeTab);
+      else categoriesExpanded.add(activeTab);
+      renderActionGrid();
+    }
+
     function renderActionGrid() {
       const locked = gam.committedToday;
       let html = '<div class="action-tabs-wrap"><div class="action-tabs-scroll">';
@@ -1125,14 +1147,29 @@
       }
       html += '</div><div class="action-category-panel"><div class="action-category-grid">';
       const type = ACTION_TYPES.find(t => t.id === activeTab) || ACTION_TYPES[0];
-      for (const cat of type.categories) {
+      const isExpanded = categoriesExpanded.has(activeTab);
+      let toShow;
+      if (isExpanded) {
+        toShow = type.categories;
+      } else {
+        const first = type.categories.slice(0, CATEGORIES_SHOW_LIMIT);
+        const selectedBeyond = type.categories.slice(CATEGORIES_SHOW_LIMIT).filter(c => selected.has(c.id));
+        toShow = [...first, ...selectedBeyond];
+      }
+      const hasMore = type.categories.length > CATEGORIES_SHOW_LIMIT;
+
+      for (const cat of toShow) {
         const isActive = selected.has(cat.id);
         const pts = cat.baseImpact >= 0 ? '+' + cat.baseImpact : cat.baseImpact;
         html += `<span class="action-category-chip ${isActive ? 'active' : ''}" data-id="${cat.id}" ${locked && !isActive ? 'data-locked="1"' : ''}>
           ${isActive ? '✓ ' : ''}${cat.label} <span class="chip-pts">${pts} pts</span>
         </span>`;
       }
-      html += '</div></div></div>';
+      html += '</div>';
+      if (hasMore) {
+        html += `<button class="action-view-more" onclick="toggleCategoriesExpand()">${isExpanded ? 'View less' : 'View more'}</button>`;
+      }
+      html += '</div></div>';
       document.getElementById('actionTypesContainer').innerHTML = html;
 
       document.querySelectorAll('.action-tab').forEach(tab => {
