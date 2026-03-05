@@ -78,7 +78,7 @@
       max-width: none !important;
       width: 100% !important;
       margin: 0 !important;
-      padding: 0 24px 32px;
+      padding: 24px 24px 32px;
       box-sizing: border-box;
     }
 
@@ -89,7 +89,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      margin-top: 16px;
+      margin-top: 0;
       overflow: hidden;
       width: 100%;
       max-width: none;
@@ -126,41 +126,75 @@
     /* ─── Score Ring ─── */
     .score-card-top {
       background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(92, 5, 165, 0.2) 0%, transparent 60%);
-      padding: 28px 20px 20px;
+      padding: 40px 24px 32px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
+    .score-card-top::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(202, 15, 136, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
 
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
 
     .score-ring-wrapper {
       position: relative;
-      width: 180px;
-      height: 180px;
-      margin: 0 auto 12px;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 16px;
       z-index: 2;
+      filter: drop-shadow(0 0 30px rgba(202, 15, 136, 0.3));
+    }
+
+    .score-ring-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      background: conic-gradient(from 0deg, rgba(202, 15, 136, 0.2), rgba(73, 0, 255, 0.2), rgba(202, 15, 136, 0.2));
+      border-radius: 50%;
+      animation: rotateRing 8s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes rotateRing {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .score-ring-wrapper svg {
       width: 100%;
       height: 100%;
       transform: rotate(-90deg);
+      filter: drop-shadow(0 0 20px rgba(202, 15, 136, 0.4));
     }
 
     .score-ring-bg {
       fill: none;
       stroke: var(--border-default);
-      stroke-width: 10;
+      stroke-width: 12;
+      opacity: 0.4;
     }
 
     .score-ring-fill {
       fill: none;
-      stroke-width: 10;
+      stroke-width: 12;
       stroke-linecap: round;
       stroke-dasharray: 439.82;
       stroke-dashoffset: 439.82;
-      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 0 8px rgba(202, 15, 136, 0.6));
     }
 
     .score-center {
@@ -169,73 +203,108 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
+      z-index: 3;
     }
 
     .score-number {
-      font-size: 42px;
-      font-weight: 600;
-      letter-spacing: -1.5px;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -2px;
       line-height: 1;
       background: var(--gradient-main);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: scoreNumberPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scoreNumberPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     .score-of {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-muted);
       font-weight: 500;
+      margin-top: 4px;
+      animation: fadeInOut 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
     .score-band-badge {
       display: inline-block;
-      padding: 5px 16px;
+      padding: 8px 24px;
       border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
       position: relative;
       z-index: 2;
+      border: 2px solid;
+      animation: badgePulse 2s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(202, 15, 136, 0.3);
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(202, 15, 136, 0.3); }
+      50% { transform: scale(1.08); box-shadow: 0 0 30px rgba(202, 15, 136, 0.5); }
     }
 
     .band-compromised {
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.15);
       color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.4);
     }
 
     .band-struggling {
-      background: rgba(249, 115, 22, 0.2);
+      background: rgba(249, 115, 22, 0.15);
       color: #FB923C;
-      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-color: rgba(249, 115, 22, 0.4);
     }
 
     .band-stable {
-      background: rgba(251, 191, 36, 0.2);
+      background: rgba(251, 191, 36, 0.15);
       color: #FBBF24;
-      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-color: rgba(251, 191, 36, 0.4);
     }
 
     .band-healthy {
       background: rgba(113, 240, 255, 0.15);
       color: var(--neon-mint);
-      border: 1px solid rgba(113, 240, 255, 0.3);
+      border-color: rgba(113, 240, 255, 0.4);
     }
 
     .band-elite {
-      background: rgba(92, 5, 165, 0.3);
+      background: rgba(92, 5, 165, 0.2);
       color: #A78BFA;
-      border: 1px solid rgba(92, 5, 165, 0.5);
+      border-color: rgba(92, 5, 165, 0.5);
     }
 
     .last-updated {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-size: 13px;
+      color: var(--text-secondary);
       position: relative;
       z-index: 2;
+      font-weight: 500;
+      animation: slideUpIn 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes slideUpIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ─── Why This Score ─── */
@@ -365,23 +434,6 @@
       right: 0;
       height: 3px;
       background: var(--gradient-main);
-      box-shadow: 0 0 20px rgba(202, 15, 136, 0.4);
-    }
-
-    .why-hero::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(202, 15, 136, 0.05) 0%, transparent 70%);
-      animation: heroGlow 8s ease-in-out infinite;
-    }
-
-    @keyframes heroGlow {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, 20px); }
     }
 
     .why-hero-title {
@@ -436,7 +488,7 @@
     }
 
     .why-hero-tags .tag-help {
-      color: #8DE28D;
+      color: var(--neon-mint);
       font-weight: 600;
     }
 
@@ -451,11 +503,11 @@
     }
 
     .why-list-title.limiting {
-      color: #E4E4E7;
+      color: #F87171;
     }
 
     .why-list-title.helping {
-      color: #E4E4E7;
+      color: var(--neon-mint);
     }
 
     .why-list-subtitle {
@@ -531,7 +583,374 @@
     }
 
     .why-marker-line.positive .marker-status {
-      color: #8DE28D;
+      color: var(--neon-mint);
+    }
+
+    /* Enhanced Biomarker Details */
+    .biomarker-detail-item {
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.08) 0%, rgba(73, 0, 255, 0.04) 100%);
+      border: 1px solid rgba(202, 15, 136, 0.15);
+      border-radius: var(--radius-md);
+      transition: all 0.25s ease;
+      opacity: 0;
+      animation: whyItemIn 0.5s ease forwards;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .biomarker-detail-item:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+
+    .biomarker-detail-item:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    .biomarker-detail-item:nth-child(4) {
+      animation-delay: 0.15s;
+    }
+
+    .biomarker-detail-item:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .biomarker-detail-item:hover {
+      background: linear-gradient(135deg, rgba(92, 5, 165, 0.12) 0%, rgba(73, 0, 255, 0.08) 100%);
+      border-color: rgba(202, 15, 136, 0.3);
+      transform: translateX(4px);
+    }
+
+    .biomarker-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .biomarker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .biomarker-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .biomarker-status {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .biomarker-status.negative {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+    }
+
+    .biomarker-status.positive {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22C55E;
+    }
+
+    .biomarker-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .biomarker-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .biomarker-unit {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .biomarker-impact {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 120px;
+    }
+
+    .impact-bar {
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .impact-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .impact-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Analytics Section */
+    .analytics-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 0;
+      padding: 0 24px;
+    }
+
+    .analytics-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: whyCardIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transition: all 0.3s ease;
+    }
+
+    .analytics-card:hover {
+      border-color: rgba(202, 15, 136, 0.25);
+      box-shadow: 0 0 0 1px rgba(202, 15, 136, 0.1);
+    }
+
+    #heroCardContainer {
+      padding: 0 24px 24px;
+    }
+
+    .analytics-header {
+      margin-bottom: 16px;
+    }
+
+    .analytics-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    /* Score Range */
+    .score-range-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .range-bar {
+      display: flex;
+      height: 12px;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      gap: 2px;
+    }
+
+    .range-segment {
+      flex: 1;
+      border-radius: var(--radius-full);
+    }
+
+    .range-segment.compromised {
+      background: #F87171;
+    }
+
+    .range-segment.struggling {
+      background: #FB923C;
+    }
+
+    .range-segment.stable {
+      background: #FBBF24;
+    }
+
+    .range-segment.healthy {
+      background: #71F0FF;
+    }
+
+    .range-segment.elite {
+      background: #A78BFA;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .range-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-dot.compromised {
+      background: #F87171;
+    }
+
+    .legend-dot.struggling {
+      background: #FB923C;
+    }
+
+    .legend-dot.stable {
+      background: #FBBF24;
+    }
+
+    .legend-dot.healthy {
+      background: #71F0FF;
+    }
+
+    .legend-dot.elite {
+      background: #A78BFA;
+    }
+
+    /* Baseline Trend */
+    .trend-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .trend-svg {
+      width: 100%;
+      height: auto;
+      min-height: 140px;
+    }
+
+    .trend-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin: 4px 0 0 0;
+    }
+
+    .trend-svg {
+      width: 100%;
+      height: auto;
+      min-height: 160px;
+      margin-bottom: 12px;
+    }
+
+    .trend-point {
+      transition: all 0.3s ease;
+    }
+
+    .trend-point:hover {
+      r: 7;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(113, 240, 255, 0.6));
+    }
+
+    .trend-point.current {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .trend-point.latest {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { r: 6; opacity: 1; }
+      50% { r: 8; opacity: 0.8; }
+    }
+
+    .trend-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: rgba(92, 5, 165, 0.08);
+      border-radius: var(--radius-md);
+    }
+
+    .trend-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .trend-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .trend-value {
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .trend-value.negative {
+      background: linear-gradient(135deg, #F87171, #EF4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .trend-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      .analytics-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .trend-info {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     .why-priority-order {
@@ -882,7 +1301,7 @@
       cursor: pointer;
       border: none;
       background: none;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 11px;
       font-weight: 500;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -892,11 +1311,11 @@
     }
 
     .mobile-nav-tab:hover {
-      color: var(--text-secondary);
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .mobile-nav-tab.active {
-      color: #E4E4E7;
+      color: rgba(255, 255, 255, 1);
     }
 
     .mobile-nav-tab.active::before {
@@ -946,34 +1365,19 @@
       }
 
       .app-container {
-        padding: 0 16px 80px;
+        padding: 16px 16px 80px;
       }
 
       .card {
-        margin-top: 12px;
-      }
-    }
-      .app-container {
-        max-width: none !important;
-        width: 100% !important;
-        padding: 0 32px 40px;
+        margin-top: 0;
       }
 
-      .score-ring-wrapper {
-        width: 200px;
-        height: 200px;
+      .analytics-section {
+        padding: 0 16px;
       }
 
-      .score-number {
-        font-size: 48px;
-      }
-
-      .interventions-grid {
-        gap: 10px;
-      }
-
-      .tab-btn {
-        font-size: 12.5px;
+      #heroCardContainer {
+        padding: 0 16px;
       }
     }
 
@@ -1030,6 +1434,135 @@
       <div class="why-score" id="whySection">
         <div id="contributorsContainer"></div>
       </div>
+
+      <!-- Score Analytics Section -->
+      <div class="analytics-section">
+        <!-- Score Range Card -->
+        <div class="analytics-card why-delay-1">
+          <div class="analytics-header">
+            <h3 class="analytics-title">Score Range</h3>
+          </div>
+          <div class="score-range-container">
+            <div class="range-bar">
+              <div class="range-segment compromised" style="width: 39%;"></div>
+              <div class="range-segment struggling" style="width: 15%;"></div>
+              <div class="range-segment stable" style="width: 15%;"></div>
+              <div class="range-segment healthy" style="width: 15%;"></div>
+              <div class="range-segment elite" style="width: 16%;"></div>
+            </div>
+            <div class="range-labels">
+              <span>50</span>
+              <span>65</span>
+              <span>75</span>
+              <span>85</span>
+            </div>
+            <div class="range-legend">
+              <div class="legend-item"><span class="legend-dot compromised"></span>Compromised</div>
+              <div class="legend-item"><span class="legend-dot struggling"></span>Constrained</div>
+              <div class="legend-item"><span class="legend-dot stable"></span>Stable</div>
+              <div class="legend-item"><span class="legend-dot healthy"></span>Robust</div>
+              <div class="legend-item"><span class="legend-dot elite"></span>Elite</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Baseline Trend Card -->
+        <div class="analytics-card why-delay-2">
+          <div class="analytics-header">
+            <h3 class="analytics-title">Baseline Trend</h3>
+            <p class="trend-subtitle">Your score progression over time</p>
+          </div>
+          <div class="trend-chart">
+            <svg viewBox="0 0 420 180" class="trend-svg" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="trendGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(202, 15, 136, 0.4)" />
+                  <stop offset="50%" stop-color="rgba(113, 240, 255, 0.2)" />
+                  <stop offset="100%" stop-color="rgba(113, 240, 255, 0.02)" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              <!-- Background grid -->
+              <g opacity="0.3">
+                <line x1="0" y1="30" x2="420" y2="30" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="60" x2="420" y2="60" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="90" x2="420" y2="90" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="120" x2="420" y2="120" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+                <line x1="0" y1="150" x2="420" y2="150" stroke="rgba(113, 240, 255, 0.1)" stroke-width="1" stroke-dasharray="4,4"/>
+              </g>
+
+              <!-- Y-axis labels -->
+              <text x="410" y="35" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">100</text>
+              <text x="410" y="95" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">75</text>
+              <text x="410" y="155" font-size="10" fill="rgba(241,243,246,0.4)" text-anchor="end">50</text>
+
+              <!-- Smooth curve area fill -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50 L 400,160 Q 350,165 300,165 T 200,165 T 100,165 L 20,160 Z" 
+                    fill="url(#trendGrad)" opacity="0.6"/>
+
+              <!-- Smooth curve line with glow -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50" 
+                    fill="none" stroke="rgba(202, 15, 136, 0.3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+              
+              <!-- Main line -->
+              <path d="M 20,110 Q 70,85 120,75 T 220,55 T 320,45 T 400,50" 
+                    fill="none" stroke="url(#trendGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Data points with animation -->
+              <g id="dataPoints">
+                <circle cx="20" cy="110" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="70" cy="85" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="120" cy="75" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="170" cy="65" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="220" cy="55" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="270" cy="50" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="320" cy="45" r="5" fill="#71F0FF" opacity="0.8" class="trend-point"/>
+                <circle cx="360" cy="48" r="5" fill="#FBBF24" opacity="0.9" class="trend-point current"/>
+                <circle cx="400" cy="50" r="6" fill="#CA0F88" opacity="1" class="trend-point latest" filter="url(#glow)"/>
+              </g>
+
+              <!-- Score labels on points -->
+              <text x="20" y="100" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">70</text>
+              <text x="120" y="65" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">67</text>
+              <text x="220" y="45" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">67</text>
+              <text x="320" y="35" font-size="9" fill="rgba(241,243,246,0.6)" text-anchor="middle">68</text>
+              <text x="400" y="40" font-size="10" fill="#CA0F88" text-anchor="middle" font-weight="600">65</text>
+            </svg>
+            
+            <div class="trend-info">
+              <div class="trend-stat">
+                <span class="trend-label">Current</span>
+                <span class="trend-value">65</span>
+              </div>
+              <div class="trend-stat">
+                <span class="trend-label">Peak</span>
+                <span class="trend-value">70</span>
+              </div>
+              <div class="trend-stat">
+                <span class="trend-label">Change</span>
+                <span class="trend-value negative">-5</span>
+              </div>
+            </div>
+
+            <div class="trend-labels">
+              <span>Dec 25</span>
+              <span>Jan 15</span>
+              <span>Feb 05</span>
+              <span>Feb 26</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Card - What Your Baseline Score Means To You -->
+      <div id="heroCardContainer"></div>
 
     </div>
 
@@ -1344,48 +1877,69 @@
       const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
       const limNames = neg.map(c => c.metric).join(' · ');
       const helpNames = pos.map(c => c.metric).join(' · ');
-      const bodyText = isCapped
-        ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
-        : `${topLimiter.metric} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
 
       let html = '<div class="why-grid">';
 
-      // Hero card - Why X? (full width)
-      html += `<div class="why-card why-hero why-card-span why-delay-1">
-    <div class="why-hero-title">What Your Baseline Score Means To You</div>
-    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
-    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
-    <div class="why-hero-tags">
-      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
-      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
-    </div>
-  </div>`;
-
-      // Left column: Areas to Improve / Negative Impact Markers
-      html += '<div class="why-card why-delay-2">';
-      html += '<div class="why-list-title limiting">Areas to Improve</div>';
-      html += '<div class="why-list-subtitle">Negative Impact Markers</div>';
-      for (const c of neg) {
-        html += `<div class="why-marker-line negative">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
-      }
-      html += '</div>';
-
-      // Right column: What's Working Well / Positive Impact Markers
-      html += '<div class="why-card why-delay-3">';
-      html += '<div class="why-list-title helping">What\'s Working Well</div>';
-      html += '<div class="why-list-subtitle">Positive Impact Markers</div>';
+      // Right column: What's Working Well (FIRST)
+      html += '<div class="why-card why-delay-1">';
+      html += '<div class="why-list-title helping">✨ What\'s Working Well</div>';
+      html += '<div class="why-list-subtitle">Positive Biomarkers Supporting Your Health</div>';
       for (const c of pos) {
-        html += `<div class="why-marker-line positive">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
+        const impactBar = Math.round((c.contribution / 15) * 100);
+        html += `<div class="biomarker-detail-item">
+          <div class="biomarker-left">
+            <div class="biomarker-header">
+              <span class="biomarker-name">${c.metric}</span>
+              <span class="biomarker-status positive">${c.status}</span>
+            </div>
+            <div class="biomarker-value-row">
+              <span class="biomarker-value">${c.value}</span>
+              <span class="biomarker-unit">${c.unit}</span>
+            </div>
+          </div>
+          <div class="biomarker-impact">
+            <div class="impact-bar">
+              <div class="impact-fill" style="width: ${impactBar}%; background: linear-gradient(90deg, #22C55E, #16A34A);"></div>
+            </div>
+            <div class="impact-text">+${c.contribution}pts · maintain</div>
+          </div>
+        </div>`;
       }
       html += '</div>';
 
-
-
-
+      // Left column: Areas Needing Attention (SECOND)
+      html += '<div class="why-card why-delay-2">';
+      html += '<div class="why-list-title limiting">⚠️ Areas Needing Attention</div>';
+      html += '<div class="why-list-subtitle">Key Biomarkers Impacting Your Score</div>';
+      for (const c of neg) {
+        const impactBar = Math.round((c.contribution / 20) * 100);
+        html += `<div class="biomarker-detail-item">
+          <div class="biomarker-left">
+            <div class="biomarker-header">
+              <span class="biomarker-name">${c.metric}</span>
+              <span class="biomarker-status negative">${c.status}</span>
+            </div>
+            <div class="biomarker-value-row">
+              <span class="biomarker-value">${c.value}</span>
+              <span class="biomarker-unit">${c.unit}</span>
+            </div>
+          </div>
+          <div class="biomarker-impact">
+            <div class="impact-bar">
+              <div class="impact-fill" style="width: ${impactBar}%; background: linear-gradient(90deg, #F87171, #EF4444);"></div>
+            </div>
+            <div class="impact-text">-${c.contribution}pts · +${c.potentialPoints} gain</div>
+          </div>
+        </div>`;
+      }
+      html += '</div>';
 
       html += '</div>';
 
       container.innerHTML = html;
+
+      // Render hero card separately
+      renderHeroCard(score, neg, totalPotential, limNames, helpNames);
 
       // Animate breakdown bars with delay
       requestAnimationFrame(() => {
@@ -1395,6 +1949,20 @@
           });
         }, 600);
       });
+    }
+
+    function renderHeroCard(score, neg, totalPotential, limNames, helpNames) {
+      const heroContainer = document.getElementById('heroCardContainer');
+      let html = `<div class="why-card why-hero why-card-span why-delay-3">
+    <div class="why-hero-title">What Your Baseline Score Means To You</div>
+    <div class="why-hero-body">Your Baseline Score is ${Math.round(score)}/100, which means some systems are working well, while others are lagging. Your body is functioning, but overall stability and resilience are still developing.</div>
+    <div class="why-hero-meta">${neg.length} area${neg.length > 1 ? 's' : ''} to improve · ~${Math.round(totalPotential)} points potential</div>
+    <div class="why-hero-tags">
+      <span class="tag-lim"><strong>Limiting:</strong> ${limNames}</span>
+      <span class="tag-help"><strong>Helping:</strong> ${helpNames}</span>
+    </div>
+  </div>`;
+      heroContainer.innerHTML = html;
     }
 
     function renderInterventionChips() {
