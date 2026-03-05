@@ -370,21 +370,85 @@ body {
   transform: scale(1.02);
 }
 
-/* Limiters & helpers lists */
-.why-list-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 12px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+/* NOTES card style (from image) */
+.why-notes-card {
+  background: rgba(134, 239, 172, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
 }
 
-.why-list-title.limiting::before { content: '▼'; color: #F87171; }
-.why-list-title.helping::before { content: '▲'; color: #22C55E; }
+.why-notes-header {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #22C55E;
+  margin-bottom: 8px;
+}
+
+.why-notes-card.negative .why-notes-header { color: #F87171; }
+
+/* Limiters & helpers lists */
+.why-list-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.why-list-title.limiting { color: #F87171; }
+.why-list-title.helping { color: #22C55E; }
+
+.why-list-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.why-notes-eg {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.why-marker-line {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  opacity: 0;
+  animation: whyItemIn 0.5s ease forwards;
+}
+
+.why-marker-line:nth-child(5) { animation-delay: 0.05s; }
+.why-marker-line:nth-child(6) { animation-delay: 0.1s; }
+.why-marker-line:nth-child(7) { animation-delay: 0.15s; }
+.why-marker-line:nth-child(8) { animation-delay: 0.2s; }
+.why-marker-line:nth-child(9) { animation-delay: 0.25s; }
+
+.why-marker-line .marker-id { color: var(--text-muted); font-weight: 500; }
+.why-marker-line .marker-status { font-weight: 600; }
+.why-marker-line.negative .marker-status { color: #F87171; }
+.why-marker-line.positive .marker-status { color: #22C55E; }
+
+.why-priority-order {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  line-height: 1.5;
+}
 
 .why-list-item {
   display: flex;
@@ -1508,16 +1572,19 @@ const BASELINE = {
   lastUpdated: '2026-03-04T14:30:00Z',
   contributors: {
     negative: [
-      { name: 'Vitamin D', plainName: 'Vitamin D', contribution: 18, detail: 'Severely deficient', severity: 'critical', potentialPoints: 8, tooltip: 'Low levels limit how high your score can go. Improving it can add up to 8 points.' },
-      { name: 'Sleep Quality', plainName: 'Sleep quality', contribution: 14, detail: 'Poor consistency', severity: 'critical', potentialPoints: 5, tooltip: 'Poor sleep consistency affects recovery and stress markers. Improving it could add ~5 points.' },
-      { name: 'HDL Cholesterol', plainName: 'HDL cholesterol', contribution: 11, detail: 'Below optimal', severity: 'moderate', potentialPoints: 4, tooltip: 'HDL below optimal range. Diet and exercise can help improve it.' },
-      { name: 'VO2 Max', plainName: 'VO2 max (fitness)', contribution: 9, detail: 'Below average', severity: 'moderate', potentialPoints: 3, tooltip: 'Cardio fitness is below average. Endurance training could add ~3 points.' }
+      { id: 'A2', metric: 'BMI', value: '5.3', unit: 'ng/ml', status: 'High', contribution: 18, potentialPoints: 8 },
+      { id: 'A2', metric: 'Non-HDL', value: '4.8', unit: 'mg/DL', status: 'Borderline Low', contribution: 14, potentialPoints: 5 },
+      { id: 'B1', metric: 'Vitamin D', value: '18', unit: 'ng/ml', status: 'Severely deficient', contribution: 11, potentialPoints: 4 },
+      { id: 'B2', metric: 'Sleep Quality', value: '42', unit: '%', status: 'Poor consistency', contribution: 9, potentialPoints: 3 }
     ],
     positive: [
-      { name: 'Blood Glucose', plainName: 'Blood sugar', contribution: 12, detail: 'Well controlled', tooltip: 'Blood sugar is well controlled. Keep it up.' },
-      { name: 'Blood Pressure', plainName: 'Blood pressure', contribution: 10, detail: 'Optimal range', tooltip: 'Blood pressure is in optimal range.' },
-      { name: 'BMI', plainName: 'Body composition', contribution: 8, detail: 'Healthy range', tooltip: 'BMI is in a healthy range.' }
-    ]
+      { id: 'A5', metric: 'Ferritin', value: '5.3', unit: 'ng/ml', status: 'Optimal', contribution: 12 },
+      { id: 'B5', metric: 'Lpa', value: '4.8', unit: 'mg/DL', status: 'Optimal', contribution: 10 },
+      { id: 'A4', metric: 'Blood Glucose', value: '92', unit: 'mg/DL', status: 'Optimal', contribution: 8 },
+      { id: 'B4', metric: 'Blood Pressure', value: '118/72', unit: 'mmHg', status: 'Optimal', contribution: 6 }
+    ],
+    priorityOrder: ['A1', 'A2', 'B1', 'B2', 'A5', 'B5', 'C1', 'C2', 'C3'],
+    reversePriorityOrder: ['A5', 'A4', 'B5', 'B4', 'C5', 'C4']
   },
   scoreAreas: [
     { name: 'Core Health (metabolism, fitness)', pct: 72, markers: ['VO2 Max', 'BMI', 'Sleep Quality'] },
@@ -1779,11 +1846,11 @@ function renderContributors() {
   const totalPotential = neg.reduce((s, c) => s + (c.potentialPoints || 0), 0);
   const topLimiter = neg[0];
   const isCapped = BASELINE.uncappedScore != null && BASELINE.cappingFactor;
-  const limNames = neg.map(c => c.plainName || c.name).join(' · ');
-  const helpNames = pos.map(c => c.plainName || c.name).join(' · ');
+  const limNames = neg.map(c => c.metric).join(' · ');
+  const helpNames = pos.map(c => c.metric).join(' · ');
   const bodyText = isCapped
     ? `${BASELINE.cappingFactor} is limiting your score. Your underlying metrics add up to ${Math.round(BASELINE.uncappedScore)}, but the score can't go above ${Math.round(score)}.`
-    : `${topLimiter.plainName || topLimiter.name} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
+    : `${topLimiter.metric} is limiting your score. Improving it could add ~${topLimiter.potentialPoints || 0} points.`;
 
   let html = '<div class="why-grid">';
 
@@ -1799,35 +1866,31 @@ function renderContributors() {
     <button class="why-hero-cta" onclick="switchTab(1)">See how to improve →</button>
   </div>`;
 
-  // Left column: What's limiting + Score breakdown
-  html += '<div class="why-card why-delay-2">';
-  html += '<div class="why-list-title limiting">What\'s holding your score back</div>';
+  // Left column: Areas to Improve / Negative Impact Markers (NOTES style)
+  html += '<div class="why-card why-notes-card negative why-delay-2">';
+  html += '<div class="why-notes-header">Notes</div>';
+  html += '<div class="why-list-title limiting">Negative contributors</div>';
+  html += '<div class="why-list-subtitle">Negative Impact Markers</div>';
+  html += '<div class="why-notes-eg">For eg:</div>';
   for (const c of neg) {
-    const sev = c.severity || 'moderate';
-    const dot = sev === 'critical' ? 'critical' : 'moderate';
-    const line = c.contribution >= 15 ? `→ Caps at ${Math.round(score)}` : '→ Below optimal';
-    html += `<div class="why-list-item" tabindex="0" title="${(c.tooltip || '').replace(/"/g, '&quot;')}">
-      <span class="severity-dot ${dot}"></span>
-      <span class="item-name">${c.plainName || c.name} (${c.detail.toLowerCase()})</span>
-      <span class="info-icon">ℹ️</span>
-      <span class="item-detail">${line}</span>
-      <div class="why-tooltip">${c.tooltip || ''}</div>
-    </div>`;
+    const line = `${c.id} - ${c.metric} - ${c.value} ${c.unit} - ${c.status}`;
+    html += `<div class="why-marker-line negative">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
   }
+  const priorityOrder = BASELINE.contributors.priorityOrder || [];
+  html += `<div class="why-priority-order">in the priority order Doc has given: ${priorityOrder.join(', ')}</div>`;
   html += '</div>';
 
-  // Right column: What's helping + Gap callout
-  html += '<div class="why-card why-delay-3">';
-  html += '<div class="why-list-title helping">What\'s helping your score</div>';
+  // Right column: What's Working Well / Positive Impact Markers (NOTES style)
+  html += '<div class="why-card why-notes-card why-delay-3">';
+  html += '<div class="why-notes-header">Notes</div>';
+  html += '<div class="why-list-title helping">Positive contributors</div>';
+  html += '<div class="why-list-subtitle">Positive Impact Markers</div>';
+  html += '<div class="why-notes-eg">For eg:</div>';
   for (const c of pos) {
-    html += `<div class="why-list-item" tabindex="0" title="${(c.tooltip || '').replace(/"/g, '&quot;')}">
-      <span class="severity-dot positive"></span>
-      <span class="item-name">${c.plainName || c.name}</span>
-      <span class="info-icon">ℹ️</span>
-      <span class="item-detail">→ In good range</span>
-      <div class="why-tooltip">${c.tooltip || ''}</div>
-    </div>`;
+    html += `<div class="why-marker-line positive">${c.id} - ${c.metric} - ${c.value} ${c.unit} - <span class="marker-status">${c.status}</span></div>`;
   }
+  const reverseOrder = BASELINE.contributors.reversePriorityOrder || [];
+  html += `<div class="why-priority-order">in the reverse priority order Doc has given: ${reverseOrder.join(', ')}</div>`;
   html += '</div>';
 
   // Score breakdown (full width on mobile, left on desktop)
@@ -1850,7 +1913,7 @@ function renderContributors() {
     const gap = (nextScore - score).toFixed(1);
     html += `<div class="why-card why-card-gap why-delay-5">
       <div class="gap-callout-title">To reach ${nextScore} (${nextTier.label})</div>
-      <div class="gap-callout-text">You're <strong>${gap} points</strong> away. The biggest opportunity:<br>→ Improve ${topLimiter.plainName || topLimiter.name} (could add ~${topLimiter.potentialPoints || 0} points)</div>
+      <div class="gap-callout-text">You're <strong>${gap} points</strong> away. The biggest opportunity:<br>→ Improve ${topLimiter.metric} (could add ~${topLimiter.potentialPoints || 0} points)</div>
       <button class="gap-callout-cta" onclick="switchTab(1)">Get recommendations →</button>
     </div>`;
   }
